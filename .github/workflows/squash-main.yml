@@ -1,0 +1,38 @@
+name: Squash main to single commit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  squash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history (uses GITHUB_TOKEN)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configure git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Create squashed orphan and commit current tree
+        env:
+          SNAPSHOT_DATE: "2025-09-23"
+        run: |
+          git fetch origin main
+          git checkout --orphan squashed-main
+          git rm -rf .
+          git checkout origin/main -- .
+          git add -A
+          git commit -m "Initial commit (squashed snapshot as of ${SNAPSHOT_DATE})"
+          git branch -M main
+
+      - name: Force-push squashed main using GITHUB_TOKEN
+        run: |
+          git push --force origin main
