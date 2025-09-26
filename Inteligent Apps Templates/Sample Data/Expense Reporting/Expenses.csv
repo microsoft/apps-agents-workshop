@@ -1,0 +1,58 @@
+﻿(Do Not Modify) Expenses,(Do Not Modify) Row Checksum,(Do Not Modify) Modified On,Name,Cost Center,Expense Status,Start Date,End Date,Approver Name,Comments
+c880d1ba-9a7f-f011-b4cb-000d3a9e9b54,JhijSWN5WriqHXgCaYyQ096jJo/Jmog1iZoO8oPTPaPtPRVluM7sRQxoD2gJhEEMYmGWo4eKqhckpC3SjOWxRw==,2025-08-26 05:25:38,Client Sales Meeting,Contoso HR,Approved,2025-08-13 07:00:00,2025-08-13 07:00:00,stabor@thepoweraddicts.onmicrosoft.com,"Met with customer for lunch
+Can you share a clear picture of receipt"
+a39a4b71-ac7f-f011-b4cb-000d3a9e9b54,3kJvrpvTXfVGnkegOsONvqFIBLF45abd1YBdXeif7ONRzR6c7YoKQWLszCTs1H3FytH7Z+HWqUoB+lD/U/HhFw==,2025-08-23 00:12:50,Conference travel,Contoso IT,Pending,2025-08-14 07:00:00,2025-08-18 07:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,"This expense report is for conference travel
+Rasika: Can you add full breakout of all your meals"
+f033b387-aa82-f011-b4cb-6045bdda1d16,YYlmRq/Sq4zy1vabFry2UWeEfLLWhQ5+CffpF0CZ3iGXjWh4d53lqoLZfyqIqjqoLW0ykUqimbAz7Bt661yMFA==,2025-08-31 08:04:16,Contoso Executive meeting,Contoso Engineers,Open,2025-08-26 00:00:00,2025-08-26 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Expense report for Contoso Executive meeting
+f97ae4ae-ab82-f011-b4cb-6045bdda1d16,CGq1kWsU4aHTgrInD/jzXDrGNd3qDbl0XqebnvetYk/9jxWs1iUe62ZwLiSmNJaBYKqFtUY2jdrSndbpqSCSnA==,2025-08-31 08:04:29,Contoso team building event,Contoso Engineers,Open,2025-08-26 18:36:32,2025-08-26 18:36:32,rdorrani@thepoweraddicts.onmicrosoft.com,Expenses for team building event
+30d986a4-3482-f011-b4cb-6045bdda1d16,I6UN8pBo9DIRVIhkImC4jP0vWelo6wYZyR2aOHHj86hnac7AqMPbmxm9N6pFCI1dpgWcxLBCc9dfCgTaOHTXcA==,2025-08-26 04:34:36,Team Lunch,Contoso HR,Pending,2025-08-25 07:00:00,2025-08-25 07:00:00,stabor@thepoweraddicts.onmicrosoft.com,total cost for team lunch for 10 team mates
+,,2025-09-03 04:16:31,Executive Leadership Retreat,Contoso Finance,Approved,2025-10-31 00:00:00,2025-11-10 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Expense related to operational needs
+,,2025-09-03 04:16:31,New Hire Orientation Program,Contoso IT,Open,2025-02-19 00:00:00,2025-02-27 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Budget allocated from Q1
+,,2025-09-03 04:16:31,Employee Wellness Initiative,Contoso Finance,Pending,2025-02-15 00:00:00,2025-02-22 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Approved for project work
+,,2025-09-03 04:16:31,Quarterly Marketing Campaign,Contoso IT,Pending,2025-06-07 00:00:00,2025-06-13 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Planned team engagement event
+,,2025-09-03 04:16:31,Cybersecurity Awareness Program,Contoso Finance,Pending,2025-09-06 00:00:00,2025-09-08 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Planned team engagement event
+,,2025-09-03 04:16:31,Travel Expenses for Sales Meeting,Contoso Engineers,Approved,2025-07-14 00:00:00,2025-07-15 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Travel and accommodation included
+,,2025-09-03 04:16:31,Network Equipment Purchase,Contoso Engineers,Pending,2025-04-04 00:00:00,2025-04-05 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Travel and accommodation included
+,,2025-09-03 04:16:31,Annual Compliance Training,Contoso Engineers,Pending,2025-06-21 00:00:00,2025-06-24 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Approved for project work
+,,2025-09-03 04:16:31,Server Hardware Maintenance,Contoso HR,Pending,2025-09-11 00:00:00,2025-09-16 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Budget allocated from Q1
+,,2025-09-03 04:16:31,New Office Setup Costs,Contoso Finance,Approved,2025-03-02 00:00:00,2025-03-06 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Budget allocated from Q1
+,,2025-09-03 04:16:31,Business Continuity Planning,Contoso Finance,Approved,2025-06-07 00:00:00,2025-06-14 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Includes training and certification costs
+,,2025-09-03 04:16:31,Customer Support Tools Renewal,Contoso Engineers,Approved,2025-10-27 00:00:00,2025-10-30 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Planned team engagement event
+,,2025-09-03 04:16:31,Catering for Staff Meeting,Contoso Engineers,Pending,2025-01-16 00:00:00,2025-01-19 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Approved for project work
+,,2025-09-03 04:16:31,Laptop Procurement,Contoso IT,Open,2025-02-19 00:00:00,2025-03-01 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Covers equipment and catering
+,,2025-09-03 04:16:31,Security Software Upgrade,Contoso Engineers,Open,2025-04-24 00:00:00,2025-04-28 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Final approval from department head required
+,,2025-09-03 04:16:31,Customer Appreciation Dinner,Contoso Finance,Open,2025-08-27 00:00:00,2025-08-28 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Covers equipment and catering
+,,2025-09-03 04:16:31,Employee Training Program,Contoso HR,Open,2025-10-21 00:00:00,2025-10-31 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Expense related to operational needs
+,,2025-09-03 04:16:31,Printer and Toner Supplies,Contoso IT,Pending,2025-06-26 00:00:00,2025-07-05 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Travel and accommodation included
+,,2025-09-03 04:16:31,Charitable Contribution Event,Contoso Finance,Approved,2025-12-04 00:00:00,2025-12-14 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Covers equipment and catering
+,,2025-09-03 04:16:31,Office Stationery Purchase,Contoso HR,Approved,2025-02-12 00:00:00,2025-02-17 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Approved for project work
+,,2025-09-03 04:16:31,Recruitment Advertising,Contoso Engineers,Open,2025-06-17 00:00:00,2025-06-22 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Includes training and certification costs
+,,2025-09-03 04:16:31,Data Center Maintenance,Contoso Finance,Open,2025-02-01 00:00:00,2025-02-09 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Travel and accommodation included
+,,2025-09-03 04:16:31,Cloud Storage Expansion,Contoso Engineers,Pending,2025-08-25 00:00:00,2025-08-28 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Planned team engagement event
+,,2025-09-03 04:16:31,Utility Bill Reimbursement,Contoso IT,Approved,2025-10-30 00:00:00,2025-11-01 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Final approval from department head required
+,,2025-09-03 04:16:31,Conference Registration Fees,Contoso Finance,Pending,2025-09-03 00:00:00,2025-09-10 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Meeting with external consultants
+,,2025-09-03 04:16:31,Project Kickoff Event,Contoso Finance,Pending,2025-08-09 00:00:00,2025-08-16 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Meeting with external consultants
+,,2025-09-03 04:16:31,Team Strategy Workshop,Contoso IT,Open,2025-03-16 00:00:00,2025-03-23 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Expense related to operational needs
+,,2025-09-03 04:16:31,Professional Membership Fees,Contoso Engineers,Pending,2025-03-26 00:00:00,2025-04-05 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Includes training and certification costs
+,,2025-09-03 04:16:31,Market Research Study,Contoso IT,Pending,2025-11-03 00:00:00,2025-11-10 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Approved for project work
+,,2025-09-03 04:16:31,External Legal Services,Contoso Engineers,Approved,2025-07-02 00:00:00,2025-07-12 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Meeting with external consultants
+,,2025-09-03 04:16:31,Website Redesign Project,Contoso Engineers,Approved,2025-09-21 00:00:00,2025-09-28 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Approved for project work
+,,2025-09-03 04:16:31,Sales Training Seminar,Contoso IT,Pending,2025-08-26 00:00:00,2025-08-30 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Covers equipment and catering
+,,2025-09-03 04:16:31,Remote Work Equipment,Contoso IT,Approved,2025-10-21 00:00:00,2025-10-23 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Covers equipment and catering
+,,2025-09-03 04:16:31,ERP System Upgrade,Contoso Finance,Pending,2025-01-15 00:00:00,2025-01-19 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Hardware purchase for new office setup
+,,2025-09-03 04:16:31,Team Building Retreat,Contoso Engineers,Open,2025-03-30 00:00:00,2025-04-02 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Final approval from department head required
+,,2025-09-03 04:16:31,Customer Demo Event,Contoso IT,Approved,2025-06-02 00:00:00,2025-06-05 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Planned team engagement event
+,,2025-09-03 04:16:31,Fleet Vehicle Maintenance,Contoso HR,Pending,2025-08-31 00:00:00,2025-09-07 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Planned team engagement event
+,,2025-09-03 04:16:31,Internal Audit Expenses,Contoso Finance,Open,2025-10-03 00:00:00,2025-10-04 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Covers equipment and catering
+,,2025-09-03 04:16:31,Vendor Service Payment,Contoso HR,Pending,2025-04-09 00:00:00,2025-04-16 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Covers equipment and catering
+,,2025-09-03 04:16:31,Client Workshop Travel,Contoso HR,Pending,2025-03-02 00:00:00,2025-03-10 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Travel and accommodation included
+,,2025-09-03 04:16:31,Annual Software License Fees,Contoso Finance,Open,2025-12-07 00:00:00,2025-12-11 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Travel and accommodation included
+,,2025-09-03 04:16:31,Cloud Hosting Subscription Renewal,Contoso Engineers,Approved,2025-06-08 00:00:00,2025-06-18 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Final approval from department head required
+,,2025-09-03 04:16:31,Performance Review Workshop,Contoso HR,Pending,2025-06-08 00:00:00,2025-06-16 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Budget allocated from Q1
+,,2025-09-03 04:16:31,Office Furniture Replacement,Contoso Finance,Approved,2025-12-16 00:00:00,2025-12-17 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Expense related to operational needs
+,,2025-09-03 04:16:31,IT Infrastructure Upgrade,Contoso HR,Approved,2025-08-22 00:00:00,2025-08-24 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Budget allocated from Q1
+,,2025-09-03 04:16:31,Employee Relocation Support,Contoso HR,Approved,2025-04-07 00:00:00,2025-04-15 00:00:00,stabor@thepoweraddicts.onmicrosoft.com,Planned team engagement event
+,,2025-09-03 04:16:31,Software Developer Tools,Contoso Engineers,Open,2025-11-05 00:00:00,2025-11-06 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Final approval from department head required
+,,2025-09-03 04:16:31,Employee Recognition Awards,Contoso Engineers,Open,2025-11-20 00:00:00,2025-11-28 00:00:00,rdorrani@@thepoweraddicts.onmicrosoft.com,Travel and accommodation included
+,,2025-09-03 04:16:31,Consulting Services Payment,Contoso IT,Pending,2025-12-02 00:00:00,2025-12-11 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Final approval from department head required
+,,2025-09-03 04:16:31,Marketing Collateral Printing,Contoso IT,Pending,2025-11-07 00:00:00,2025-11-08 00:00:00,rdorrani@thepoweraddicts.onmicrosoft.com,Covers equipment and catering
