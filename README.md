@@ -61,8 +61,8 @@ Use of third-party trademarks or logos must comply with their respective policie
 
 This repository uses dual licensing to cover different types of content:
 
-- **Code and Software (Sample Solutions)**: Licensed under the [MIT License](LICENSE-CODE). This applies to all software code, sample solutions, and technical implementations.
+- **Code and Software (Sample Solutions)**: Licensed under the [MIT License](LICENSE). This applies to all software code, sample solutions, and technical implementations.
 
 - **Documentation**: Licensed under the [Creative Commons Attribution 4.0 International License (CC-BY-4.0)](LICENSE-DOCS). This applies to all documentation, including lab guides, PDFs, markdown files, and other educational materials.
 
-For more details, see the [LICENSE-CODE](LICENSE-CODE) and [LICENSE-DOCS](LICENSE-DOCS) files in this repository.
+For more details, see the [LICENSE](LICENSE) and [LICENSE-DOCS](LICENSE-DOCS) files in this repository.
