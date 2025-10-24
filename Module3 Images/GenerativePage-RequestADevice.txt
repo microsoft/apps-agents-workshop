@@ -1,0 +1,789 @@
+import React, { useEffect, useState, useRef } from "react";
+import {
+    Button,
+    Text,
+    Input,
+    TabList,
+    Tab,
+    Spinner,
+    MessageBar,
+    MessageBarBody,
+    MessageBarTitle,
+    MessageBarActions,
+    DataGrid,
+    DataGridHeader,
+    DataGridBody,
+    DataGridRow,
+    DataGridCell,
+    DataGridHeaderCell,
+    TableCellLayout,
+    createTableColumn,
+    Divider,
+} from "@fluentui/react-components";
+import {
+    AddRegular,
+    DeleteRegular,
+    ArrowLeftRegular,
+    ArrowClockwiseRegular,
+    SaveArrowRightRegular,
+    InfoRegular,
+    BoxRegular,
+} from "@fluentui/react-icons";
+import type {
+    GeneratedComponentProps,
+    TableRegistrations,
+    EnumRegistrations,
+    crcb3_device,
+    crcb3_devicerequest,
+    ReadableTableRow,
+    WritableTableRow,
+    QueryTableOptions,
+} from "./RuntimeTypes";
+
+// Utility: Format currency
+function formatCurrency(value: number) {
+    return value ? `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "$0.00";
+}
+
+// Utility: Device Type label
+const deviceTypeLabels: Record<number, string> = {
+    225480000: "Laptop",
+    225480001: "Desktop",
+    225480002: "Tablet",
+    225480003: "Smartphone",
+    225480004: "Accessory",
+};
+
+// Utility: Device Request Status label
+const requestStatusLabels: Record<number, string> = {
+    225480000: "Submitted",
+    225480001: "Approved",
+    225480002: "Rejected",
+    225480003: "Completed",
+};
+
+// Utility: Get today's date in ISO format
+function getTodayISODate() {
+    return new Date().toISOString();
+}
+
+// --- Device List Screen --- //
+function DeviceListScreen({
+    devices,
+    loading,
+    error,
+    cart,
+    setCart,
+    onNext,
+}: {
+    devices: ReadableTableRow<crcb3_device>[];
+    loading: boolean;
+    error: string | null;
+    cart: CartItem[];
+    setCart: (cart: CartItem[]) => void;
+    onNext: () => void;
+}) {
+    // Add device to cart (default quantity 1)
+    const handleAddToCart = (device: ReadableTableRow<crcb3_device>) => {
+        if (cart.some(item => item.device.crcb3_deviceid === device.crcb3_deviceid)) return;
+        setCart([...cart, { device, quantity: 1 }]);
+    };
+
+    return (
+        <div style={{
+            flexGrow: 1,
+            width: "100%",
+            height: "100%",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            padding: "24px 16px",
+            overflow: "hidden",
+        }}>
+            <Text as="h1" size={700} weight="semibold" block style={{ marginBottom: 16 }}>
+                Browse Devices
+            </Text>
+            <Text size={300} block style={{ marginBottom: 16, color: "#555" }}>
+                Select devices to add to your request cart.
+            </Text>
+            {error && (
+                <MessageBar intent="error" shape="rounded" style={{ marginBottom: 16 }}>
+                    <MessageBarBody>
+                        <MessageBarTitle>Error loading devices</MessageBarTitle>
+                        {error}
+                    </MessageBarBody>
+                </MessageBar>
+            )}
+            {loading ? (
+                <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Spinner label="Loading devices..." />
+                </div>
+            ) : (
+                <div style={{
+                    flex: 1,
+                    overflow: "auto",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "20px",
+                    boxSizing: "border-box",
+                    alignContent: "flex-start",
+                }}>
+                    {devices.length === 0 ? (
+                        <Text size={400} style={{ color: "#888" }}>No devices available.</Text>
+                    ) : (
+                        devices.map(device => (
+                            <DeviceCard
+                                key={device.crcb3_deviceid}
+                                device={device}
+                                inCart={cart.some(item => item.device.crcb3_deviceid === device.crcb3_deviceid)}
+                                onAddToCart={() => handleAddToCart(device)}
+                            />
+                        ))
+                    )}
+                </div>
+            )}
+            <div style={{
+                marginTop: 24,
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                gap: 12,
+            }}>
+                <Button
+                    appearance="primary"
+                    icon={<BoxRegular fontSize="1.25em" />}
+                    disabled={cart.length === 0}
+                    onClick={onNext}
+                >
+                    View Cart ({cart.length})
+                </Button>
+            </div>
+        </div>
+    );
+}
+
+// --- Device Card --- //
+function DeviceCard({
+    device,
+    inCart,
+    onAddToCart,
+}: {
+    device: ReadableTableRow<crcb3_device>;
+    inCart: boolean;
+    onAddToCart: () => void;
+}) {
+    return (
+        <div
+            style={{
+                width: "320px",
+                minWidth: "220px",
+                maxWidth: "100%",
+                background: "#fff",
+                borderRadius: "8px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+                padding: "16px",
+                boxSizing: "border-box",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                transition: "box-shadow 0.2s",
+            }}
+        >
+            <div style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "12px",
+            }}>
+                {device.crcb3_image ? (
+                    <img
+                        src={device.crcb3_image}
+                        alt={`Device image for ${device.crcb3_devicename}`}
+                        style={{
+                            maxWidth: "160px",
+                            maxHeight: "120px",
+                            width: "auto",
+                            height: "auto",
+                            borderRadius: "8px",
+                            objectFit: "contain",
+                            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+                        }}
+                    />
+                ) : (
+                    <div style={{
+                        width: "160px",
+                        height: "120px",
+                        background: "#f3f3f3",
+                        borderRadius: "8px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#aaa",
+                        fontSize: "2em",
+                    }}>
+                        <InfoRegular fontSize="2em" aria-label="No image available" />
+                    </div>
+                )}
+            </div>
+            <Text size={500} weight="semibold" block style={{ marginBottom: 6 }}>
+                {device.crcb3_devicename}
+            </Text>
+            <Text size={300} block style={{ color: "#666", marginBottom: 4 }}>
+                {deviceTypeLabels[device.crcb3_devicetype] || "Unknown Type"}
+            </Text>
+            <Text size={300} block style={{ marginBottom: 4 }}>
+                Stock: <span style={{ fontWeight: 500 }}>{device.crcb3_stockquantity ?? 0}</span>
+            </Text>
+            <Text size={400} block style={{ color: "#0078D4", marginBottom: 8 }}>
+                {formatCurrency(device.crcb3_unitprice)}
+            </Text>
+            <Button
+                appearance={inCart ? "secondary" : "primary"}
+                icon={<AddRegular fontSize="1em" />}
+                disabled={inCart}
+                onClick={onAddToCart}
+                style={{ width: "100%", marginTop: 8 }}
+                aria-label={inCart ? "Already in cart" : "Add to cart"}
+            >
+                {inCart ? "Added" : "Add to cart"}
+            </Button>
+        </div>
+    );
+}
+
+// --- Cart Screen --- //
+type CartItem = {
+    device: ReadableTableRow<crcb3_device>;
+    quantity: number;
+};
+
+function CartScreen({
+    cart,
+    setCart,
+    onSubmit,
+    submitting,
+    submitError,
+    submitSuccess,
+    onBack,
+}: {
+    cart: CartItem[];
+    setCart: (cart: CartItem[]) => void;
+    onSubmit: () => Promise<void>;
+    submitting: boolean;
+    submitError: string | null;
+    submitSuccess: boolean;
+    onBack: () => void;
+}) {
+    // Adjust quantity
+    const handleQuantityChange = (deviceId: string, quantity: number) => {
+        setCart(cart.map(item =>
+            item.device.crcb3_deviceid === deviceId
+                ? { ...item, quantity: Math.max(1, quantity) }
+                : item
+        ));
+    };
+
+    // Remove from cart
+    const handleRemove = (deviceId: string) => {
+        setCart(cart.filter(item => item.device.crcb3_deviceid !== deviceId));
+    };
+
+    // Total price
+    const totalPrice = cart.reduce((sum, item) => sum + (item.device.crcb3_unitprice ?? 0) * item.quantity, 0);
+
+    return (
+        <div style={{
+            flexGrow: 1,
+            width: "100%",
+            height: "100%",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            padding: "24px 16px",
+            overflow: "hidden",
+        }}>
+            <Text as="h1" size={700} weight="semibold" block style={{ marginBottom: 16 }}>
+                Submit Device Request
+            </Text>
+            <Text size={300} block style={{ marginBottom: 16, color: "#555" }}>
+                Review your cart and adjust quantities before submitting your request.
+            </Text>
+            {submitError && (
+                <MessageBar intent="error" shape="rounded" style={{ marginBottom: 16 }}>
+                    <MessageBarBody>
+                        <MessageBarTitle>Submission Error</MessageBarTitle>
+                        {submitError}
+                    </MessageBarBody>
+                </MessageBar>
+            )}
+            {submitSuccess && (
+                <MessageBar intent="success" shape="rounded" style={{ marginBottom: 16 }}>
+                    <MessageBarBody>
+                        <MessageBarTitle>Request Submitted</MessageBarTitle>
+                        Your device request has been submitted successfully!
+                    </MessageBarBody>
+                </MessageBar>
+            )}
+            <div style={{
+                flex: 1,
+                overflow: "auto",
+                boxSizing: "border-box",
+                marginBottom: 24,
+            }}>
+                {cart.length === 0 ? (
+                    <Text size={400} style={{ color: "#888" }}>Your cart is empty.</Text>
+                ) : (
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "16px",
+                        minWidth: 0,
+                        maxWidth: "700px",
+                        margin: "0 auto",
+                    }}>
+                        {cart.map(item => (
+                            <div key={item.device.crcb3_deviceid} style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#f7f7f7",
+                                borderRadius: "8px",
+                                padding: "12px",
+                                boxSizing: "border-box",
+                                boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+                                gap: "16px",
+                            }}>
+                                <div style={{
+                                    width: "80px",
+                                    height: "60px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    background: "#fff",
+                                    borderRadius: "6px",
+                                    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+                                    marginRight: "12px",
+                                }}>
+                                    {item.device.crcb3_image ? (
+                                        <img
+                                            src={item.device.crcb3_image}
+                                            alt={`Device image for ${item.device.crcb3_devicename}`}
+                                            style={{
+                                                maxWidth: "70px",
+                                                maxHeight: "50px",
+                                                width: "auto",
+                                                height: "auto",
+                                                borderRadius: "6px",
+                                                objectFit: "contain",
+                                            }}
+                                        />
+                                    ) : (
+                                        <InfoRegular fontSize="1.5em" aria-label="No image available" />
+                                    )}
+                                </div>
+                                <div style={{ flex: 1, minWidth: 0 }}>
+                                    <Text size={400} weight="semibold" block>
+                                        {item.device.crcb3_devicename}
+                                    </Text>
+                                    <Text size={300} block style={{ color: "#666" }}>
+                                        {deviceTypeLabels[item.device.crcb3_devicetype] || "Unknown Type"}
+                                    </Text>
+                                    <Text size={300} block>
+                                        Unit Price: {formatCurrency(item.device.crcb3_unitprice)}
+                                    </Text>
+                                </div>
+                                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                    <Input
+                                        type="number"
+                                        min={1}
+                                        max={item.device.crcb3_stockquantity ?? 99}
+                                        value={item.quantity.toString()}
+                                        onChange={(e, d) => handleQuantityChange(item.device.crcb3_deviceid, Number(d.value))}
+                                        style={{ width: "60px" }}
+                                        aria-label="Quantity"
+                                    />
+                                    <Button
+                                        appearance="subtle"
+                                        icon={<DeleteRegular fontSize="1em" />}
+                                        onClick={() => handleRemove(item.device.crcb3_deviceid)}
+                                        aria-label="Remove from cart"
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                        <Divider style={{ margin: "16px 0" }} />
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                            gap: "12px",
+                        }}>
+                            <Text size={400} weight="semibold" style={{ marginRight: "16px" }}>
+                                Total: {formatCurrency(totalPrice)}
+                            </Text>
+                        </div>
+                    </div>
+                )}
+            </div>
+            <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "12px",
+            }}>
+                <Button
+                    appearance="secondary"
+                    icon={<ArrowLeftRegular fontSize="1em" />}
+                    onClick={onBack}
+                >
+                    Back to Devices
+                </Button>
+                <Button
+                    appearance="primary"
+                    icon={<SaveArrowRightRegular fontSize="1em" />}
+                    disabled={cart.length === 0 || submitting}
+                    onClick={onSubmit}
+                >
+                    {submitting ? <Spinner size="extra-small" /> : "Submit Request"}
+                </Button>
+            </div>
+        </div>
+    );
+}
+
+// --- Requests Screen --- //
+function RequestsScreen({
+    requests,
+    loading,
+    error,
+    onRefresh,
+}: {
+    requests: ReadableTableRow<crcb3_devicerequest>[];
+    loading: boolean;
+    error: string | null;
+    onRefresh: () => void;
+}) {
+    // Columns for DataGrid
+    const columns = [
+        createTableColumn<ReadableTableRow<crcb3_devicerequest>>({
+            columnId: "crcb3_requesttitle",
+            renderHeaderCell: () => <Text weight="bold" size={400} style={{ padding: 8 }}>Request Title</Text>,
+            renderCell: (item) => <TableCellLayout>{item.crcb3_requesttitle}</TableCellLayout>,
+        }),
+        createTableColumn<ReadableTableRow<crcb3_devicerequest>>({
+            columnId: "_crcb3_device_value@OData.Community.Display.V1.FormattedValue",
+            renderHeaderCell: () => <Text weight="bold" size={400} style={{ padding: 8 }}>Device</Text>,
+            renderCell: (item) => <TableCellLayout>{item["_crcb3_device_value@OData.Community.Display.V1.FormattedValue"] || ""}</TableCellLayout>,
+        }),
+        createTableColumn<ReadableTableRow<crcb3_devicerequest>>({
+            columnId: "crcb3_quantityrequested",
+            renderHeaderCell: () => <Text weight="bold" size={400} style={{ padding: 8 }}>Quantity</Text>,
+            renderCell: (item) => <TableCellLayout>{item.crcb3_quantityrequested}</TableCellLayout>,
+        }),
+        createTableColumn<ReadableTableRow<crcb3_devicerequest>>({
+            columnId: "crcb3_requeststatus",
+            renderHeaderCell: () => <Text weight="bold" size={400} style={{ padding: 8 }}>Status</Text>,
+            renderCell: (item) => (
+                <TableCellLayout>
+                    {requestStatusLabels[item.crcb3_requeststatus] || "Unknown"}
+                </TableCellLayout>
+            ),
+        }),
+        createTableColumn<ReadableTableRow<crcb3_devicerequest>>({
+            columnId: "crcb3_requestdate",
+            renderHeaderCell: () => <Text weight="bold" size={400} style={{ padding: 8 }}>Date</Text>,
+            renderCell: (item) => (
+                <TableCellLayout>
+                    {item.crcb3_requestdate ? new Date(item.crcb3_requestdate).toLocaleDateString() : ""}
+                </TableCellLayout>
+            ),
+        }),
+    ];
+
+    return (
+        <div style={{
+            flexGrow: 1,
+            width: "100%",
+            height: "100%",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            padding: "24px 16px",
+            overflow: "hidden",
+        }}>
+            <Text as="h1" size={700} weight="semibold" block style={{ marginBottom: 16 }}>
+                My Device Requests
+            </Text>
+            <Text size={300} block style={{ marginBottom: 16, color: "#555" }}>
+                Track the status of your device requests.
+            </Text>
+            {error && (
+                <MessageBar intent="error" shape="rounded" style={{ marginBottom: 16 }}>
+                    <MessageBarBody>
+                        <MessageBarTitle>Error loading requests</MessageBarTitle>
+                        {error}
+                    </MessageBarBody>
+                    <MessageBarActions>
+                        <Button appearance="subtle" icon={<ArrowClockwiseRegular fontSize="1em" />} onClick={onRefresh}>
+                            Retry
+                        </Button>
+                    </MessageBarActions>
+                </MessageBar>
+            )}
+            <div style={{ flex: 1, minHeight: 0, overflow: "auto" }}>
+                {loading ? (
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+                        <Spinner label="Loading requests..." />
+                    </div>
+                ) : (
+                    <DataGrid
+                        items={requests}
+                        columns={columns}
+                        sortable
+                        selectionMode="none"
+                        getRowId={item => item.crcb3_devicerequestid}
+                        focusMode="composite"
+                        style={{ width: "100%", minWidth: "600px" }}
+                    >
+                        <DataGridHeader>
+                            <DataGridRow>
+                                {({ renderHeaderCell }) => (
+                                    <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
+                                )}
+                            </DataGridRow>
+                        </DataGridHeader>
+                        <DataGridBody<ReadableTableRow<crcb3_devicerequest>>>
+                            {({ item }) => (
+                                <DataGridRow key={item.crcb3_devicerequestid}>
+                                    {({ renderCell }) => (
+                                        <DataGridCell>{renderCell(item)}</DataGridCell>
+                                    )}
+                                </DataGridRow>
+                            )}
+                        </DataGridBody>
+                    </DataGrid>
+                )}
+            </div>
+        </div>
+    );
+}
+
+// --- Main Component --- //
+const GeneratedComponent = ({ dataApi }: GeneratedComponentProps) => {
+    // Navigation: 0 = Browse Devices, 1 = Cart, 2 = My Requests
+    const [activeTab, setActiveTab] = useState<0 | 1 | 2>(0);
+
+    // Devices state
+    const [devices, setDevices] = useState<ReadableTableRow<crcb3_device>[]>([]);
+    const [devicesLoading, setDevicesLoading] = useState(true);
+    const [devicesError, setDevicesError] = useState<string | null>(null);
+
+    // Cart state
+    const [cart, setCart] = useState<CartItem[]>([]);
+
+    // Submit request state
+    const [submitting, setSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    // Requests state
+    const [requests, setRequests] = useState<ReadableTableRow<crcb3_devicerequest>[]>([]);
+    const [requestsLoading, setRequestsLoading] = useState(true);
+    const [requestsError, setRequestsError] = useState<string | null>(null);
+
+    // Fetch devices
+    useEffect(() => {
+        let mounted = true;
+        setDevicesLoading(true);
+        setDevicesError(null);
+        const fetchDevices = async () => {
+            try {
+                const query: QueryTableOptions<crcb3_device> = {
+                    select: [
+                        "crcb3_deviceid",
+                        "crcb3_devicename",
+                        "crcb3_devicetype",
+                        "crcb3_image",
+                        "crcb3_stockquantity",
+                        "crcb3_unitprice",
+                    ],
+                    pageSize: 50,
+                    orderBy: "crcb3_devicename asc",
+                    filter: "statecode eq 0 and statuscode eq 1 and crcb3_stockquantity gt 0",
+                };
+                const result = await dataApi.queryTable("crcb3_device", query);
+                if (mounted) setDevices(result.rows);
+            } catch (err: any) {
+                if (mounted) setDevicesError(err?.message || "Failed to load devices.");
+            } finally {
+                if (mounted) setDevicesLoading(false);
+            }
+        };
+        fetchDevices();
+        return () => { mounted = false; };
+    }, [dataApi]);
+
+    // Fetch requests
+    const fetchRequests = async () => {
+        setRequestsLoading(true);
+        setRequestsError(null);
+        try {
+            const query: QueryTableOptions<crcb3_devicerequest> = {
+                select: [
+                    "crcb3_devicerequestid",
+                    "crcb3_requesttitle",
+                    "_crcb3_device_value",
+                    "_crcb3_device_value@OData.Community.Display.V1.FormattedValue",
+                    "crcb3_quantityrequested",
+                    "crcb3_requeststatus",
+                    "crcb3_requestdate",
+                ],
+                pageSize: 50,
+                orderBy: "crcb3_requestdate desc",
+            };
+            const result = await dataApi.queryTable("crcb3_devicerequest", query);
+            setRequests(result.rows);
+        } catch (err: any) {
+            setRequestsError(err?.message || "Failed to load requests.");
+        } finally {
+            setRequestsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (activeTab === 2) {
+            fetchRequests();
+        }
+    }, [activeTab]);
+
+    // Handle submit request
+    const handleSubmitRequest = async () => {
+        setSubmitting(true);
+        setSubmitError(null);
+        setSubmitSuccess(false);
+        try {
+            // For each cart item, create a Device Request record
+            for (const item of cart) {
+                const row: WritableTableRow<crcb3_devicerequest> = {
+                    crcb3_requesttitle: `Request for ${item.device.crcb3_devicename}`,
+                    _crcb3_device_value: `/crcb3_device(${item.device.crcb3_deviceid})`,
+                    crcb3_quantityrequested: item.quantity,
+                    crcb3_requestdate: new Date(),
+                    crcb3_requeststatus: 225480000, // Submitted
+                    crcb3_businessjustification: "",
+                    crcb3_requestid: "",
+                    crcb3_requestoremail: "",
+                    crcb3_approvaldate: undefined,
+                    crcb3_needsmanagerinput: 0,
+                };
+                await dataApi.createRow("crcb3_devicerequest", row);
+            }
+            setSubmitSuccess(true);
+            setCart([]);
+            // Optionally, refresh requests
+            fetchRequests();
+        } catch (err: any) {
+            setSubmitError(err?.message || "Failed to submit device request.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    // Tab navigation labels
+    const tabLabels = [
+        { key: 0, label: "Browse Devices", icon: <BoxRegular fontSize="1.1em" /> },
+        { key: 1, label: "Submit Request", icon: <SaveArrowRightRegular fontSize="1.1em" /> },
+        { key: 2, label: "My Requests", icon: <InfoRegular fontSize="1.1em" /> },
+    ];
+
+    // Responsive tablist
+    return (
+        <div style={{
+            width: "100%",
+            height: "100%",
+            minHeight: 0,
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            background: "#f5f6fa",
+        }}>
+            {/* Header and Navigation */}
+            <header style={{
+                padding: "16px 20px 0 20px",
+                background: "#fff",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                borderBottom: "1px solid #eee",
+                boxSizing: "border-box",
+            }}>
+                <Text as="h1" size={800} weight="bold" block style={{ marginBottom: 8 }}>
+                    Device Request Portal
+                </Text>
+                <TabList
+                    selectedValue={activeTab}
+                    onTabSelect={(_, data) => setActiveTab(data.value as 0 | 1 | 2)}
+                    size="large"
+                    style={{ marginTop: 8, marginBottom: 0, background: "transparent" }}
+                >
+                    {tabLabels.map(tab => (
+                        <Tab
+                            key={tab.key}
+                            value={tab.key}
+                            icon={tab.icon}
+                            style={{
+                                fontWeight: activeTab === tab.key ? 600 : 400,
+                                background: activeTab === tab.key ? "#f3f8ff" : "transparent",
+                                borderRadius: "6px",
+                                marginRight: "8px",
+                                minWidth: "140px",
+                            }}
+                        >
+                            {tab.label}
+                        </Tab>
+                    ))}
+                </TabList>
+            </header>
+            {/* Main Content */}
+            <main style={{
+                flex: 1,
+                minHeight: 0,
+                width: "100%",
+                boxSizing: "border-box",
+                display: "flex",
+                flexDirection: "column",
+                background: "#f5f6fa",
+            }}>
+                {activeTab === 0 && (
+                    <DeviceListScreen
+                        devices={devices}
+                        loading={devicesLoading}
+                        error={devicesError}
+                        cart={cart}
+                        setCart={setCart}
+                        onNext={() => setActiveTab(1)}
+                    />
+                )}
+                {activeTab === 1 && (
+                    <CartScreen
+                        cart={cart}
+                        setCart={setCart}
+                        onSubmit={handleSubmitRequest}
+                        submitting={submitting}
+                        submitError={submitError}
+                        submitSuccess={submitSuccess}
+                        onBack={() => setActiveTab(0)}
+                    />
+                )}
+                {activeTab === 2 && (
+                    <RequestsScreen
+                        requests={requests}
+                        loading={requestsLoading}
+                        error={requestsError}
+                        onRefresh={fetchRequests}
+                    />
+                )}
+            </main>
+        </div>
+    );
+};
+
+export default GeneratedComponent;
