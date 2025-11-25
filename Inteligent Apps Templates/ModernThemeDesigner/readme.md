@@ -1,6 +1,8 @@
 # Modern Theme Designer
 
-A Power Apps solution to customize theme colors and fonts for model-driven apps.
+A Power Apps solution to customize theme colors and fonts for model-driven apps. The modern theme designer uses a Gen Page within a Model-driven App as the user interface.
+
+> **Note:** This is sample code and not an official release. It is based on the modern theme overrides for model-driven apps documentation. Learn more: [Use modern themes in model-driven apps](https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/modern-theme-overrides).
 
 ## Installation
 1. Download the latest solution (V2) from [ModernThemingDesigner_1_0_0_1_managed.zip](ModernThemingDesigner_1_0_0_1_managed.zip).
