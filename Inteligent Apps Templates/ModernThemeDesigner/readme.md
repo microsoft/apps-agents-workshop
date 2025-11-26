@@ -33,5 +33,6 @@ your organization.
 
 ## Tips
 - If the theme does not update, try clearing your browser cache or refreshing the app multiple times.
+- If the Generative pages are not enbled for your org, you can try the Web Resource based theme designer in this folder. 
 
 ## Enjoy!
