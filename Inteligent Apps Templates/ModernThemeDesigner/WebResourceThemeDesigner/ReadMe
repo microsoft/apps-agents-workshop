@@ -1,0 +1,4 @@
+Import the managed solution
+Launch the WR Theme Designer app shipped with solution
+Customize your theme and fonts and click Save Themes 
+Launch any model driven app in the environment to see the new themes applied. Chear cache/hard refresh (Ctrl + F5) if the new theme is not reflected.
