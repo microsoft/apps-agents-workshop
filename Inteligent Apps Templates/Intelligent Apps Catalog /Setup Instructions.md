@@ -4,7 +4,7 @@
 
 Follow the steps below to install the Intelligent Apps Catalog, configure your Dataverse tables, import the sample data files, and launch the runtime experience.
 
-**1\. Download the Latest Solution**
+**1\. Download and Import the Latest Solution**
 ------------------------------------
 
 Download the most recent version of the solution package:
