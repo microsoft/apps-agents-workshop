@@ -18,8 +18,9 @@ Import this solution into your environment using the standard Power Platform sol
 
 Once the solution is imported, you will configure the Dataverse tables required by the catalog.
 
-1.  Open the **Catalog Management** app included in the solution.
-    
+1.  Navigate to **Catalog Management** app. Publish and open the app. 
+    <img width="1766" height="410" alt="App Publish" src="https://github.com/user-attachments/assets/ace205b4-daca-44c9-b08b-61a76cde1372" />
+
 2.  This app provides access to all Dataverse tables used by the Prompt Catalog, App Catalog, Use Cases Catalog, and UX Catalog.
     
 3.  Each table contains sample schema and views to help you validate the structure before importing data.
@@ -32,15 +33,15 @@ Using the Catalog Management app, import the provided CSV files into their corre
 
 ### **Files to Import**
 
-Import the data in this order only. Review the details of each of the csv files [here](./Sample%20Data/Sample%20Data%20Files%20Overview.md)
+**Import the data in this order only.** Review the details of each of the csv files [here](./Sample%20Data/Sample%20Data%20Files%20Overview.md)
 
 *   sample\_data\_app\_catalog.csv → **App Catalog** table
     
 *   sample\_data\_use\_case\_catalog.csv → **Use Case Catalog** table
     
-*   sample\_data\_ux\_catalog.csv → **UX Catalog** table
+*   sample\_data\_ux\_catalog.csv → **UX Catalog** table (do not map Use Case Lookup column)
     
-*   sample\_data\_prompt\_catalog.csv → **Prompt Catalog** table
+*   sample\_data\_prompt\_catalog.csv → **Prompt Catalog** table (wait till UX Catalog sample data is availble before importing this) 
     
 
 ### **How to Import**
@@ -48,11 +49,12 @@ Import the data in this order only. Review the details of each of the csv files 
 1.  In the Catalog Management app, navigate to the table you want to populate.
     
 2.  Use the **Import Data** option (Import from Excel → Import from CSV ).
-    
+    <img width="1898" height="423" alt="Import files " src="https://github.com/user-attachments/assets/c0f2013f-e66f-4f99-b17c-bf4c624fa6e2" />
+
 3.  Map the CSV columns to Dataverse fields as shown in the sample structure.
     
 4.  Complete the import and verify records appear correctly.
-    <img width="1909" height="438" alt="Import files " src="https://github.com/user-attachments/assets/cbd15d92-4957-4208-83e1-51798545dfcb" />
+  
 
 
 Repeat this process for all four CSV files.
