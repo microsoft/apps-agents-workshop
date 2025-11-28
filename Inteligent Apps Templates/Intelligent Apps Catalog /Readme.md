@@ -10,7 +10,7 @@ The **Intelligent Apps Catalog** helps teams accelerate innovation by offering a
 
 ## 📘 Getting Started
 
-To learn how to use the Intelligent Apps Catalog, follow the step-by-step guide here:   👉 [How to Use This Tool](./Setup_Instructions.md)
+To learn how to use the Intelligent Apps Catalog, follow the step-by-step guide here:   👉 [How to Use This Tool](./Setup Instructions.md)
 
 
 
