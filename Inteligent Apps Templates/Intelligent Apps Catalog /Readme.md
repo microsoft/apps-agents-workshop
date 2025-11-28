@@ -44,6 +44,8 @@ This component acts like a **UX co-pilot**, helping creators quickly produce cle
 *   Follow a **guided prompt sequence** to generate UI screens
     
 *   Upload or download **reference images** (e.g., UX samples like a Kanban board)
+
+*   Redirect to the specific gen page to give user a **runtime experience **
     
 *   Quickly create **consistent, visually aligned app interfaces**
     
