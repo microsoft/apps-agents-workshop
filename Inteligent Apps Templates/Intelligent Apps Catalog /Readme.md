@@ -29,6 +29,7 @@ This toolkit is built around **three core components**, each crafted to simplify
     
 
 
+
 📌 **1\. Prompt Catalog**
 -------------------------
 
@@ -47,7 +48,8 @@ This component acts like a **UX co-pilot**, helping creators quickly produce cle
 *   Quickly create **consistent, visually aligned app interfaces**
     
 *   Generate UX pages aligned with **modern design patterns**
-    
+
+    <img width="1631" height="862" alt="GenPageCatalog" src="https://github.com/user-attachments/assets/2b6eb36a-4f93-4838-9519-7e3f87bc758d" />
 
 🧭 **2\. App Catalog**
 ----------------------
@@ -70,6 +72,8 @@ This creates a smooth, unified experience ideal for demos, onboarding, training,
 
 The App Catalog serves as a powerful **internal application showroom** for organizations.
 
+<img width="2862" height="1899" alt="App Catalog" src="https://github.com/user-attachments/assets/32bb3323-87ee-49b3-b2c9-6beb19312a65" />
+
 📚 **3\. Use Cases Catalog**
 ----------------------------
 
@@ -86,7 +90,8 @@ By reusing proven patterns and shared assets, teams can accelerate development a
 *   Maintain a shared library of **best practices**
     
 *   Accelerate development by **reusing proven assets**
-    
+    <img width="2869" height="1881" alt="Use Cases Catalog" src="https://github.com/user-attachments/assets/1b742ca2-bbbf-4bd8-91bb-ff179380a0c8" />
+
 
 📄 **License**
 --------------
