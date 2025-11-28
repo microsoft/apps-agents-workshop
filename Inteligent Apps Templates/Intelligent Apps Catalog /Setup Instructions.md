@@ -32,7 +32,7 @@ Using the Catalog Management app, import the provided CSV files into their corre
 
 ### **Files to Import**
 
-Import the data in this order only. Review the details of each of the csv files [here](/Sample%20Data/Sample%20Data%20Files%20Overview.md)
+Import the data in this order only. Review the details of each of the csv files [here](./Sample%20Data/Sample%20Data%20Files%20Overview.md)
 
 *   sample\_data\_app\_catalog.csv → **App Catalog** table
     
@@ -57,7 +57,57 @@ Import the data in this order only. Review the details of each of the csv files 
 
 Repeat this process for all four CSV files.
 
-**4\. Open the Runtime Experience**
+**4\. Import and Configure Images**
+-----------------------------------
+
+Each part of the catalog uses images differently. Follow the guidelines below to ensure that visuals display correctly within the Catalog Hub.
+
+### **Gen Pages Sample Images (for UX Catalog)**
+
+Use the provided **Gen Pages Sample Images** folder to populate the **UX Catalog**.These images show sample generative UX pages and can be uploaded directly as-is.
+
+**Steps:**
+
+1.  Open the **UX Catalog** table in Catalog Management.
+    
+2.  Upload the sample Gen Page image for each UX entry.
+    
+3.  (Optional) Replace these with your own generated UX page screenshots later.
+    
+
+### **Use Case Images (Use Your Own)**
+
+The sample images included for Use Cases are placeholders.When configuring your organization’s **Use Case Catalog**, upload **your own solution images**, such as:
+
+*   screenshots
+    
+*   workflow diagrams
+    
+*   solution visuals
+    
+*   product icons
+    
+
+This ensures the repository reflects your actual solutions.
+
+**Steps:**
+
+1.  Open the **Use Case Catalog** table.
+    
+2.  For each use case, upload your custom image in the image column.
+    
+
+### **App Catalog Images (Use Your Own)**
+
+The sample app icons are only examples.For your real App Catalog, upload your **actual app icons or logos** so the App Hub reflects the apps your team uses.
+
+**Steps:**
+
+1.  Open the **App Catalog** table.
+    
+2.  Upload the correct logo or icon for each app entry.
+
+**5\. Open the Runtime Experience**
 -----------------------------------
 
 After the tables are configured and data is imported, open the **Catalog Hub** app to experience the runtime view of your Intelligent Apps Catalog.
@@ -73,7 +123,7 @@ The Catalog Hub provides:
 *   Guided prompt workflows
     
 
-**5\. Run as a Webpage (Optional)**
+**6\. Run as a Webpage (Optional)**
 -----------------------------------
 
 If you want to run the Catalog Hub in a clean, embedded webpage view:
