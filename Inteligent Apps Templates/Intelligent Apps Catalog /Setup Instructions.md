@@ -9,7 +9,7 @@ Follow the steps below to install the Intelligent Apps Catalog, configure your D
 
 Download the most recent version of the solution package:
 
-**➡️ IntelligentAppsInnovationCompanion\_1\_0\_0\_1 (V2)**
+**➡️ [IntelligentAppsInnovationCompanion\_1\_1\_0\_3](./Intelligent%20Apps%20Catalog%20/Catalog%20Solution)**
 
 Import this solution into your environment using the standard Power Platform solution import process.
 
