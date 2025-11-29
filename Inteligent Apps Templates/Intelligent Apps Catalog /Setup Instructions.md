@@ -113,7 +113,9 @@ The sample app icons are only examples.For your real App Catalog, upload your **
 **5\. Open the Runtime Experience**
 -----------------------------------
 
-After the tables are configured and data is imported, open the **Catalog Hub** app to experience the runtime view of your Intelligent Apps Catalog.
+After the tables are configured and data is imported, open the **Catalog Hub** app in the edit mode, publish and play the app to experience the runtime view of your Intelligent Apps Catalog.
+
+>Note: You may experience error when playing the app without editing and publishing the Catalog hub app. 
 
 The Catalog Hub provides:
 
