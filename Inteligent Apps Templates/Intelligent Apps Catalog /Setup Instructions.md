@@ -41,7 +41,8 @@ Using the Catalog Management app, import the provided CSV files into their corre
     
 *   sample\_data\_ux\_catalog.csv → **UX Catalog** table (do not map Use Case Lookup column)
     
-*   sample\_data\_prompt\_catalog.csv → **Prompt Catalog** table (wait till UX Catalog sample data is availble before importing this) 
+*   sample\_data\_prompt\_catalog.csv → **Prompt Catalog** table (wait till UX Catalog sample data is availble before importing this)
+  > Note: Some prompts may contain actual table names which were used to build the page. As you copy the prompts to clipboard, improve the prompt to use your table names.
     
 
 ### **How to Import**
