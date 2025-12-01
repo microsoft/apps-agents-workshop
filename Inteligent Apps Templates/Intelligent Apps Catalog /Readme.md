@@ -23,7 +23,7 @@ This toolkit is built around **three core components**, each crafted to simplify
     
 *   **App Catalog**
     
-*   **Use Cases Catalog**
+*   **Use Cases Catalog!**
 
 
     
