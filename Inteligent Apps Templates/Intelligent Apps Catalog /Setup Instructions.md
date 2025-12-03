@@ -11,7 +11,7 @@ Download the most recent version of the solution package:
 
 **➡️ [IntelligentAppsInnovationCompanion\_1\_1\_0\_3](./Intelligent%20Apps%20Catalog/Catalog%20Solution)**
 
-Import this solution into your environment using the standard Power Platform solution import process.
+Import this solution into your environment (Ensure environment has Dataverse and you have access to Import Solutions) using the standard Power Platform solution import process.
 
 **2\. Configure Dataverse Tables**
 ----------------------------------
