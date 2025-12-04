@@ -89,7 +89,7 @@ Each part of the catalog uses images differently. Follow the guidelines below to
 
 ### **Gen Pages Sample Images (for UX Catalog)**
 
-Use the provided **Gen Pages Sample Images** folder to populate the **UX Catalog**.These images show sample generative UX pages and can be uploaded directly as-is.
+Use the provided [**Gen Pages Sample Images**](./Sample%20Images/Gen%20Pages%20Images) folder to populate the **UX Catalog**.These images show sample generative UX pages and can be uploaded directly as-is.
 
 **Steps:**
 
@@ -97,12 +97,11 @@ Use the provided **Gen Pages Sample Images** folder to populate the **UX Catalog
     
 2.  Upload the sample Gen Page image for each UX entry.
     
-3.  (Optional) Replace these with your own generated UX page screenshots later.
     
 
 ### **Use Case Images (Use Your Own)**
 
-The sample images included for Use Cases are placeholders.When configuring your organization’s **Use Case Catalog**, upload **your own solution images**, such as:
+The [**sample images**](./Sample%20Images/Use%20Cases%20Images) included for Use Cases are placeholders. When configuring your organization’s **Use Case Catalog**, upload **your own solution images**, such as:
 
 *   screenshots
     
@@ -124,7 +123,7 @@ This ensures the repository reflects your actual solutions.
 
 ### **App Catalog Images (Use Your Own)**
 
-The sample app icons are only examples.For your real App Catalog, upload your **actual app icons or logos** so the App Hub reflects the apps your team uses.
+The [**sample app**](./Sample%20Images/App%20Catalog%20Images) icons are only examples.For your real App Catalog, upload your **actual app icons or logos** so the App Hub reflects the apps your team uses.
 
 **Steps:**
 
