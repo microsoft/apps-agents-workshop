@@ -41,7 +41,7 @@ Using the Catalog Management app, import the provided CSV files into their corre
     
 *   sample\_data\_ux\_catalog.csv → **UX Catalog** table (do not map Use Case Lookup column)
     
-*   sample\_data\_prompt\_catalog.csv → **Prompt Catalog** table (wait till UX Catalog sample data is availble before importing this)
+*   sample\_data\_prompt\_catalog.csv → **Prompt Catalog** table (wait till UX Catalog sample data is available before importing this)
   > Note: Some prompts may contain actual table names which were used to build the page. As you copy the prompts to clipboard, improve the prompt to use your table names.
     
 
@@ -52,13 +52,22 @@ Using the Catalog Management app, import the provided CSV files into their corre
 2.  Use the **Import Data** option (Import from Excel → Import from CSV ).
     <img width="1898" height="423" alt="Import files " src="https://github.com/user-attachments/assets/c0f2013f-e66f-4f99-b17c-bf4c624fa6e2" />
 
-3.  Map the CSV columns to Dataverse fields as shown in the sample structure.
-    
-4.  Complete the import and verify records appear correctly.
+3.  Map the CSV columns to Dataverse fields as shown in the image below.
+    <img width="532" height="918" alt="image" src="https://github.com/user-attachments/assets/226fc6c9-3065-4479-b0f8-55e83202eb7b" />
+
+4.  Complete the import and wait for the records to import successfully.
   
-
-
 Repeat this process for all four CSV files.
+
+Use Case Catalog Mappings - 
+<img width="538" height="923" alt="image" src="https://github.com/user-attachments/assets/d06e895e-061b-44f9-a74b-68b0fb9be11f" />
+
+UX Catalog Mappings - **(do not map Use Case Lookup column)** 
+<img width="539" height="913" alt="image" src="https://github.com/user-attachments/assets/ae550705-6e5b-46b9-aea0-4ae7ead339fa" />
+
+Prompt Catalog Mappings- **(wait till UX Catalog sample data is available before importing this)**
+<img width="537" height="920" alt="image" src="https://github.com/user-attachments/assets/672e09d9-6d2c-4962-bfe5-2b25e0425b16" />
+
 
 **4\. Import and Configure Images**
 -----------------------------------
