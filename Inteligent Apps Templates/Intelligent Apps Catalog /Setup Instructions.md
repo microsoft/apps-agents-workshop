@@ -33,6 +33,8 @@ Using the Catalog Management app, import the provided CSV files into their corre
 
 ### **Files to Import**
 
+Click [here](./Sample%20Data) to download the files
+
 **Import the data in this order only.** Review the details of each of the csv files [here](./Sample%20Data/Sample%20Data%20Files%20Overview.md)
 
 *   sample\_data\_app\_catalog.csv → **App Catalog** table
