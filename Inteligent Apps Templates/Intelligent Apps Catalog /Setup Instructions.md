@@ -125,7 +125,7 @@ This ensures the repository reflects your actual solutions.
 
 ### **App Catalog Images (Use Your Own)**
 
-The [**sample images **](./Sample%20Images/App%20Catalog%20Images) icons are only examples. For your real App Catalog, upload your **actual app icons or logos** so the App Hub reflects the apps your team uses.
+The [**sample images**](./Sample%20Images/App%20Catalog%20Images) icons are only examples. For your real App Catalog, upload your **actual app icons or logos** so the App Hub reflects the apps your team uses.
 
 **Steps:**
 
