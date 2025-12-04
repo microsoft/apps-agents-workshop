@@ -15,6 +15,8 @@ This file contains the foundational information needed to configure your **App H
 *   **App Logo** – A link or reference to the image representing the app.
     
 *   **App Link** – The URL or deep link that launches the app.
+
+*   **Description** –  A summary explaining what the App does and what its used for.
     
 
 **Guidance:** Import or map this file into your App Catalog table to create an embedded App Hub experience. Each entry determines which applications appear in the catalog and where users are redirected when launching the app.
