@@ -47,29 +47,42 @@ Using the Catalog Management app, import the provided CSV files into their corre
 
 ### **How to Import**
 
-1.  In the Catalog Management app, navigate to the table you want to populate.
+1.  In the Catalog Management app, navigate to the App Catalog page.
     
 2.  Use the **Import Data** option (Import from Excel → Import from CSV ).
-    <img width="1898" height="423" alt="Import files " src="https://github.com/user-attachments/assets/c0f2013f-e66f-4f99-b17c-bf4c624fa6e2" />
+    <img width="1890" height="287" alt="image" src="https://github.com/user-attachments/assets/41f7b654-87b1-47f9-8169-7b0246e7a0ca" />
+    
+
+    Click on … on the right corner of the page as highlighted below and select the icon next to Import from Excel. Then select Import from CSV
+    <img width="370" height="143" alt="image" src="https://github.com/user-attachments/assets/47957c41-6b65-45cf-a02b-dac8df08308b" />
+
+
 
 3.  Map the CSV columns to Dataverse fields as shown in the image below.
-    <img width="532" height="918" alt="image" src="https://github.com/user-attachments/assets/226fc6c9-3065-4479-b0f8-55e83202eb7b" />
+   
+    <img width="350" style="border: 1px solid #ccc; border-radius: 6px;" alt="image" src="https://github.com/user-attachments/assets/226fc6c9-3065-4479-b0f8-55e83202eb7b" />
 
 4.  Complete the import and wait for the records to import successfully.
   
 Repeat this process for all four CSV files.
 
-Use Case Catalog Mappings - 
-<img width="538" height="923" alt="image" src="https://github.com/user-attachments/assets/d06e895e-061b-44f9-a74b-68b0fb9be11f" />
+* Use Case Catalog Mappings - 
 
-UX Catalog Mappings - **(do not map Use Case Lookup column)** 
-<img width="539" height="913" alt="image" src="https://github.com/user-attachments/assets/ae550705-6e5b-46b9-aea0-4ae7ead339fa" />
-
-Prompt Catalog Mappings- **(wait till UX Catalog sample data is available before importing this)**
-<img width="537" height="920" alt="image" src="https://github.com/user-attachments/assets/672e09d9-6d2c-4962-bfe5-2b25e0425b16" />
+<img width="350" alt="image" src="https://github.com/user-attachments/assets/f946a4c2-d2c7-420d-bf0e-75d568804cac" />
 
 
-**4\. Import and Configure Images**
+* UX Catalog Mappings - **(do not map Use Case Lookup column)** 
+
+<img width="350" alt="image" src="https://github.com/user-attachments/assets/360eff87-57ba-4591-9061-8e8ed367ffa1" />
+
+
+* Prompt Catalog Mappings- **(wait till UX Catalog sample data is available before importing this)**
+
+<img width="350" alt="image" src="https://github.com/user-attachments/assets/9ef35055-02b1-455d-95ce-f7d3c3419e67" />
+
+
+
+**4\. Add Images**
 -----------------------------------
 
 Each part of the catalog uses images differently. Follow the guidelines below to ensure that visuals display correctly within the Catalog Hub.
