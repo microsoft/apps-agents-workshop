@@ -93,9 +93,9 @@ Use the provided [**Gen Pages Sample Images**](./Sample%20Images/Gen%20Pages%20I
 
 **Steps:**
 
-1.  Open the **UX Catalog** table in Catalog Management.
+1.  Open the **UX Catalog** table in Catalog Management App.
     
-2.  Upload the sample Gen Page image for each UX entry.
+2.  Open each record and upload the corresponding image. 
     
     
 
@@ -116,9 +116,9 @@ This ensures the repository reflects your actual solutions.
 
 **Steps:**
 
-1.  Open the **Use Case Catalog** table.
+1.  Open the **Use Case Catalog** table in Catalog Management App.
     
-2.  For each use case, upload your custom image in the image column.
+2.  Open each record and upload the corresponding image. 
     
 
 ### **App Catalog Images (Use Your Own)**
@@ -127,9 +127,10 @@ The [**sample app**](./Sample%20Images/App%20Catalog%20Images) icons are only ex
 
 **Steps:**
 
-1.  Open the **App Catalog** table.
+1.  Open the **App Catalog** table in Catalog Management App.
     
-2.  Upload the correct logo or icon for each app entry.
+2.  Open each record and upload the corresponding image.
+   
 
 **5\. Open the Runtime Experience**
 -----------------------------------
