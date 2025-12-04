@@ -17,7 +17,7 @@ This file contains the foundational information needed to configure your **App H
 *   **App Link** – The URL or deep link that launches the app.
     
 
-**How it's used:**Import or map this file into your App Catalog table to create an embedded App Hub experience. Each entry determines which applications appear in the catalog and where users are redirected when launching the app.
+**Guidance:** Import or map this file into your App Catalog table to create an embedded App Hub experience. Each entry determines which applications appear in the catalog and where users are redirected when launching the app.
 
 **2\. Use Case Catalog Sample Data — Sample Data Use Case Catalogs.csv**
 ---------------------------------------------------------------------------
@@ -33,7 +33,7 @@ This file provides a template for setting up your **Use Cases Catalog**, which s
 *   **Repository Link** – A URL pointing to the solution package, documentation, or source code.
     
 
-**How it's used:**Load this data into your Use Case Catalog to showcase published solutions, templates, components, connectors, or any reusable assets your teams can benefit from. This catalog helps teams quickly discover and reuse best-practice solutions.
+**Guidance:** Load this data into your Use Case Catalog to showcase published solutions, templates, components, connectors, or any reusable assets your teams can benefit from. This catalog helps teams quickly discover and reuse best-practice solutions.
 
 **3\. UX Catalog Sample Data — Sample Data UX Catalogs.csv**
 --------------------------------------------------------------
@@ -53,7 +53,7 @@ This file contains information used to populate the **UX Catalog**, which is res
 *   **UX Page Link** – A URL or app link that opens the generated UX page at runtime.
     
 
-**How it's used:**This data powers the visual UX Gallery, allowing users to preview sample screens, understand how they map to real use cases, and navigate to live generated pages to learn how they function.
+**Guidance:** This data powers the visual UX Gallery, allowing users to preview sample screens, understand how they map to real use cases, and navigate to live generated pages to learn how they function.
 
 **4\. Prompt Catalog Sample Data — Sample Data Prompt Catalogs.csv**
 ----------------------------------------------------------------------
@@ -73,4 +73,4 @@ This file defines the content of the **Prompt Catalog**, which provides structur
 *   **Prompt Order** – A numeric value determining the sequence in which prompts are shown.
     
 
-**How it's used:**Import this file to define how prompts appear to the user, the order they follow, and how they connect to the UX pages. This provides a consistent, guided prompt-driven experience for generating intelligent application pages.
+**Guidance:** Import this file to define how prompts appear to the user, the order they follow, and how they connect to the UX pages. This provides a consistent, guided prompt-driven experience for generating intelligent application pages.
