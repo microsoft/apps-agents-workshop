@@ -60,18 +60,38 @@ The BYOC feature empowers development teams to **reuse existing code** or **crea
 
 # 5. Documentation & learning resources
 
-- [Power Apps documentation](https://learn.microsoft.com/power-apps/)
-- [Power Platform CLI (`pac`) documentation](https://learn.microsoft.com/power-platform/developer/cli/introduction)
-- [Microsoft Dataverse documentation](https://learn.microsoft.com/power-apps/maker/data-platform/data-platform-intro)
 # 6. Prerequisites
 
-Import Northwind Traders version >0.11 to the environment and seed with data.
+Import Northwind Traders version 1.0.0.11 or later to the environment and seed with data. [Solutions](https://github.com/microsoft/apps-agents-workshop/tree/main/solutions)
 
-Long term support (LTS) version
+[Node.js Long term support (LTS) version](https://nodejs.org/) 
 
-Power Platform CLI
+[Power Platform CLI](https://learn.microsoft.com/power-platform/developer/cli/introduction?tabs=windows)
 
 End users that run code apps need a Power Apps Premium License
+
+## Configure PowerShell Execution Policy
+
+To run scripts on your system, configure the PowerShell execution policy.
+
+**Recommended setting:**
+- `RemoteSigned` at the `CurrentUser` scope (preferred — no admin required, affects current user only)
+- `RemoteSigned` at the `LocalMachine` scope (alternative — requires administrator elevation, affects all users on this machine)
+
+This setting allows locally developed scripts to run while requiring scripts downloaded from external sources to be signed or explicitly trusted.
+
+```powershell
+# Preferred (no admin required, current user only):
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+# Alternative (requires admin, affects all users on this machine):
+Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy RemoteSigned
+```
+
+For more information, see about_Execution_Policies at https://go.microsoft.com/fwlink/?LinkID=135170
+
+> [!NOTE]
+> Execution policies are not a security boundary. They help prevent unintentional script execution but should be combined with other security controls.
 
 # 7. Learning outcomes
 
@@ -112,7 +132,9 @@ Build and deploy the app to Power Apps within a solution
 #### Step-by-step instructions
 
 - Open Visual Studio Code.
+
 - Open Folder (Click the option on the welcome tab or click File -> Open Folder)
+
 ![open folder click the option on the welcome tab or click file open fol 01](images/open-folder-click-the-option-on-the-welcome-tab-or-click-file-open-fol-01.png)
 
 ![open folder click the option on the welcome tab or click file open fol 02](images/open-folder-click-the-option-on-the-welcome-tab-or-click-file-open-fol-02.png)
@@ -122,6 +144,7 @@ And open your folder where you want to host the source code.
 ![and open your folder where you want to host the source code 03](images/and-open-your-folder-where-you-want-to-host-the-source-code-03.png)
 
 - Open a new terminal window.
+
 ![open a new terminal window 04](images/open-a-new-terminal-window-04.png)
 
 - Let’s get a copy of a starting point for a Code App from the Microsoft Sample repository.
@@ -135,6 +158,7 @@ cd suppliers-onboarding-code-app
 >💡 **Tip:** Run these commands from your local source folder. Instead of “suppliers-onboarding-code-app” you can also specify a name you want to use.
 
 - Now you should be able to see the files as cloned from the repo.
+  
 ![now you should be able to see the files as cloned from the repo 06](images/now-you-should-be-able-to-see-the-files-as-cloned-from-the-repo-06.png)
 
 Source code will be in the src folder, these contain all the files for your application.
@@ -167,6 +191,7 @@ npm run dev
 ```
 
 - Then, open the URL labelled **Local Play**.
+
 ![then open the url labelled local play 10](images/then-open-the-url-labelled-local-play-10.png)
 
 #### Expected result (checkpoint)
@@ -209,7 +234,7 @@ You’ve completed the first part of the lab, you successfully pushed your code 
 
 #### Tasks covered
 
-Use a terminal to add your data source
+Use Power Shell to add your data source
 
 Push the code back to Power Apps
 
@@ -356,6 +381,62 @@ Combine deterministic + generative intentionally
 Test, monitor, and iterate
 
 Design for trust
+
+## Troubleshooting
+
+### Scripts are blocked from running
+
+If you encounter an error such as:
+
+    running scripts is disabled on this system
+
+Confirm the current execution policy:
+
+```powershell
+Get-ExecutionPolicy -List
+```
+
+Ensure that `RemoteSigned` is set at either the `LocalMachine` or `CurrentUser` scope.
+
+***
+
+### Running scripts in VS Code or during tool setup
+
+Some development tools (for example, VS Code, npm scripts, or CLI bootstrapping) may encounter script execution errors. First, verify that `RemoteSigned` is set at the `CurrentUser` scope — this resolves most tool setup issues without requiring elevated permissions:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+If the issue persists, you can allow scripts for the current session only using `Bypass` as a last resort:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+*   Applies **only to the current PowerShell session**
+*   Does **not change system-wide settings**
+*   Resets automatically when the terminal is closed
+
+> [!IMPORTANT]
+> `Bypass` removes all warnings and prompts — nothing is blocked. Use it only as a last resort for temporary troubleshooting. Do not use `Bypass` as a persistent or recommended configuration.
+
+***
+
+### Downloaded scripts are blocked
+
+Scripts downloaded from the internet may be blocked even with `RemoteSigned`.
+
+> [!IMPORTANT]
+> Before unblocking, inspect the script contents to confirm it comes from a trusted source. Only unblock scripts you have reviewed or that originate from an official repository.
+
+To unblock a script:
+
+```powershell
+Unblock-File -Path .\script.ps1
+```
+
+Then rerun the script.
 
 # Appendix A — 100-level maker quick guidance
 
