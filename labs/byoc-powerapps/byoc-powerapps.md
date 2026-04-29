@@ -60,6 +60,9 @@ The BYOC feature empowers development teams to **reuse existing code** or **crea
 
 # 5. Documentation & learning resources
 
+- [Power Apps documentation](https://learn.microsoft.com/power-apps/)
+- [Power Platform CLI (`pac`) documentation](https://learn.microsoft.com/power-platform/developer/cli/introduction)
+- [Microsoft Dataverse documentation](https://learn.microsoft.com/power-apps/maker/data-platform/data-platform-intro)
 # 6. Prerequisites
 
 Import Northwind Traders version >0.11 to the environment and seed with data.
