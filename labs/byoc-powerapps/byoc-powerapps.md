@@ -56,7 +56,7 @@ The BYOC feature empowers development teams to **reuse existing code** or **crea
 
 | Intelligence type | Where it’s used | Purpose |
 | --- | --- | --- |
-| Github Copilot | Visual Studio Code | Provide a code agent to help the developer quickly code their application |
+| GitHub Copilot | Visual Studio Code | Provide a code agent to help the developer quickly code their application |
 
 # 5. Documentation & learning resources
 
