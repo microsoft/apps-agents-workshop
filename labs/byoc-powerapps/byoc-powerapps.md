@@ -178,7 +178,7 @@ You should see the app open like:
 
 - Build and deploy the app to Power Apps. In the terminal window, run these commands:
 ```
-npm run build | pac code push --solutionName NorthwindTraders
+npm run build && pac code push --solutionName NorthwindTraders
 ```
 
 - Runs the scripts configured in the package.json file with the key value of build. In this case, the script is "tsc -b && vite build".
