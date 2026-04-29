@@ -209,7 +209,7 @@ You’ve completed the first part of the lab, you successfully pushed your code 
 
 #### Tasks covered
 
-Use Power Shell to add your data source
+Use a terminal to add your data source
 
 Push the code back to Power Apps
 
