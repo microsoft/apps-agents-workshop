@@ -303,7 +303,7 @@ Copy and paste the “Local Play” link from the terminal into your browser.
 
 - Once you’re satisfied with the app, build and deploy your app to Power Apps using the following command:
 ```
-npm run build | pac code push
+npm run build && pac code push
 ```
 
 #### Expected result (checkpoint)
