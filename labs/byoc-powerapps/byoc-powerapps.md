@@ -62,7 +62,7 @@ The BYOC feature empowers development teams to **reuse existing code** or **crea
 
 # 6. Prerequisites
 
-Import Northwind Traders version 1.0.0.11 or later to the environment and seed with data using the Northwind Sample Data App. [See Solutions folder for the solution and full instructions](../../../solutions/README.md)
+Import Northwind Traders version 1.0.0.11 or later to the environment and seed with data using the Northwind Sample Data App. [See Solutions folder for the solution and full instructions](../../solutions/)
 
 [Node.js Long-term support (LTS) version](https://nodejs.org/)
 
