@@ -15,7 +15,7 @@ Intelligent Apps and Agents — Lab authoring template
 | Level | 100-200 |
 | --- | --- |
 | Persona | Pro Code / Maker |
-| Estimated duration | 45 minutes |
+| Estimated duration | 75 minutes |
 | Audience assumptions | Familiarity with Dataverse, VS Code, Github Copilot, PAC CLI, Node.js |
 | Author / team | Power CAT |
 | Last updated | 2026-05-01 |
@@ -38,8 +38,8 @@ Throughout the lab, you will use prompts to generate and refine model‑driven a
 | Industry / function | Operations |
 | --- | --- |
 | Primary user role | Operations Manager |
-| Problem statement | How can Contoso Electronics use their existing code in Power Apps |
-| Intelligent outcome | Bring your own code allows the enterprise to run their own custom code within the Power Apps environment |
+| Problem statement | How can Northwind Traders rapidly modernize their model-driven app experience with rich, interactive pages built from natural language prompts over Dataverse data |
+| Intelligent outcome | Generative Pages enables operations teams to generate, iterate, and deploy modern UI pages grounded in Dataverse tables — replacing classic forms and views without manual coding or design effort |
 
 # 3. Core concepts
 
@@ -84,12 +84,13 @@ Before starting this lab, ensure the following are in place:
 - Your user account has **Maker permissions** and **Dataverse access** (default environment is acceptable for lab)
 
 **Solution & Data**
-- Import **Northwind Traders** version 1.0.0.11 or later to the environment and seed with data using the Northwind Sample Data App. [See Solutions folder for the solution and full instructions](../../solutions)
+- Import [**Northwind Traders**](../../solutions) version 1.0.0.11 or later to the environment and seed with data using the Northwind Sample Data App. [See Solutions folder for the solution and full instructions](../../solutions)
 
 **Tools**
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [GitHub Copilot](https://github.com/features/copilot) — active subscription and the GitHub Copilot extension installed in VS Code
 - [Node.js Long-term support (LTS) version](https://nodejs.org/) — required for all skills
+- [.NET SDK](https://dotnet.microsoft.com/download) — required to install and update the PAC CLI via `dotnet tool`
 - [Power Platform CLI](https://learn.microsoft.com/power-platform/developer/cli/introduction?tabs=windows) >= 2.3.1 — required for schema generation and deployment
 
   Install or update PAC CLI:
@@ -175,7 +176,7 @@ By the end of this lab, you will be able to:
 5. Select **Other** and enter the following description for your page:
 
    ```
-   I want a modern looking page for Orders. Users should be able to View Orders and their related data. When I select an Order, the record should expand and show me the related order details, and the product associated with that Order. Use the Order, Order Details, Order Product table from the Northwind Traders solution.
+   I want a modern looking page for Orders. Users should be able to view Orders and their related data. When I select an Order, the record should expand and show me the related order details and the product associated with that Order. Use the `nwind_orders`, `nwind_order_details`, and `nwind_products` tables from the Northwind Traders solution.
    ```
 
    ![Enter the page description in the Other prompt](images/enter-other-prompt.png)  
@@ -298,7 +299,7 @@ You generated a working model-driven app page from a single natural language pro
 4. Add a conditional formatting prompt to highlight high-value shipping records:
 
    ```
-   Highlight the records where shipping fee is > 50$.
+   Highlight the records where shipping fee is > $50.
    ```
 
    ![Highlight orders where the shipping fee is greater than fifty dollars](images/highlight-shipping-fee.png)  
@@ -344,7 +345,7 @@ You evolved the page through a sequence of focused prompts — styling, conditio
 1. In GitHub Copilot Chat, enter the following prompt to create the new page:
 
    ```
-   I want to create a new page in the same app which is a modern looking form with animations and styling with modern colorful background. I need to be able to enter all the order details. I also want to see the product catalog to be able to add to the order. Ensure all the columns except Order Number, Status and state code shows up in the form. For each of the column, show me column name as well. Once the record is created grab the order number and then create a related Order details. Add a separate section to enter all shipping details and another section for payments and taxes. Do not create any mock data. Use the Order, Order Details, Order Product table from the Northwind Traders solution, prefix of the tables is nwind_
+   I want to create a new page in the same app which is a modern looking form with animations and styling with modern colorful background. I need to be able to enter all the order details. I also want to see the product catalog to be able to add to the order. Ensure all the columns except Order Number, Status and state code shows up in the form. For each of the columns, show me column name as well. Once the record is created grab the order number and then create a related order detail. Add a separate section to enter all shipping details and another section for payments and taxes. Do not create any mock data. Use the nwind_orders, nwind_order_details, and nwind_products tables from the Northwind Traders solution.
    ```
 
    > 💡 **Tip:** This page may take a while to create because of its complexity.
