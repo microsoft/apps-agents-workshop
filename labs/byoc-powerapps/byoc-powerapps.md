@@ -56,13 +56,18 @@ The BYOC feature empowers development teams to **reuse existing code** or **crea
 
 | Intelligence type | Where it’s used | Purpose |
 | --- | --- | --- |
-| GitHub Copilot | Visual Studio Code | Provide a code agent to help the developer quickly code their application |
+| GitHub Copilot (agent mode) | Visual Studio Code | Autonomously generate the supplier onboarding UI, business logic, and Dataverse integration from a single natural language prompt |
 
 # 5. Documentation & learning resources
 
+- [Visual Studio Code](https://code.visualstudio.com/docs)
+- [Power Platform CLI](https://learn.microsoft.com/power-platform/developer/cli/introduction?tabs=windows)
+- [Code Apps overview (Microsoft Learn)](https://learn.microsoft.com/power-apps/maker/codeapps/overview-codeapps)
+- [Power Apps Code Apps templates (GitHub)](https://github.com/microsoft/PowerAppsCodeApps)
+
 # 6. Prerequisites
 
-Import Northwind Traders version 1.0.0.11 or later to the environment and seed with data using the Northwind Sample Data App. [See Solutions folder for the solution and full instructions](../../solutions/)
+Import Northwind Traders version 1.0.0.11 or later to the environment and seed with data using the Northwind Sample Data App. [See Solutions folder for the solution and full instructions](https://github.com/microsoft/apps-agents-workshop/blob/main/solutions)
 
 [Node.js Long-term support (LTS) version](https://nodejs.org/)
 
@@ -75,6 +80,7 @@ End users that run code apps need a Power Apps Premium License
 To run scripts on your system, configure the PowerShell execution policy.
 
 **Recommended setting:**
+
 - `RemoteSigned` at the `CurrentUser` scope (preferred — no admin required, affects current user only)
 - `RemoteSigned` at the `LocalMachine` scope (alternative — requires administrator elevation, affects all users on this machine)
 
@@ -362,25 +368,23 @@ Build with popular frameworks while keeping full control over your UI and logic.
 
 # 12. Challenge: apply this to your scenario
 
-What data would improve AI accuracy?
+Try extending what you built:
 
-Where could Copilot reduce user effort?
-
-What governance controls are critical?
+- Replace the `nwind_suppliers` table with a Dataverse table from your own environment. Update the Copilot prompt to reflect your table's columns and business rules. How much of the generated code carries over?
+- Add a second data source to the app (for example, a related contacts or products table) using `pac code add-data-source` and ask Copilot to render the related records in the modal dialog.
+- Refine the Copilot agent prompt to enforce a specific UI framework or colour scheme. How precisely can you control the output through prompt engineering alone?
+- Push the finished app into a managed solution and export it to a second environment. What ALM steps are needed to promote a code app through dev, test, and production?
 
 # 13. Summary & best practices
 
-Intelligent App golden rules:
+Code Apps golden rules:
 
-Design AI-first, not AI-last
-
-Ground every response
-
-Combine deterministic + generative intentionally
-
-Test, monitor, and iterate
-
-Design for trust
+- **Initialize inside a solution** — always pass `--solutionName` to `pac code push` from the start. Reinitializing later requires deleting the deployed app and `power.config.json`.
+- **Commit `power.config.json` to source control** — it holds your environment ID, connection references, and database references. Losing it means re-running `pac code init`.
+- **Test locally before every push** — use `npm run dev` and the Local Play URL to validate changes. Catching errors locally is faster than debugging a deployed app.
+- **Give Copilot the full context upfront** — include the table name, column names, and all user stories in a single agent prompt. Incremental prompts work for refinements, but a rich initial prompt produces better scaffolding.
+- **Fix errors iteratively with the agent** — paste console errors or lint output directly into Copilot Chat. The agent can fix its own output faster than manual debugging.
+- **Keep the Power Platform SDK up to date** — run `npm install` after pulling the latest template changes to avoid version mismatches between the local SDK and the deployed environment.
 
 ## Troubleshooting
 
