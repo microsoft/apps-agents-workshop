@@ -10,6 +10,7 @@ This folder contains the managed and unmanaged solutions used in the workshop la
 
 | Version | Changes |
 | --- | --- |
+| 1.0.0.16 | Fixes an issue in the **Northwind Traders Data Seeder** code app. Adds a managed package for participants who want to fully remove the solution and its components after the workshop. |
 | 1.0.0.15 | Adds the **Supplier Onboarding Agent**, a Microsoft Copilot Studio agent used by the optional **Ask an Agent** extension in the [BYOC Power Apps Code Apps lab](../labs/byoc-powerapps/byoc-powerapps.md). |
 | 1.0.0.14 | Adds **Instant flow for app** for the optional Power Automate extension in the [BYOC Power Apps Code Apps lab](../labs/byoc-powerapps/byoc-powerapps.md). Also adds the **Northwind Traders Data Seeder** code app for validating the solution schema and seeding or refreshing Northwind sample data. |
 | 1.0.0.12 | Adds the **Weather Details** custom connector used by the optional weather extension in the [BYOC Power Apps Code Apps lab](../labs/byoc-powerapps/byoc-powerapps.md). |
@@ -25,7 +26,9 @@ Follow these steps to import the Northwind Traders solution into your Power Plat
 1. Go to <https://make.powerapps.com> and select the environment you want to use.
 2. In the left navigation, select **Solutions**.
 3. Select **Import solution**.
-4. Select **Browse** and choose the newest `NorthwindTraders_*.zip` package from the `solutions` folder of this repository.
+4. Select **Browse** and choose one of the following packages:
+	- `NorthwindTraders_1_0_0_16_managed.zip` if you want to fully remove the solution and its components after the workshop.
+	- `NorthwindTraders_1_0_0_16.zip` if you want an unmanaged solution whose components you can customize directly.
 5. Select **Next**, review the details, and select **Import**.
 6. Wait for the import to complete. A confirmation message appears when the solution is successfully installed.
 
