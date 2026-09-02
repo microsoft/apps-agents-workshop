@@ -280,23 +280,18 @@ npx pa app run
 
 > 💡 **Tip:** To stop the local web server, press **Ctrl+C** in the terminal window.
 
-10. In Power Apps, select the workshop environment, open **Solutions**, and then open **Northwind Traders**. Copy the solution ID from the browser URL; it is the GUID after `/solutions/` and before `/overview`.
-
-    > [!IMPORTANT]
-    > Copy the solution ID from the workshop environment. The first publish determines the code app's initial solution membership.
-
-11. Stop the local web server, build the app, and publish it to the Northwind Traders solution. Replace `<solution-id>` with the value you copied:
+10. Stop the local web server, build the app, and publish it to Power Apps:
 
 ```powershell
 npm run build
-npx pa app push --solution-id <solution-id>
+npx pa app push
 ```
 
-`npm run build` runs the build script configured in `package.json`. In this template, the script is `tsc -b && vite build`. `npx pa app push --solution-id <solution-id>` publishes the code app to the environment in `power.config.json` and explicitly adds it to the Northwind Traders solution. Later `npx pa app push` commands update the same app without changing its existing solution membership.
+    `npm run build` runs the build script configured in `package.json`. In this template, the script is `tsc -b && vite build`. `npx pa app push` publishes a new version of the code app to the environment in `power.config.json`.
 
 ### Expected result (checkpoint)
 
-The **Local Play** URL displays the default Vite and React experience, and `npx pa app push --solution-id <solution-id>` reports that it used the Northwind Traders solution and returns a Power Apps URL for the published app.
+The **Local Play** URL displays the default Vite and React experience, and `npx pa app push` returns a Power Apps URL for the published app.
 
 ![Default Vite and React code app running in the Power Apps player](images/you-should-see-the-app-open-like-11.png)
 Figure: The initialized code app displays the default Vite and React experience.
@@ -331,8 +326,6 @@ npx pa app add data-source --connector dataverse --table nwind_suppliers
 ```
 
 > 💡 **Important:** Use the Dataverse table's logical name with the `--table` option.
-
-If the CLI prompts for the organization URL, return to Power Apps with the workshop environment selected. Select **Settings** > **Developer resources**, copy the **Web API endpoint**, and enter only its base URL before `/api/data/`. For example, enter `https://contoso.crm.dynamics.com`, not `https://contoso.crm.dynamics.com/api/data/v9.2`. Confirm that the URL belongs to the same environment identified by `environmentId` in `power.config.json`.
 
 Confirm that the command succeeds and that generated supplier model and service files appear under `src/generated`.
 
@@ -527,8 +520,6 @@ For example:
 npx pa app add data-source --connector shared_nwind-5fweather-20details-5f4fae8b9128b8dd07 --connection-id cce23180-4c4f-4e1d-b88a-c65d91030185
 ```
 
-If the CLI asks **Are you using a connection reference instead of a connection ID?**, select **No**. This path uses the connection ID copied in step 7.
-
 10. Wait for the command to report success. Open `power.config.json` and confirm that its `connectionReferences` section contains an entry whose `displayName` is `Weather Details`.
 
 > [!NOTE]
@@ -679,7 +670,7 @@ You added a solution-aware instant cloud flow to a code app, used its generated 
 | --- | --- |
 | Estimated effort | 35 minutes |
 | Scenario | Let an operations manager ask questions about the status totals currently displayed in the app. |
-| Objective | Use the imported agent, add the Microsoft Copilot Studio connector, implement an accessible Fluent UI chat rail, and confirm the end-to-end experience works with dashboard context. |
+| Objective | Use the imported agent, add the Microsoft Copilot Studio connector, implement an accessible Fluent UI chat rail, and validate its answers against the dashboard. |
 
 ### Tasks covered
 
@@ -687,7 +678,7 @@ You added a solution-aware instant cloud flow to a code app, used its generated 
 - Create or locate a Microsoft Copilot Studio connection and add it to the code app.
 - Inspect and use the generated `ExecuteCopilotAsyncV2` service contract.
 - Use GitHub Copilot to implement a responsive, accessible chat experience.
-- Validate an end-to-end agent response, conversation continuity, layout, build output, consent, and deployment.
+- Validate grounding, conversation continuity, layout, build output, consent, and deployment.
 
 ### Step-by-step instructions
 
@@ -699,13 +690,13 @@ You added a solution-aware instant cloud flow to a code app, used its generated 
 
 1. In Power Apps, select the workshop environment, open **Solutions**, and then open **Northwind Traders**. Under **Objects**, select **Agents** and open **Supplier Onboarding Agent**. If the agent is missing, stop and ask the facilitator to import the latest solution.
 
-2. Open the imported agent in Copilot Studio and select **Test** to open the **Test your agent** pane. Send this message:
+2. Open the imported agent in Copilot Studio and select **Test** to open the **Test your agent** pane. Send this exact message:
 
-```text
-Help me prepare a supplier for onboarding.
+```json
+{"userMessage":"How many suppliers are accepted?","supplierSummary":{"Submitted":10,"Active":2,"Declined":1}}
 ```
 
-Confirm that the agent returns a relevant supplier-onboarding response. The wording can vary. This is a connectivity check; it doesn't require validating table data or a specific answer.
+    Confirm that the answer contains the count `2` and the status label **Active**. The surrounding wording can vary. If either value is incorrect, stop and ask the facilitator to verify that the latest solution was imported and the latest agent content was published.
 
 3. Confirm that the agent is published. If Copilot Studio shows unpublished changes, ask the facilitator to publish the imported agent before continuing. Don't create a replacement agent.
 
@@ -746,9 +737,7 @@ npx pa connection create --connector shared_microsoftcopilotstudio --display-nam
 npx pa app add data-source --connector shared_microsoftcopilotstudio --connection-id <connection-id>
 ```
 
-If the CLI asks **Are you using a connection reference instead of a connection ID?**, select **No**. This path uses the connection ID copied in step 6.
-
-Confirm that the command succeeds, `power.config.json` contains a Microsoft Copilot Studio connection reference, and `src/generated` contains a model and service for the connector.
+    Confirm that the command succeeds, `power.config.json` contains a Microsoft Copilot Studio connection reference, and `src/generated` contains a model and service for the connector.
 
 ![Power Apps CLI reporting that the Microsoft Copilot Studio data source was added successfully](images/agent-data-source-added.png)
 Figure: Add the connector with an environment-specific connection ID and confirm that the data source is generated.
@@ -837,7 +826,7 @@ Figure: Review the Microsoft Copilot Studio connection and allow the code app to
 Figure: The open chat rail shows the connected Supplier Onboarding Agent and message composer.
 
     1. Confirm that the open rail doesn't cover the supplier workspace.
-    2. Send `Summarize the supplier statuses on this dashboard.` Confirm that the agent returns a relevant response without a connector error. Exact wording and counts can vary as workshop data changes.
+    2. Send `How many suppliers are accepted?` and confirm that the answer's **Active** count exactly matches the dashboard's **Active** card.
     3. Send `What status did I ask about?` and confirm that the response preserves the preceding conversation context.
     4. Select **New conversation**, send `What status did I ask about?` again, and confirm that the previous context isn't retained.
     5. Send `testing` and confirm that the outgoing bubble doesn't collapse or wrap character by character.
@@ -845,8 +834,8 @@ Figure: The open chat rail shows the connected Supplier Onboarding Agent and mes
     7. With the rail open, press **Tab** through the close button, new-conversation button, transcript, composer, and send button. Confirm that the order is logical, focus remains visible, every interactive control can be activated with **Enter** or **Space**, and focus doesn't become trapped in the chat.
     8. In Microsoft Edge DevTools, inspect the launcher while the rail is closed. Open the rail and inspect the close button, new-conversation button, composer, and send button. Confirm that each control has the expected accessible name and role.
 
-![Supplier dashboard and agent chat with the sample response redacted](images/agent-answer-validation.png)
-Figure: Confirm that the agent returns a supplier-status response; the sample response and tenant-specific record URL are intentionally redacted.
+![Supplier dashboard and agent chat with the sample response redacted for deterministic verification](images/agent-answer-validation.png)
+Figure: Compare the returned Active count with the dashboard card; the sample response and tenant-specific record URL are intentionally redacted.
 
 14. Use browser developer tools to test at `390 x 844`. Confirm that the chat becomes a full-width surface below the existing header, text and controls remain visible, and the chat doesn't cause horizontal scrolling.
 
@@ -869,11 +858,11 @@ npx pa app push
 ![Power Apps CLI reporting that the supplier onboarding code app was pushed successfully](images/agent-app-push-success.png)
 Figure: A successful push returns a Power Apps play URL; the tenant-specific URL is replaced with a generic placeholder.
 
-17. Open the returned Power Apps URL, authorize the Microsoft Copilot Studio connection when prompted, and repeat the supplier-status question to confirm that the deployed agent responds. Each user must authorize their own connector connection.
+17. Open the returned Power Apps URL, authorize the Microsoft Copilot Studio connection when prompted, and repeat the accepted-supplier count check. Each user must authorize their own connector connection.
 
 ### Expected result (checkpoint)
 
-The published code app contains an accessible, responsive chat rail that invokes the published Supplier Onboarding Agent through the generated `ExecuteCopilotAsyncV2` service. The agent returns a relevant response to a supplier-status question, a follow-up turn preserves context, **New conversation** clears context, the desktop and mobile layouts don't overlap, the chat assets load lazily, and both lint and build complete without errors.
+The published code app contains an accessible, responsive chat rail that invokes the published Supplier Onboarding Agent through the generated `ExecuteCopilotAsyncV2` service. The accepted-supplier answer matches the dashboard's current **Active** count, a follow-up turn preserves context, **New conversation** clears context, the desktop and mobile layouts don't overlap, the chat assets load lazily, and both lint and build complete without errors.
 
 ### Reflection
 
@@ -935,7 +924,7 @@ Code Apps golden rules:
 
 - **Preserve generated connector contracts** - inspect generated models and services before writing integration code, keep adapters outside `src/generated`, and regenerate instead of hand-editing generated files.
 - **Refresh generated flow files after flow changes** - run `npx pa app add flow --flow-id <flow-id>` again when the flow definition changes.
-- **Ground agent requests in current app state** - send the minimum current dashboard context needed for the question instead of hardcoding sample values.
+- **Ground agent requests in current app state** - send the minimum verified context needed for the question and compare important answers with a deterministic UI or data checkpoint.
 
 ### Troubleshooting
 
@@ -1048,15 +1037,15 @@ Confirm all of the following conditions:
 - The request includes the required placeholder notification URL and follows the generated service signature.
 - The signed-in user can access the agent and has authorized a Microsoft Copilot Studio connection.
 
-After correcting the configuration, start a new conversation and repeat the supplier-onboarding connectivity test from Step 6 before testing the app again.
+After correcting the configuration, start a new conversation and repeat the JSON test from Step 6 before testing the app again.
 
 ***
 
-#### The agent response doesn't mention dashboard status data
+#### The agent count doesn't match the dashboard
 
-Open the browser developer tools and inspect the request constructed by the chat adapter without logging personal or supplier data. Confirm that `supplierSummary` contains the **Submitted**, **Active**, and **Declined** values visible when the message is sent.
+Open the browser developer tools and inspect the request constructed by the chat adapter without logging personal or supplier data. Confirm that `supplierSummary.Active` equals the visible **Active** card at the moment the message is sent.
 
-If the payload is present and the connector returns a response, the end-to-end integration is working; sample values and response wording can vary. Start a new conversation and retry the supplier-status question if the response omits the supplied context.
+If the payload is correct, repeat the exact JSON test in the Copilot Studio test pane and confirm that the published agent uses the latest instructions. Publish any corrected instructions, start a new app conversation, and repeat the count check. Don't use or publish an agent answer that conflicts with the deterministic dashboard count.
 
 ***
 
