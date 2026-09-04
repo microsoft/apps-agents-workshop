@@ -4,7 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Power Series hands-on Power Platform labs curated by Power CAT.">
+  <link rel="icon" href="assets/power-platform-logo.png">
   <title>Power Series Labs</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("theme");
+      const stored = localStorage.getItem("powerSeriesTheme");
+      const theme = ["light", "dark"].includes(param || stored) ? param || stored : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -29,6 +38,29 @@
       --ps-green: #107c10;
       --ps-danger: #b3261e;
     }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --ps-bg: #0c1430;
+      --ps-bg-elevated: #111b3d;
+      --ps-surface: #162245;
+      --ps-surface-soft: #1e2c54;
+      --ps-border: #2f4069;
+      --ps-border-strong: #6175a5;
+      --ps-text: #f5f7ff;
+      --ps-text-muted: #aebbd7;
+      --ps-text-soft: #c9d2e7;
+      --ps-accent: #55b7ff;
+      --ps-accent-hover: #7ac6ff;
+      --ps-accent-soft: rgba(85, 183, 255, 0.14);
+      --ps-accent-fg: #08112b;
+      --ps-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --ps-blue: #55b7ff;
+      --ps-purple: #aebbd7;
+      --ps-pink: #f871c5;
+      --ps-orange: #fbbf24;
+      --ps-green: #4ade80;
+      --ps-danger: #f87171;
+    }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -50,7 +82,7 @@
       align-items: center;
       gap: 28px;
       padding: 0 5vw;
-      background: rgba(255, 255, 255, 0.96);
+      background: color-mix(in srgb, var(--ps-surface) 96%, transparent);
       border-bottom: 1px solid var(--ps-border);
       box-shadow: 0 4px 18px rgba(42, 68, 111, 0.06);
     }
@@ -61,6 +93,11 @@
       text-decoration: none;
       font-size: 17px;
       font-weight: 600;
+    }
+    .brand-logo {
+      width: 220px;
+      height: auto;
+      object-fit: contain;
     }
     .brand strong { color: var(--ps-accent); font-weight: 750; }
     nav {
@@ -75,13 +112,45 @@
       text-decoration: none;
     }
     nav a:hover { color: var(--ps-text); }
-    .power-cat {
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--ps-border);
+      border-radius: 0.625rem;
+      background: var(--ps-surface);
+    }
+    .theme-choice {
+      min-height: 28px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 0.5rem;
+      background: transparent;
       color: var(--ps-text-muted);
       font-size: 12px;
-      font-weight: 750;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-weight: 650;
     }
+    .theme-choice[aria-pressed="true"] {
+      background: var(--ps-accent);
+      color: var(--ps-accent-fg);
+    }
+    .power-cat-lockup {
+      justify-self: end;
+      display: block;
+      width: 118px;
+      height: 46px;
+    }
+    .power-cat-lockup img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: right center;
+    }
+    .theme-dark-only { display: none !important; }
+    html[data-theme="dark"] .theme-light-only { display: none !important; }
+    html[data-theme="dark"] .theme-dark-only { display: block !important; }
     main { overflow: hidden; }
     .hero {
       min-height: 520px;
@@ -175,6 +244,80 @@
       gap: 10px;
       margin-top: 28px;
     }
+    .toolbox-panel {
+      position: relative;
+      width: 100%;
+      min-height: 440px;
+      margin: auto;
+      overflow: hidden;
+      padding: 0;
+      background: var(--ps-bg);
+      border-bottom: 1px solid var(--ps-border);
+    }
+    .toolbox-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1280px;
+      min-height: 440px;
+      margin: auto;
+      padding: 36px 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .toolbox-visual {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 58%;
+      height: 100%;
+      object-fit: contain;
+      object-position: 0 center;
+    }
+    html[data-theme="dark"] .toolbox-visual {
+      width: 58%;
+      object-fit: cover;
+      object-position: 42% center;
+      transform: scale(1.08);
+      transform-origin: left center;
+    }
+    .toolbox-copy {
+      width: 48%;
+      max-width: 560px;
+      padding: 0;
+    }
+    .toolbox-copy h2 {
+      max-width: 420px;
+      margin: 0;
+      color: var(--ps-text);
+      font-size: clamp(24px, 2.4vw, 36px);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+    }
+    .toolbox-copy p {
+      max-width: 430px;
+      margin: 24px 0 0;
+      color: var(--ps-text-muted);
+      font-size: clamp(15px, 1.2vw, 18px);
+      line-height: 1.5;
+    }
+    .coming-soon {
+      display: block;
+      color: var(--ps-accent);
+      font-size: 9px;
+      font-weight: 750;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cta-with-badge {
+      flex-direction: column;
+      gap: 4px;
+      min-height: 52px;
+      line-height: 1.1;
+      cursor: default;
+    }
     .section {
       max-width: none;
       margin: auto;
@@ -232,8 +375,7 @@
       box-shadow: 0 8px 24px rgba(42, 68, 111, 0.06);
       transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
     }
-    button.need-card,
-    button.lab-card {
+    button.need-card {
       width: 100%;
       cursor: pointer;
     }
@@ -276,10 +418,59 @@
     }
     .catalog-controls {
       display: grid;
-      grid-template-columns: minmax(220px, 1fr) minmax(180px, 240px) auto;
+      grid-template-columns: minmax(220px, 1fr) minmax(180px, 280px) auto;
       gap: 12px;
       align-items: end;
       margin-bottom: 18px;
+    }
+    .catalog-browser {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.34fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .market-tabs {
+      display: grid;
+      gap: 10px;
+      position: sticky;
+      top: 96px;
+    }
+    .market-tab {
+      min-height: 54px;
+      padding: 10px 18px;
+      border: 1px solid var(--ps-border);
+      border-left: 4px solid transparent;
+      border-radius: 0.625rem;
+      background: var(--ps-surface);
+      color: var(--ps-text-muted);
+      font-size: 14px;
+      font-weight: 700;
+      text-align: left;
+      box-shadow: 0 8px 24px rgba(42, 68, 111, 0.05);
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+    .market-tab:hover {
+      transform: translateX(3px);
+      border-color: var(--ps-accent);
+      color: var(--ps-accent);
+      box-shadow: var(--ps-shadow);
+    }
+    .market-tab[aria-pressed="true"] {
+      background: var(--ps-accent-soft);
+      border-color: var(--ps-accent);
+      border-left-color: var(--ps-accent);
+      color: var(--ps-accent);
+    }
+    .skill-results { min-width: 0; }
+    .skill-results-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 16px;
+      color: var(--ps-text-muted);
+      font-size: 14px;
+      font-weight: 700;
     }
     .control label {
       display: block;
@@ -348,11 +539,27 @@
       color: var(--ps-accent);
     }
     .lab-link {
-      margin-top: auto;
-      padding-top: 14px;
+      border: 0;
+      background: transparent;
+      padding: 0;
       color: var(--ps-accent);
       font-size: 13px;
       font-weight: 700;
+      text-align: left;
+    }
+    .deck-link {
+      color: var(--ps-text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .deck-link:hover { color: var(--ps-accent); }
+    .lab-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: auto;
+      padding-top: 14px;
     }
     .reader {
       display: none;
@@ -383,6 +590,13 @@
       flex-wrap: wrap;
       justify-content: flex-end;
     }
+    .reader-actions .primary-action,
+    .reader-actions .secondary-action {
+      min-width: 142px;
+      min-height: 42px;
+      padding: 0 14px;
+      font-size: 14px;
+    }
     .markdown {
       max-width: 940px;
       color: var(--ps-text);
@@ -391,7 +605,10 @@
     }
     .markdown h1,
     .markdown h2,
-    .markdown h3 {
+    .markdown h3,
+    .markdown h4,
+    .markdown h5,
+    .markdown h6 {
       color: var(--ps-text);
       line-height: 1.15;
     }
@@ -403,8 +620,25 @@
       font-size: 30px;
     }
     .markdown h3 { margin-top: 28px; font-size: 22px; }
+    .markdown h4 { margin-top: 24px; font-size: 19px; }
+    .markdown h5,
+    .markdown h6 {
+      margin-top: 20px;
+      color: var(--ps-accent);
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
     .markdown p,
     .markdown li { color: var(--ps-text-muted); }
+    .markdown blockquote {
+      margin: 20px 0;
+      padding: 14px 18px;
+      background: var(--ps-accent-soft);
+      border-left: 4px solid var(--ps-accent);
+      border-radius: 0.625rem;
+    }
+    .markdown blockquote p { margin: 0; }
     .markdown table {
       width: 100%;
       border-collapse: collapse;
@@ -436,12 +670,34 @@
       box-shadow: 0 8px 24px rgba(42, 68, 111, 0.06);
     }
     .site-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
       padding: 28px 5vw;
       color: var(--ps-text-muted);
       border-top: 1px solid var(--ps-border);
-      text-align: center;
       font-size: 13px;
     }
+    .microsoft-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ps-text);
+      font-weight: 600;
+    }
+    .microsoft-mark {
+      display: grid;
+      grid-template-columns: repeat(2, 10px);
+      grid-template-rows: repeat(2, 10px);
+      gap: 2px;
+      width: 22px;
+      height: 22px;
+    }
+    .microsoft-mark i:nth-child(1) { background: #f25022; }
+    .microsoft-mark i:nth-child(2) { background: #7fba00; }
+    .microsoft-mark i:nth-child(3) { background: #00a4ef; }
+    .microsoft-mark i:nth-child(4) { background: #ffb900; }
     @media (max-width: 760px) {
       .site-header,
       .section-heading,
@@ -449,33 +705,81 @@
       .reader-header {
         display: block;
       }
-      nav { justify-content: start; margin-top: 12px; }
+      nav { justify-content: start; margin-top: 12px; flex-wrap: wrap; }
+      .power-cat-lockup { margin-top: 12px; }
       .hero h1 { align-items: flex-start; font-size: 42px; }
       .catalog-controls { grid-template-columns: 1fr; }
+      .catalog-browser { grid-template-columns: 1fr; }
+      .toolbox-panel { min-height: 760px; }
+      .toolbox-inner {
+        min-height: auto;
+        padding-top: 56px;
+        padding-bottom: 430px;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+      .toolbox-visual {
+        top: 300px;
+        width: 100%;
+        height: 430px;
+        object-position: 35% center;
+      }
+      .toolbox-copy {
+        width: 100%;
+        padding: 0;
+      }
+      .market-tabs {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .market-tab { flex: 0 0 min(280px, 78vw); }
       .reader-actions { justify-content: flex-start; margin-top: 16px; }
+      .site-footer { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="./index.html" aria-label="Power Series Labs home">Power Platform <strong>Power Series</strong></a>
+    <a class="brand" href="./index.html" aria-label="Power Series Labs home">
+      <img class="brand-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
+    </a>
     <nav aria-label="Primary navigation">
       <a href="#needs">Business needs</a>
       <a href="#labs">Labs</a>
       <a href="../README.md">Repository</a>
+      <div class="theme-switch" aria-label="Theme">
+        <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button class="theme-choice" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      </div>
     </nav>
-    <div class="power-cat">Power CAT</div>
+    <div class="power-cat-lockup">
+      <img class="theme-light-only" src="assets/power-cat-dark.png" alt="Power CAT">
+      <img class="theme-dark-only" src="assets/power-cat-light.png" alt="Power CAT">
+    </div>
   </header>
 
   <main id="top">
     <section class="hero" aria-labelledby="hero-title">
-      <h1 id="hero-title"><span class="series-mark" aria-hidden="true"><i></i><i></i><i></i></span>Let your business need shape the solution.</h1>
+      <h1 id="hero-title"><span class="series-mark" aria-hidden="true"><i></i><i></i><i></i></span>Power Series</h1>
       <p class="catalog-line"><span>Learn Faster.</span> <span>Build Smarter.</span> <span>Apply with Confidence.</span></p>
-      <h2>Hands-on Power Platform labs curated by Power CAT.</h2>
-      <p class="hero-copy">Explore how Power Platform can help you build applications, automate work, manage business data, and create intelligent experiences. Start with the business need, then choose the guided lab that helps you build the right solution.</p>
+      <h2>Let your business need shape the solution.</h2>
+      <p class="hero-copy">Get hands-on with Power Platform and learn to design the right solution for any business process. Run a track end to end, or choose the modules that fit your scenario, audience and skill level.</p>
       <div class="hero-actions">
         <a class="primary-action" href="#needs">Explore labs <span aria-hidden="true">↓</span></a>
-        <a class="secondary-action" href="https://vibehub.microsoft.com/app/ravi-chada-b91pg1">Get Solution Guidance <span aria-hidden="true">↗</span></a>
+        <span class="secondary-action cta-with-badge" role="button" aria-disabled="true"><sup class="coming-soon">Coming soon</sup><span>Get Solution Guidance</span></span>
+      </div>
+    </section>
+
+    <section class="toolbox-panel" aria-label="Power Platform toolbox">
+      <div class="toolbox-inner">
+        <img class="toolbox-visual theme-light-only" src="assets/infinity-panel-crop-transparent.png" alt="">
+        <img class="toolbox-visual theme-dark-only" src="assets/Leon_imagery_Dark.png" alt="">
+        <div class="toolbox-copy">
+          <h2>One toolbox. So you have the right tool, every time.</h2>
+          <p>Power Platform brings apps, automation, agents and data together in one governed toolbox. Each tool has a distinct role, and together they adapt to your context and constraints to meet the needs of every audience and level of complexity.</p>
+        </div>
       </div>
     </section>
 
@@ -485,7 +789,7 @@
           <p class="eyebrow">Start with the outcome</p>
           <h2 id="needs-title">What do you need to accomplish?</h2>
         </div>
-        <p>Labs can support more than one business need. Choose a path to see the relevant catalog, then open a lab to read it in-page.</p>
+        <p>Labs can support more than one business need. Choose a path to see the relevant catalog, then open a lab in a fully rendered page.</p>
       </div>
       <div class="needs-grid" id="need-grid" aria-label="Filter labs by business need"></div>
     </section>
@@ -498,25 +802,16 @@
         </div>
         <p class="result-count" id="result-count"></p>
       </div>
-      <div class="catalog-controls">
-        <div class="control">
-          <label for="search">Search labs</label>
-          <input id="search" type="search" placeholder="Search by title, tag, or description">
+      <div class="catalog-browser">
+        <div class="market-tabs" id="market-tabs" aria-label="Filter labs by business need"></div>
+        <div class="skill-results">
+          <div class="skill-results-title">
+            <span id="skill-results-label">All Power Series labs</span>
+            <span id="skill-results-count"></span>
+          </div>
+          <div class="lab-grid" id="lab-grid" aria-live="polite"></div>
         </div>
-        <div class="control">
-          <label for="capability">Capability</label>
-          <select id="capability">
-            <option value="all">All capabilities</option>
-            <option value="apps">Apps</option>
-            <option value="automation">Automation</option>
-            <option value="agents">Agents</option>
-            <option value="data">Data</option>
-            <option value="governance">Governance</option>
-          </select>
-        </div>
-        <button class="clear-button" type="button" id="clear">Clear filters</button>
       </div>
-      <div class="lab-grid" id="lab-grid" aria-live="polite"></div>
     </section>
 
     <section class="reader" id="reader" aria-labelledby="reader-title">
@@ -527,7 +822,7 @@
             <h2 id="reader-title">Select a lab</h2>
           </div>
           <div class="reader-actions">
-            <a class="secondary-action" id="raw-link" href="#" target="_blank" rel="noopener">Open markdown <span aria-hidden="true">↗</span></a>
+            <a class="secondary-action" id="raw-link" href="#" target="_blank" rel="noopener">Open in repo</a>
             <button class="primary-action" type="button" id="close-reader">Back to catalog</button>
           </div>
         </div>
@@ -536,64 +831,206 @@
     </section>
   </main>
 
-  <footer class="site-footer">Power CAT · Power Series Labs · microsoft/apps-agents-workshop</footer>
+  <footer class="site-footer">
+    <div class="microsoft-brand"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</div>
+    <div>Power CAT · Power Series Labs · microsoft/apps-agents-workshop</div>
+  </footer>
 
   <script>
-    const needs = [
+    const knownNeeds = [
       { id: "digitize-internal-operations", title: "Digitize internal operations", description: "Replace manual work with focused apps and connected data." },
       { id: "automate-workflows-and-processes", title: "Automate workflows and processes", description: "Reduce repetitive work with automation, approvals, RPA, and agent workflows." },
       { id: "improve-customer-interactions", title: "Improve customer interactions", description: "Create secure app and portal experiences for customers, partners, and communities." },
       { id: "modernize-existing-applications", title: "Modernize existing applications", description: "Evolve legacy solutions with modern apps, automation, and AI." },
       { id: "strengthen-governance-and-security", title: "Strengthen governance and security", description: "Apply guardrails, visibility, and control across the platform." },
-      { id: "solution-guidance", title: "Explore Solution Guidance", description: "Move from a business requirement to a suitable Power Platform architecture." }
+      { id: "solution-guidance", title: "Explore Solution Guidance", description: "Move from a business requirement to a suitable Power Platform architecture." },
+      { id: "skills-marketplace", title: "Explore Skills Marketplace", description: "Find Power CAT skills for assessment, design, migration, review, and documentation.", url: "https://microsoft.github.io/power-cat-skills/power-platform-migration-factory/index.html#tracks" }
     ];
 
-    const labs = [
-      { title: "Workshop prerequisites", path: "prereqs.md", level: "Start", duration: "Setup", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Prepare the environment, sample data, and tooling used across the Power Series labs." },
-      { title: "Automation foundations", path: "automations-foundation/README.md", level: "100", duration: "Module", capability: "automation", tags: ["automate-workflows-and-processes"], description: "Automate the Northwind order lifecycle across cloud flows, RPA, agent workflows, and computer use." },
-      { title: "Module 1: Cloud Flow", path: "automations-foundation/01-cloud-flow.md", level: "100", duration: "Lab", capability: "automation", tags: ["automate-workflows-and-processes"], description: "Build a cloud flow that routes new orders through approvals and creates invoices in Dataverse." },
-      { title: "Module 2: RPA", path: "automations-foundation/02-rpa.md", level: "100", duration: "Lab", capability: "automation", tags: ["automate-workflows-and-processes", "modernize-existing-applications"], description: "Use Power Automate for desktop to bridge legacy order files into the governed process." },
-      { title: "Module 3: Workflows", path: "automations-foundation/03-workflow.md", level: "100", duration: "Lab", capability: "agents", tags: ["automate-workflows-and-processes"], description: "Build deterministic workflows that agents can call safely during a conversation." },
-      { title: "Module 4: Computer Use Agent", path: "automations-foundation/04-cua.md", level: "100", duration: "Lab", capability: "agents", tags: ["automate-workflows-and-processes"], description: "Use computer use when no connector or API is available." },
-      { title: "Building code first apps in Power Platform", path: "byoc-powerapps/byoc-powerapps.md", level: "200", duration: "40 minutes", capability: "apps", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Build a code app that connects to Dataverse and supports supplier onboarding." },
-      { title: "Building Power Pages experiences", path: "byoc-powerpages/byoc-powerpages.md", level: "200", duration: "Lab", capability: "apps", tags: ["improve-customer-interactions", "modernize-existing-applications"], description: "Create external-facing experiences with Power Pages." },
-      { title: "Canvas Apps and Dataverse MCP", path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md", level: "200", duration: "Lab", capability: "apps", tags: ["digitize-internal-operations"], description: "Use MCP-backed tools while building canvas apps and Dataverse solutions." },
-      { title: "Dataverse business skills", path: "dataverse-business-skills/dataverse-business-skills.md", level: "200", duration: "Lab", capability: "data", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Center app development on governed business data and reusable skills." },
-      { title: "Generative pages with GitHub Copilot", path: "generative-pages/generative-pages-github-copilot.md", level: "200", duration: "Lab", capability: "apps", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Use Copilot-assisted development to create generative Power Platform pages." },
-      { title: "In-app agents", path: "in-app-agents/in-app-agents.md", level: "100", duration: "30 minutes", capability: "agents", tags: ["modernize-existing-applications"], description: "Bring natural-language queries, generated charts, form fill, and summaries into model-driven apps." },
-      { title: "Managed governance: environment strategy", path: "managed-platform/managed-governance/environment-strategy-and-governance/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Configure managed environments, policies, sharing limits, maker welcome, routing, and pipelines." },
-      { title: "Managed governance: inventory and monitoring", path: "managed-platform/managed-governance/inventory-and-monitoring/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Review inventory, usage, logs, alerts, and monitoring across Power Platform assets." },
-      { title: "Managed security", path: "managed-platform/managed-security/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Explore managed security controls for enterprise Power Platform environments." },
-      { title: "IP firewall", path: "managed-platform/managed-security/ip-firewall/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Configure and validate IP firewall behavior for end users." },
-      { title: "IP cookie binding", path: "managed-platform/managed-security/ip-cookie-binding/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Enable IP cookie binding and understand the user experience." },
-      { title: "Customer-managed keys", path: "managed-platform/managed-security/cmk/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Prepare Key Vault, create enterprise policy, grant access, and apply policy to an environment." },
-      { title: "MCP apps", path: "mcp-apps/mcp-apps.md", level: "200", duration: "Lab", capability: "agents", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Enable richer app-building workflows with MCP-connected app development." },
-      { title: "Power Apps MCP server agents and agent feed", path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", level: "200", duration: "Lab", capability: "agents", tags: ["modernize-existing-applications"], description: "Use Power Apps MCP server capabilities with agents and agent feed." }
+    const fallbackLabSources = [
+      { path: "automations-foundation/01-cloud-flow.md", deck: "automations-foundation/01-Power Series - Automation Foundation_Cloud Flows.pptx" },
+      { path: "automations-foundation/02-rpa.md", deck: "automations-foundation/02-Power Series - Automation Foundation_RPA.pptx" },
+      { path: "automations-foundation/03-workflow.md", deck: "automations-foundation/03-Power Series - Automation Foundation_Workflows.pptx" },
+      { path: "automations-foundation/04-cua.md", deck: "automations-foundation/04-Power Series - Automation Foundation_CUA.pptx" },
+      { path: "byoc-powerapps/byoc-powerapps.md", deck: "byoc-powerapps/Power Series - Code apps.pptx" },
+      { path: "byoc-powerpages/byoc-powerpages.md", deck: "byoc-powerpages/Power Series - BYOC Power Pages.pptx" },
+      { path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md", deck: "canvas-apps-dataverse-mcp/Power Series - Canvas Apps & Dataverse MCP.pptx" },
+      { path: "dataverse-business-skills/dataverse-business-skills.md" },
+      { path: "generative-pages/generative-pages-github-copilot.md", deck: "generative-pages/Power Series - Generative Pages.pptx" },
+      { path: "in-app-agents/in-app-agents.md", deck: "in-app-agents/Power Series - In-app agents.pptx" },
+      { path: "managed-platform/managed-governance/environment-strategy-and-governance/README.md" },
+      { path: "managed-platform/managed-governance/inventory-and-monitoring/README.md" },
+      { path: "managed-platform/managed-security/README.md" },
+      { path: "mcp-apps/mcp-apps.md", deck: "mcp-apps/Power Series - MCP Apps in Power Apps.pptx" },
+      { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", deck: "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx" }
     ];
+    const repo = "microsoft/apps-agents-workshop";
+    const branch = new URLSearchParams(window.location.search).get("branch") || "main";
+    let labs = [];
+    let needs = knownNeeds;
 
     const needGrid = document.querySelector("#need-grid");
     const labGrid = document.querySelector("#lab-grid");
     const resultCount = document.querySelector("#result-count");
-    const search = document.querySelector("#search");
-    const capability = document.querySelector("#capability");
-    const clear = document.querySelector("#clear");
+    const marketTabs = document.querySelector("#market-tabs");
+    const skillResultsLabel = document.querySelector("#skill-results-label");
+    const skillResultsCount = document.querySelector("#skill-results-count");
     const reader = document.querySelector("#reader");
     const readerTitle = document.querySelector("#reader-title");
     const markdown = document.querySelector("#markdown");
     const rawLink = document.querySelector("#raw-link");
     const closeReader = document.querySelector("#close-reader");
+    const themeChoices = document.querySelectorAll("[data-theme-choice]");
     let activeNeed = "all";
 
     function labelFromTag(tag) {
       return tag.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
     }
 
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("powerSeriesTheme", theme);
+      themeChoices.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.themeChoice === theme));
+      });
+    }
+
+    function repoUrl(path) {
+      return `https://github.com/microsoft/apps-agents-workshop/blob/main/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
+    }
+
+    function parseFrontMatter(source) {
+      const match = source.match(/^---\s*([\s\S]*?)\s*---/);
+      if (!match) return null;
+      const fields = {};
+      match[1].split(/\r?\n/).forEach(line => {
+        const item = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (!item) return;
+        const key = item[1];
+        let value = item[2].trim();
+        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+          value = value.slice(1, -1);
+        }
+        if (value.startsWith("[") && value.endsWith("]")) {
+          value = value.slice(1, -1).split(",").map(part => part.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
+        }
+        fields[key] = value;
+      });
+      return fields;
+    }
+
+    function hasRequiredFrontMatter(metadata) {
+      return ["title", "level", "description", "persona", "tags"].every(field => metadata?.[field]) && (metadata.estimated_duration || metadata.duration);
+    }
+
+    function dirname(path) {
+      return path.split("/").slice(0, -1).join("/");
+    }
+
+    function basename(path) {
+      return path.split("/").pop();
+    }
+
+    function bestDeckForLab(path, decks) {
+      const folder = dirname(path);
+      const folderDecks = decks.filter(deck => dirname(deck) === folder).sort((a, b) => a.localeCompare(b));
+      if (folderDecks.length <= 1) return folderDecks[0];
+      const prefix = basename(path).match(/^\d+/)?.[0];
+      if (prefix) {
+        const matchingPrefix = folderDecks.find(deck => basename(deck).startsWith(prefix));
+        if (matchingPrefix) return matchingPrefix;
+      }
+      return folderDecks[0];
+    }
+
+    async function discoverLabSources() {
+      const localPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+      if (localPreview) return fallbackLabSources;
+
+      const response = await fetch(`https://api.github.com/repos/${repo}/git/trees/${encodeURIComponent(branch)}?recursive=1`);
+      if (!response.ok) return fallbackLabSources;
+
+      const data = await response.json();
+      const files = data.tree
+        .filter(item => item.type === "blob" && item.path.startsWith("labs/"))
+        .map(item => item.path.replace(/^labs\//, ""));
+      const markdownFiles = files.filter(path => /\.md$/i.test(path));
+      const decks = files.filter(path => /\.pptx?$/i.test(path));
+      return markdownFiles.map(path => ({ path, deck: bestDeckForLab(path, decks) }));
+    }
+
+    function buildNeedsFromLabs() {
+      const knownById = new Map(knownNeeds.map(need => [need.id, need]));
+      const tagIds = [...new Set(labs.flatMap(lab => lab.tags))].sort((a, b) => labelFromTag(a).localeCompare(labelFromTag(b)));
+      needs = tagIds.map(id => knownById.get(id) || {
+        id,
+        title: labelFromTag(id),
+        description: `Explore labs tagged ${labelFromTag(id)}.`
+      });
+      needs.push(...knownNeeds.filter(need => need.id === "solution-guidance" || need.url));
+    }
+
+    async function loadCatalogMetadata() {
+      const sources = await discoverLabSources();
+      const entries = await Promise.all(sources.map(async source => {
+        const response = await fetch(source.path);
+        if (!response.ok) throw new Error(`Unable to load ${source.path}`);
+        const metadata = parseFrontMatter(await response.text());
+        if (!hasRequiredFrontMatter(metadata)) return null;
+        return {
+          title: metadata.title,
+          path: source.path,
+          level: String(metadata.level),
+          duration: metadata.estimated_duration || metadata.duration,
+          persona: metadata.persona,
+          tags: Array.isArray(metadata.tags) ? metadata.tags : [],
+          description: metadata.description,
+          deck: source.deck
+        };
+      }));
+      labs = entries.filter(Boolean);
+      buildNeedsFromLabs();
+    }
+
+    function normalize(value) {
+      return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function catalogFilters() {
+      return [
+        { id: "all", title: "All" },
+        ...needs.filter(need => need.id !== "solution-guidance" && !need.url)
+      ];
+    }
+
+    function renderCatalogTabs() {
+      marketTabs.innerHTML = catalogFilters().map(filter => `
+        <button class="market-tab" type="button" data-need="${filter.id}" aria-pressed="${activeNeed === filter.id}">
+          ${filter.title}
+        </button>
+      `).join("");
+      marketTabs.querySelectorAll("[data-need]").forEach(button => {
+        button.addEventListener("click", () => {
+          activeNeed = button.dataset.need;
+          renderNeeds();
+          renderCatalogTabs();
+          renderLabs();
+        });
+      });
+    }
+
     function renderNeeds() {
-      needGrid.innerHTML = needs.map(need => `
+      needGrid.innerHTML = needs.map(need => need.url ? `
+        <a class="need-card" href="${need.url}" target="_blank" rel="noopener">
+          <strong>${need.title}</strong>
+          <span>${need.description}</span>
+          <small>Open marketplace</small>
+        </a>
+      ` : `
         <button class="need-card" type="button" data-need="${need.id}" aria-pressed="${activeNeed === need.id}">
           <strong>${need.title}</strong>
           <span>${need.description}</span>
-          <small>${need.id === "solution-guidance" ? "Open guidance" : "Explore labs"}</small>
+          <small>${need.id === "solution-guidance" ? "Coming soon" : "Explore labs"}</small>
         </button>
       `).join("");
       needGrid.querySelectorAll("[data-need]").forEach(button => {
@@ -601,6 +1038,7 @@
           const selected = button.dataset.need;
           activeNeed = activeNeed === selected ? "all" : selected;
           renderNeeds();
+          renderCatalogTabs();
           renderLabs();
           document.querySelector("#labs").scrollIntoView({ behavior: "smooth", block: "start" });
         });
@@ -608,29 +1046,29 @@
     }
 
     function labMatches(lab) {
-      const text = `${lab.title} ${lab.description} ${lab.tags.join(" ")} ${lab.capability}`.toLowerCase();
-      const query = search.value.trim().toLowerCase();
-      const matchesSearch = !query || text.includes(query);
-      const matchesNeed = activeNeed === "all" || lab.tags.includes(activeNeed);
-      const matchesCapability = capability.value === "all" || lab.capability === capability.value;
-      return matchesSearch && matchesNeed && matchesCapability;
+      return activeNeed === "all" || lab.tags.includes(activeNeed);
     }
 
     function renderLabs() {
       const visible = labs.filter(labMatches);
       resultCount.textContent = `${visible.length} of ${labs.length} labs`;
+      const selectedFilter = catalogFilters().find(filter => filter.id === activeNeed);
+      skillResultsLabel.textContent = activeNeed === "all" ? "All Power Series labs" : selectedFilter.title;
+      skillResultsCount.textContent = `${visible.length} ${visible.length === 1 ? "lab" : "labs"}`;
       labGrid.innerHTML = visible.map(lab => `
-        <button class="lab-card" type="button" data-path="${lab.path}">
+        <article class="lab-card">
           <div class="lab-meta">
-            <span class="pill pill-accent">${lab.capability}</span>
+            <span class="pill pill-accent">${lab.persona}</span>
             <span class="pill">Level ${lab.level}</span>
             <span class="pill">${lab.duration}</span>
           </div>
           <h3>${lab.title}</h3>
           <p>${lab.description}</p>
-          <div class="tags">${lab.tags.map(tag => `<span class="pill">${labelFromTag(tag)}</span>`).join("")}</div>
-          <span class="lab-link">View lab details -></span>
-        </button>
+          <div class="lab-actions">
+            <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" target="_blank" rel="noopener">Lab</a>
+            ${lab.deck ? `<a class="deck-link" href="${lab.deck}" target="_blank" rel="noopener">Presentation</a>` : ""}
+          </div>
+        </article>
       `).join("");
       labGrid.querySelectorAll("[data-path]").forEach(button => {
         button.addEventListener("click", () => openLab(button.dataset.path));
@@ -647,43 +1085,147 @@
       }[char]));
     }
 
+    function resolveMarkdownUrl(url, basePath) {
+      if (/^(https?:|mailto:|#|\/)/.test(url)) return url;
+      return `${basePath}/${url}`;
+    }
+
+    function renderInlineMarkdown(value, basePath) {
+      return escapeHtml(value)
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+          const resolved = resolveMarkdownUrl(src, basePath);
+          return `<img src="${resolved}" alt="${alt}">`;
+        })
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+          const resolved = resolveMarkdownUrl(href, basePath);
+          return `<a href="${resolved}" target="_blank" rel="noopener">${label}</a>`;
+        })
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/`([^`]+)`/g, "<code>$1</code>");
+    }
+
     function renderMarkdown(source, basePath) {
-      let text = source.replace(/^---[\s\S]*?---\s*/, "");
-      text = escapeHtml(text);
-      text = text.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${code.trim()}</code></pre>`);
-      text = text.replace(/^### (.*)$/gm, "<h3>$1</h3>");
-      text = text.replace(/^## (.*)$/gm, "<h2>$1</h2>");
-      text = text.replace(/^# (.*)$/gm, "<h1>$1</h1>");
-      text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
-        const resolved = src.startsWith("http") || src.startsWith("/") ? src : `${basePath}/${src}`;
-        return `<img src="${resolved}" alt="${alt}">`;
-      });
-      text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-      text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-      text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
-      const blocks = text.split(/\n{2,}/).map(block => {
-        const trimmed = block.trim();
-        if (!trimmed) return "";
-        if (/^<h[1-3]|^<pre|^<img|^<table/.test(trimmed)) return trimmed;
-        if (/^\|/.test(trimmed)) return renderTable(trimmed);
-        if (/^[-*] /.test(trimmed)) {
-          return `<ul>${trimmed.split("\n").map(line => `<li>${line.replace(/^[-*] /, "")}</li>`).join("")}</ul>`;
+      const lines = source.replace(/^---[\s\S]*?---\s*/, "").split(/\r?\n/);
+      const blocks = [];
+      let paragraph = [];
+      let code = [];
+      let inCode = false;
+      let table = [];
+      let list = [];
+      let listType = "";
+      let quote = [];
+
+      function flushParagraph() {
+        if (!paragraph.length) return;
+        blocks.push(`<p>${renderInlineMarkdown(paragraph.join(" "), basePath)}</p>`);
+        paragraph = [];
+      }
+
+      function flushTable() {
+        if (!table.length) return;
+        blocks.push(renderTable(table.join("\n"), basePath));
+        table = [];
+      }
+
+      function flushList() {
+        if (!list.length) return;
+        const tag = listType === "ol" ? "ol" : "ul";
+        blocks.push(`<${tag}>${list.map(item => `<li>${renderInlineMarkdown(item, basePath)}</li>`).join("")}</${tag}>`);
+        list = [];
+        listType = "";
+      }
+
+      function flushQuote() {
+        if (!quote.length) return;
+        blocks.push(`<blockquote><p>${renderInlineMarkdown(quote.join("<br>"), basePath)}</p></blockquote>`);
+        quote = [];
+      }
+
+      function flushAll() {
+        flushParagraph();
+        flushTable();
+        flushList();
+        flushQuote();
+      }
+
+      for (const line of lines) {
+        if (/^```/.test(line)) {
+          if (inCode) {
+            blocks.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+            code = [];
+            inCode = false;
+          } else {
+            flushAll();
+            inCode = true;
+          }
+          continue;
         }
-        if (/^\d+\. /.test(trimmed)) {
-          return `<ol>${trimmed.split("\n").map(line => `<li>${line.replace(/^\d+\. /, "")}</li>`).join("")}</ol>`;
+
+        if (inCode) {
+          code.push(line);
+          continue;
         }
-        return `<p>${trimmed.replace(/\n/g, "<br>")}</p>`;
-      });
+
+        if (!line.trim()) {
+          flushAll();
+          continue;
+        }
+
+        const heading = line.match(/^(#{1,6})\s+(.+)$/);
+        if (heading) {
+          flushAll();
+          const level = heading[1].length;
+          blocks.push(`<h${level}>${renderInlineMarkdown(heading[2], basePath)}</h${level}>`);
+          continue;
+        }
+
+        if (/^\|/.test(line)) {
+          flushParagraph();
+          flushList();
+          flushQuote();
+          table.push(line);
+          continue;
+        }
+
+        const unordered = line.match(/^\s*[-*]\s+(.+)$/);
+        const ordered = line.match(/^\s*\d+\.\s+(.+)$/);
+        if (unordered || ordered) {
+          flushParagraph();
+          flushTable();
+          flushQuote();
+          const type = ordered ? "ol" : "ul";
+          if (listType && listType !== type) flushList();
+          listType = type;
+          list.push((ordered || unordered)[1]);
+          continue;
+        }
+
+        const quoted = line.match(/^>\s?(.*)$/);
+        if (quoted) {
+          flushParagraph();
+          flushTable();
+          flushList();
+          quote.push(quoted[1]);
+          continue;
+        }
+
+        flushTable();
+        flushList();
+        flushQuote();
+        paragraph.push(line.trim());
+      }
+
+      flushAll();
       return blocks.join("\n");
     }
 
-    function renderTable(markdownTable) {
+    function renderTable(markdownTable, basePath) {
       const rows = markdownTable.split("\n").filter(row => row.includes("|"));
       const cleanRows = rows.filter(row => !/^\|\s*-/.test(row));
       return `<table>${cleanRows.map((row, index) => {
         const cells = row.replace(/^\||\|$/g, "").split("|").map(cell => cell.trim());
         const tag = index === 0 ? "th" : "td";
-        return `<tr>${cells.map(cell => `<${tag}>${cell}</${tag}>`).join("")}</tr>`;
+        return `<tr>${cells.map(cell => `<${tag}>${renderInlineMarkdown(cell, basePath)}</${tag}>`).join("")}</tr>`;
       }).join("")}</table>`;
     }
 
@@ -692,7 +1234,7 @@
       if (!lab) return;
       reader.dataset.open = "true";
       readerTitle.textContent = lab.title;
-      rawLink.href = path;
+      rawLink.href = repoUrl(path);
       markdown.innerHTML = "<p>Loading lab content...</p>";
       location.hash = "reader";
       try {
@@ -710,18 +1252,15 @@
       reader.dataset.open = "false";
       document.querySelector("#labs").scrollIntoView({ behavior: "smooth", block: "start" });
     });
-    search.addEventListener("input", renderLabs);
-    capability.addEventListener("change", renderLabs);
-    clear.addEventListener("click", () => {
-      search.value = "";
-      capability.value = "all";
-      activeNeed = "all";
+    loadCatalogMetadata().then(() => {
+      setTheme(document.documentElement.getAttribute("data-theme") || "light");
+      themeChoices.forEach(button => button.addEventListener("click", () => setTheme(button.dataset.themeChoice)));
+      renderCatalogTabs();
       renderNeeds();
       renderLabs();
+    }).catch(error => {
+      resultCount.textContent = error.message;
     });
-
-    renderNeeds();
-    renderLabs();
   </script>
 </body>
 </html>
