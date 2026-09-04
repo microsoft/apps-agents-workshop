@@ -7,7 +7,7 @@ tags: [strengthen-governance-and-security]
 author: "Power CAT"
 last_updated: "2026-08-10"
 version: "1.0"
-decription: "Build guardrails for your environment group, turning ungoverned sprawl into a place where makers can move fast while risk stays contained."
+description: "Build guardrails for your environment group, turning ungoverned sprawl into a place where makers can move fast while risk stays contained."
 ---
 
 
