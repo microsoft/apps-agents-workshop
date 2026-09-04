@@ -8,7 +8,7 @@ author: "Anshul Gupta / Power CAT"
 last_updated: "2026-08-14"
 version: "v1.0"
 tags: [digitize-internal-operations, modernize-existing-applications]
-
+description: "Build an interactive MCP app that lets your users browse, update, and visualize Dataverse records in conversation."
 ---
 
 

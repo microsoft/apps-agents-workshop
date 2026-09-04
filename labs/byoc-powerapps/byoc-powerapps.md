@@ -8,6 +8,7 @@ author: "Christopher Moncayo"
 last_updated: "2026-08-25"
 version: "v1.0"
 tags: [digitize-internal-operations, modernize-existing-applications]
+description: "Generate a custom code app, connect it to Dataverse, and extend it with GitHub Copilot."
 
 ---
 

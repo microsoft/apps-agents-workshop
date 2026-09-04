@@ -8,6 +8,7 @@ author: "Power CAT"
 last_updated: "2026-08-14"
 version: "v1.0"
 tags: [digitize-internal-operations, modernize-existing-applications]
+description: "Automate repetitive app tasks, with human review and approval through the new task-centric enhanced agent feed."
 
 ---
 

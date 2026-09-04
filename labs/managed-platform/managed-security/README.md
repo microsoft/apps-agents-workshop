@@ -7,6 +7,7 @@ tags: [strengthen-governance-and-security]
 author: "Power CAT"
 last_updated: "2026-08-10"
 version: "1.0"
+description: "Secure your Power Platform environment layer by layer."
 ---
 
 # Managed security

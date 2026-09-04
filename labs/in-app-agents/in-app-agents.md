@@ -7,7 +7,7 @@ author: "Power CAT"
 last_updated: "2026-03-04"
 version: "v5"
 tags: [modernize-existing-applications]
-
+description: "Add focused agents inside Power Apps to support users with contextual data, guidance, and task completion."
 ---
 
 **Power CAT | The Intelligent Enterprise - Power Platform & AI for Frontier Firms**

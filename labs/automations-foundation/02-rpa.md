@@ -6,6 +6,7 @@ estimated_duration: "60 minutes"
 tags: [automate-workflows-and-processes]
 author: "Power CAT"
 last_updated: "2026-08-24"
+description: "Use robotic process automation (RPA) to automate legacy systems with prebuilt or custom user-interface actions."
 ---
 
 

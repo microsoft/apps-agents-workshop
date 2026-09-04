@@ -6,6 +6,7 @@ estimated_duration: "45 minutes"
 tags: [automate-workflows-and-processes]
 author: "Power CAT"
 last_updated: "2026-08-24"
+description: "Build an automated approval process using a Power Automate cloud flow."
 ---
 
 
