@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Power Series hands-on Power Platform labs curated by Power CAT.">
+  <title>Power Series Labs</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ps-bg: #fbf8ff;
+      --ps-bg-elevated: #f3ecfa;
+      --ps-surface: #ffffff;
+      --ps-surface-soft: #f1e9f7;
+      --ps-border: #ded0ec;
+      --ps-border-strong: #8d57ad;
+      --ps-text: #22182f;
+      --ps-text-muted: #63596e;
+      --ps-text-soft: #7c7288;
+      --ps-accent: #6b3a8f;
+      --ps-accent-hover: #572876;
+      --ps-accent-soft: rgba(107, 58, 143, 0.14);
+      --ps-accent-fg: #ffffff;
+      --ps-shadow: 0 18px 46px rgba(107, 58, 143, 0.22);
+      --ps-blue: #0878d1;
+      --ps-purple: #8746d8;
+      --ps-pink: #d648b3;
+      --ps-orange: #ed9846;
+      --ps-green: #107c10;
+      --ps-danger: #b3261e;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--ps-bg);
+      color: var(--ps-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    button, select { cursor: pointer; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 28px;
+      padding: 0 5vw;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--ps-border);
+      box-shadow: 0 4px 18px rgba(42, 68, 111, 0.06);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .brand strong { color: var(--ps-accent); font-weight: 750; }
+    nav {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    nav a {
+      color: var(--ps-text-muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+    nav a:hover { color: var(--ps-text); }
+    .power-cat {
+      color: var(--ps-text-muted);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    main { overflow: hidden; }
+    .hero {
+      min-height: 520px;
+      padding: 64px max(5vw, calc((100vw - 1220px) / 2)) 76px;
+      background:
+        radial-gradient(700px 260px at 78% 25%, rgba(107, 58, 143, 0.16), transparent 68%),
+        var(--ps-bg-elevated);
+      border-bottom: 8px solid transparent;
+      border-image: linear-gradient(90deg, #6b3a8f, #8f4d9d 55%, #b36a93) 1;
+    }
+    .hero h1 {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      max-width: 1060px;
+      margin: 0;
+      color: var(--ps-text);
+      font-size: clamp(46px, 5vw, 68px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+    .series-mark {
+      position: relative;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      transform: rotate(45deg);
+    }
+    .series-mark i {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+    }
+    .series-mark i:nth-child(1) { top: 0; left: 0; background: #8a3fd1; }
+    .series-mark i:nth-child(2) { top: 0; right: 0; background: #d648b3; }
+    .series-mark i:nth-child(3) { right: 0; bottom: 0; background: #0878d1; }
+    .catalog-line {
+      margin: 36px 0 14px;
+      font-size: clamp(22px, 2.4vw, 32px);
+      line-height: 1.18;
+      font-weight: 600;
+    }
+    .catalog-line span:nth-child(1) { color: var(--ps-blue); }
+    .catalog-line span:nth-child(2) { color: var(--ps-purple); }
+    .catalog-line span:nth-child(3) { color: var(--ps-orange); }
+    .hero h2 {
+      margin: 0;
+      color: var(--ps-text);
+      font-size: clamp(18px, 1.45vw, 24px);
+      line-height: 1.28;
+    }
+    .hero-copy {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: var(--ps-text-muted);
+      font-size: clamp(17px, 1.35vw, 21px);
+      line-height: 1.48;
+    }
+    .primary-action,
+    .secondary-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 0.625rem;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .primary-action {
+      background: var(--ps-accent);
+      color: var(--ps-accent-fg);
+      border: 1px solid var(--ps-accent);
+    }
+    .primary-action:hover { background: var(--ps-accent-hover); }
+    .secondary-action {
+      background: var(--ps-surface);
+      color: var(--ps-text);
+      border: 1px solid var(--ps-border);
+    }
+    .secondary-action:hover {
+      border-color: var(--ps-accent);
+      color: var(--ps-accent);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .section {
+      max-width: none;
+      margin: auto;
+      padding: 88px 5vw;
+    }
+    .section > * {
+      max-width: 1180px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 48px;
+      margin-bottom: 28px;
+    }
+    .section-heading h2,
+    .catalog-heading h1 {
+      margin: 0;
+      font-size: 38px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--ps-accent);
+      font-size: 15px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+    .section-heading p,
+    .section-copy {
+      max-width: 460px;
+      margin: 0;
+      color: var(--ps-text-muted);
+      line-height: 1.6;
+    }
+    .needs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .need-card,
+    .lab-card {
+      min-height: 190px;
+      padding: 22px;
+      text-align: left;
+      text-decoration: none;
+      background: var(--ps-surface);
+      color: var(--ps-text);
+      border: 1px solid var(--ps-border);
+      border-top: 4px solid var(--ps-accent);
+      border-radius: 0.625rem;
+      box-shadow: 0 8px 24px rgba(42, 68, 111, 0.06);
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+    button.need-card,
+    button.lab-card {
+      width: 100%;
+      cursor: pointer;
+    }
+    .need-card:hover,
+    .need-card[aria-pressed="true"],
+    .lab-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--ps-accent);
+      box-shadow: var(--ps-shadow);
+    }
+    .need-card strong {
+      display: block;
+      max-width: 280px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+    .need-card span,
+    .lab-card p {
+      display: block;
+      margin-top: 12px;
+      color: var(--ps-text-muted);
+      line-height: 1.45;
+    }
+    .need-card small {
+      display: block;
+      margin-top: 24px;
+      color: var(--ps-accent);
+      font-weight: 700;
+    }
+    .catalog-section {
+      background: var(--ps-bg);
+      border-top: 1px solid var(--ps-border);
+    }
+    .catalog-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 48px;
+      margin-bottom: 24px;
+    }
+    .catalog-controls {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(180px, 240px) auto;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+    .control label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ps-text-muted);
+      font-size: 12px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+    .control input,
+    .control select,
+    .clear-button {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--ps-border);
+      border-radius: 0.625rem;
+      background: var(--ps-surface);
+      color: var(--ps-text);
+      padding: 0 12px;
+    }
+    .clear-button {
+      width: auto;
+      padding: 0 16px;
+      color: var(--ps-text-muted);
+      font-weight: 650;
+    }
+    .result-count {
+      color: var(--ps-text-muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .lab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .lab-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 210px;
+    }
+    .lab-card h3 {
+      margin: 10px 0 0;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+    .lab-meta,
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 2px 7px;
+      border-radius: 0.625rem;
+      background: var(--ps-surface-soft);
+      color: var(--ps-text-muted);
+      font-size: 10px;
+      font-weight: 650;
+    }
+    .pill-accent {
+      background: var(--ps-accent-soft);
+      color: var(--ps-accent);
+    }
+    .lab-link {
+      margin-top: auto;
+      padding-top: 14px;
+      color: var(--ps-accent);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .reader {
+      display: none;
+      background: var(--ps-surface);
+      border-top: 1px solid var(--ps-border);
+    }
+    .reader[data-open="true"] { display: block; }
+    .reader-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 64px 5vw 88px;
+    }
+    .reader-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+    .reader-header h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.05;
+    }
+    .reader-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .markdown {
+      max-width: 940px;
+      color: var(--ps-text);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    .markdown h1,
+    .markdown h2,
+    .markdown h3 {
+      color: var(--ps-text);
+      line-height: 1.15;
+    }
+    .markdown h1 { font-size: 40px; }
+    .markdown h2 {
+      margin-top: 42px;
+      padding-top: 8px;
+      border-top: 1px solid var(--ps-border);
+      font-size: 30px;
+    }
+    .markdown h3 { margin-top: 28px; font-size: 22px; }
+    .markdown p,
+    .markdown li { color: var(--ps-text-muted); }
+    .markdown table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 14px;
+    }
+    .markdown th,
+    .markdown td {
+      padding: 10px 12px;
+      border: 1px solid var(--ps-border);
+      text-align: left;
+      vertical-align: top;
+    }
+    .markdown th { background: var(--ps-surface-soft); color: var(--ps-text); }
+    .markdown code,
+    .markdown pre {
+      border-radius: 0.625rem;
+      background: var(--ps-surface-soft);
+    }
+    .markdown code { padding: 2px 5px; }
+    .markdown pre {
+      overflow: auto;
+      padding: 16px;
+    }
+    .markdown img {
+      max-width: 100%;
+      border: 1px solid var(--ps-border);
+      border-radius: 0.625rem;
+      box-shadow: 0 8px 24px rgba(42, 68, 111, 0.06);
+    }
+    .site-footer {
+      padding: 28px 5vw;
+      color: var(--ps-text-muted);
+      border-top: 1px solid var(--ps-border);
+      text-align: center;
+      font-size: 13px;
+    }
+    @media (max-width: 760px) {
+      .site-header,
+      .section-heading,
+      .catalog-heading,
+      .reader-header {
+        display: block;
+      }
+      nav { justify-content: start; margin-top: 12px; }
+      .hero h1 { align-items: flex-start; font-size: 42px; }
+      .catalog-controls { grid-template-columns: 1fr; }
+      .reader-actions { justify-content: flex-start; margin-top: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="Power Series Labs home">Power Platform <strong>Power Series</strong></a>
+    <nav aria-label="Primary navigation">
+      <a href="#needs">Business needs</a>
+      <a href="#labs">Labs</a>
+      <a href="../README.md">Repository</a>
+    </nav>
+    <div class="power-cat">Power CAT</div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title"><span class="series-mark" aria-hidden="true"><i></i><i></i><i></i></span>Let your business need shape the solution.</h1>
+      <p class="catalog-line"><span>Learn Faster.</span> <span>Build Smarter.</span> <span>Apply with Confidence.</span></p>
+      <h2>Hands-on Power Platform labs curated by Power CAT.</h2>
+      <p class="hero-copy">Explore how Power Platform can help you build applications, automate work, manage business data, and create intelligent experiences. Start with the business need, then choose the guided lab that helps you build the right solution.</p>
+      <div class="hero-actions">
+        <a class="primary-action" href="#needs">Explore labs <span aria-hidden="true">↓</span></a>
+        <a class="secondary-action" href="https://vibehub.microsoft.com/app/ravi-chada-b91pg1">Get Solution Guidance <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="section" id="needs" aria-labelledby="needs-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Start with the outcome</p>
+          <h2 id="needs-title">What do you need to accomplish?</h2>
+        </div>
+        <p>Labs can support more than one business need. Choose a path to see the relevant catalog, then open a lab to read it in-page.</p>
+      </div>
+      <div class="needs-grid" id="need-grid" aria-label="Filter labs by business need"></div>
+    </section>
+
+    <section class="section catalog-section" id="labs" aria-labelledby="labs-title">
+      <div class="catalog-heading">
+        <div>
+          <p class="eyebrow">Power Series catalog</p>
+          <h1 id="labs-title">Available labs</h1>
+        </div>
+        <p class="result-count" id="result-count"></p>
+      </div>
+      <div class="catalog-controls">
+        <div class="control">
+          <label for="search">Search labs</label>
+          <input id="search" type="search" placeholder="Search by title, tag, or description">
+        </div>
+        <div class="control">
+          <label for="capability">Capability</label>
+          <select id="capability">
+            <option value="all">All capabilities</option>
+            <option value="apps">Apps</option>
+            <option value="automation">Automation</option>
+            <option value="agents">Agents</option>
+            <option value="data">Data</option>
+            <option value="governance">Governance</option>
+          </select>
+        </div>
+        <button class="clear-button" type="button" id="clear">Clear filters</button>
+      </div>
+      <div class="lab-grid" id="lab-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="reader" id="reader" aria-labelledby="reader-title">
+      <div class="reader-shell">
+        <div class="reader-header">
+          <div>
+            <p class="eyebrow">Lab detail</p>
+            <h2 id="reader-title">Select a lab</h2>
+          </div>
+          <div class="reader-actions">
+            <a class="secondary-action" id="raw-link" href="#" target="_blank" rel="noopener">Open markdown <span aria-hidden="true">↗</span></a>
+            <button class="primary-action" type="button" id="close-reader">Back to catalog</button>
+          </div>
+        </div>
+        <article class="markdown" id="markdown"></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">Power CAT · Power Series Labs · microsoft/apps-agents-workshop</footer>
+
+  <script>
+    const needs = [
+      { id: "digitize-internal-operations", title: "Digitize internal operations", description: "Replace manual work with focused apps and connected data." },
+      { id: "automate-workflows-and-processes", title: "Automate workflows and processes", description: "Reduce repetitive work with automation, approvals, RPA, and agent workflows." },
+      { id: "improve-customer-interactions", title: "Improve customer interactions", description: "Create secure app and portal experiences for customers, partners, and communities." },
+      { id: "modernize-existing-applications", title: "Modernize existing applications", description: "Evolve legacy solutions with modern apps, automation, and AI." },
+      { id: "strengthen-governance-and-security", title: "Strengthen governance and security", description: "Apply guardrails, visibility, and control across the platform." },
+      { id: "solution-guidance", title: "Explore Solution Guidance", description: "Move from a business requirement to a suitable Power Platform architecture." }
+    ];
+
+    const labs = [
+      { title: "Workshop prerequisites", path: "prereqs.md", level: "Start", duration: "Setup", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Prepare the environment, sample data, and tooling used across the Power Series labs." },
+      { title: "Automation foundations", path: "automations-foundation/README.md", level: "100", duration: "Module", capability: "automation", tags: ["automate-workflows-and-processes"], description: "Automate the Northwind order lifecycle across cloud flows, RPA, agent workflows, and computer use." },
+      { title: "Module 1: Cloud Flow", path: "automations-foundation/01-cloud-flow.md", level: "100", duration: "Lab", capability: "automation", tags: ["automate-workflows-and-processes"], description: "Build a cloud flow that routes new orders through approvals and creates invoices in Dataverse." },
+      { title: "Module 2: RPA", path: "automations-foundation/02-rpa.md", level: "100", duration: "Lab", capability: "automation", tags: ["automate-workflows-and-processes", "modernize-existing-applications"], description: "Use Power Automate for desktop to bridge legacy order files into the governed process." },
+      { title: "Module 3: Workflows", path: "automations-foundation/03-workflow.md", level: "100", duration: "Lab", capability: "agents", tags: ["automate-workflows-and-processes"], description: "Build deterministic workflows that agents can call safely during a conversation." },
+      { title: "Module 4: Computer Use Agent", path: "automations-foundation/04-cua.md", level: "100", duration: "Lab", capability: "agents", tags: ["automate-workflows-and-processes"], description: "Use computer use when no connector or API is available." },
+      { title: "Building code first apps in Power Platform", path: "byoc-powerapps/byoc-powerapps.md", level: "200", duration: "40 minutes", capability: "apps", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Build a code app that connects to Dataverse and supports supplier onboarding." },
+      { title: "Building Power Pages experiences", path: "byoc-powerpages/byoc-powerpages.md", level: "200", duration: "Lab", capability: "apps", tags: ["improve-customer-interactions", "modernize-existing-applications"], description: "Create external-facing experiences with Power Pages." },
+      { title: "Canvas Apps and Dataverse MCP", path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md", level: "200", duration: "Lab", capability: "apps", tags: ["digitize-internal-operations"], description: "Use MCP-backed tools while building canvas apps and Dataverse solutions." },
+      { title: "Dataverse business skills", path: "dataverse-business-skills/dataverse-business-skills.md", level: "200", duration: "Lab", capability: "data", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Center app development on governed business data and reusable skills." },
+      { title: "Generative pages with GitHub Copilot", path: "generative-pages/generative-pages-github-copilot.md", level: "200", duration: "Lab", capability: "apps", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Use Copilot-assisted development to create generative Power Platform pages." },
+      { title: "In-app agents", path: "in-app-agents/in-app-agents.md", level: "100", duration: "30 minutes", capability: "agents", tags: ["modernize-existing-applications"], description: "Bring natural-language queries, generated charts, form fill, and summaries into model-driven apps." },
+      { title: "Managed governance: environment strategy", path: "managed-platform/managed-governance/environment-strategy-and-governance/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Configure managed environments, policies, sharing limits, maker welcome, routing, and pipelines." },
+      { title: "Managed governance: inventory and monitoring", path: "managed-platform/managed-governance/inventory-and-monitoring/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Review inventory, usage, logs, alerts, and monitoring across Power Platform assets." },
+      { title: "Managed security", path: "managed-platform/managed-security/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Explore managed security controls for enterprise Power Platform environments." },
+      { title: "IP firewall", path: "managed-platform/managed-security/ip-firewall/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Configure and validate IP firewall behavior for end users." },
+      { title: "IP cookie binding", path: "managed-platform/managed-security/ip-cookie-binding/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Enable IP cookie binding and understand the user experience." },
+      { title: "Customer-managed keys", path: "managed-platform/managed-security/cmk/README.md", level: "200", duration: "Module", capability: "governance", tags: ["strengthen-governance-and-security"], description: "Prepare Key Vault, create enterprise policy, grant access, and apply policy to an environment." },
+      { title: "MCP apps", path: "mcp-apps/mcp-apps.md", level: "200", duration: "Lab", capability: "agents", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Enable richer app-building workflows with MCP-connected app development." },
+      { title: "Power Apps MCP server agents and agent feed", path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", level: "200", duration: "Lab", capability: "agents", tags: ["modernize-existing-applications"], description: "Use Power Apps MCP server capabilities with agents and agent feed." }
+    ];
+
+    const needGrid = document.querySelector("#need-grid");
+    const labGrid = document.querySelector("#lab-grid");
+    const resultCount = document.querySelector("#result-count");
+    const search = document.querySelector("#search");
+    const capability = document.querySelector("#capability");
+    const clear = document.querySelector("#clear");
+    const reader = document.querySelector("#reader");
+    const readerTitle = document.querySelector("#reader-title");
+    const markdown = document.querySelector("#markdown");
+    const rawLink = document.querySelector("#raw-link");
+    const closeReader = document.querySelector("#close-reader");
+    let activeNeed = "all";
+
+    function labelFromTag(tag) {
+      return tag.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+    }
+
+    function renderNeeds() {
+      needGrid.innerHTML = needs.map(need => `
+        <button class="need-card" type="button" data-need="${need.id}" aria-pressed="${activeNeed === need.id}">
+          <strong>${need.title}</strong>
+          <span>${need.description}</span>
+          <small>${need.id === "solution-guidance" ? "Open guidance" : "Explore labs"}</small>
+        </button>
+      `).join("");
+      needGrid.querySelectorAll("[data-need]").forEach(button => {
+        button.addEventListener("click", () => {
+          const selected = button.dataset.need;
+          activeNeed = activeNeed === selected ? "all" : selected;
+          renderNeeds();
+          renderLabs();
+          document.querySelector("#labs").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+    }
+
+    function labMatches(lab) {
+      const text = `${lab.title} ${lab.description} ${lab.tags.join(" ")} ${lab.capability}`.toLowerCase();
+      const query = search.value.trim().toLowerCase();
+      const matchesSearch = !query || text.includes(query);
+      const matchesNeed = activeNeed === "all" || lab.tags.includes(activeNeed);
+      const matchesCapability = capability.value === "all" || lab.capability === capability.value;
+      return matchesSearch && matchesNeed && matchesCapability;
+    }
+
+    function renderLabs() {
+      const visible = labs.filter(labMatches);
+      resultCount.textContent = `${visible.length} of ${labs.length} labs`;
+      labGrid.innerHTML = visible.map(lab => `
+        <button class="lab-card" type="button" data-path="${lab.path}">
+          <div class="lab-meta">
+            <span class="pill pill-accent">${lab.capability}</span>
+            <span class="pill">Level ${lab.level}</span>
+            <span class="pill">${lab.duration}</span>
+          </div>
+          <h3>${lab.title}</h3>
+          <p>${lab.description}</p>
+          <div class="tags">${lab.tags.map(tag => `<span class="pill">${labelFromTag(tag)}</span>`).join("")}</div>
+          <span class="lab-link">View lab details -></span>
+        </button>
+      `).join("");
+      labGrid.querySelectorAll("[data-path]").forEach(button => {
+        button.addEventListener("click", () => openLab(button.dataset.path));
+      });
+    }
+
+    function escapeHtml(value) {
+      return value.replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    function renderMarkdown(source, basePath) {
+      let text = source.replace(/^---[\s\S]*?---\s*/, "");
+      text = escapeHtml(text);
+      text = text.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${code.trim()}</code></pre>`);
+      text = text.replace(/^### (.*)$/gm, "<h3>$1</h3>");
+      text = text.replace(/^## (.*)$/gm, "<h2>$1</h2>");
+      text = text.replace(/^# (.*)$/gm, "<h1>$1</h1>");
+      text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+        const resolved = src.startsWith("http") || src.startsWith("/") ? src : `${basePath}/${src}`;
+        return `<img src="${resolved}" alt="${alt}">`;
+      });
+      text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
+      const blocks = text.split(/\n{2,}/).map(block => {
+        const trimmed = block.trim();
+        if (!trimmed) return "";
+        if (/^<h[1-3]|^<pre|^<img|^<table/.test(trimmed)) return trimmed;
+        if (/^\|/.test(trimmed)) return renderTable(trimmed);
+        if (/^[-*] /.test(trimmed)) {
+          return `<ul>${trimmed.split("\n").map(line => `<li>${line.replace(/^[-*] /, "")}</li>`).join("")}</ul>`;
+        }
+        if (/^\d+\. /.test(trimmed)) {
+          return `<ol>${trimmed.split("\n").map(line => `<li>${line.replace(/^\d+\. /, "")}</li>`).join("")}</ol>`;
+        }
+        return `<p>${trimmed.replace(/\n/g, "<br>")}</p>`;
+      });
+      return blocks.join("\n");
+    }
+
+    function renderTable(markdownTable) {
+      const rows = markdownTable.split("\n").filter(row => row.includes("|"));
+      const cleanRows = rows.filter(row => !/^\|\s*-/.test(row));
+      return `<table>${cleanRows.map((row, index) => {
+        const cells = row.replace(/^\||\|$/g, "").split("|").map(cell => cell.trim());
+        const tag = index === 0 ? "th" : "td";
+        return `<tr>${cells.map(cell => `<${tag}>${cell}</${tag}>`).join("")}</tr>`;
+      }).join("")}</table>`;
+    }
+
+    async function openLab(path) {
+      const lab = labs.find(item => item.path === path);
+      if (!lab) return;
+      reader.dataset.open = "true";
+      readerTitle.textContent = lab.title;
+      rawLink.href = path;
+      markdown.innerHTML = "<p>Loading lab content...</p>";
+      location.hash = "reader";
+      try {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`Unable to load ${path}`);
+        const source = await response.text();
+        const basePath = path.split("/").slice(0, -1).join("/");
+        markdown.innerHTML = renderMarkdown(source, basePath || ".");
+      } catch (error) {
+        markdown.innerHTML = `<p>${escapeHtml(error.message)}. Open the markdown link above to view the lab source.</p>`;
+      }
+    }
+
+    closeReader.addEventListener("click", () => {
+      reader.dataset.open = "false";
+      document.querySelector("#labs").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    search.addEventListener("input", renderLabs);
+    capability.addEventListener("change", renderLabs);
+    clear.addEventListener("click", () => {
+      search.value = "";
+      capability.value = "all";
+      activeNeed = "all";
+      renderNeeds();
+      renderLabs();
+    });
+
+    renderNeeds();
+    renderLabs();
+  </script>
+</body>
+</html>
