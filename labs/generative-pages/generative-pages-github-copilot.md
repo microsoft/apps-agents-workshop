@@ -1,33 +1,29 @@
 ---
-title: "Generative Pages in Power Platform with Github Copilot"
+title: "AI-Powered Modern UX for Model-Driven Apps"
 level: 200
-persona: "Pro Code / Maker"
+persona: "pro code developers, Power Apps makers"
 estimated_duration: 75 minutes
-audience_assumptions: "familiarity with Dataverse, VS Code, Github Copilot, PAC CLI, Node.js"
+audience_assumptions: "familiarity with Dataverse, VS Code, GitHub Copilot, PAC CLI, Node.js"
+author: "Power CAT"
+last_updated: "2026-09-01"
+version: "v1.0"
+tags: [modernize-existing-applications]
+
 ---
 
 ## Power CAT | The Intelligent Enterprise - Power Platform & AI for Frontier Firms
 
-Generative Pages in Power Platform with Github Copilot
+AI-Powered Modern UX for Model-Driven Apps
 
-Intelligent Apps and Agents — Lab authoring template
-
-| Level | 100-200 |
-| --- | --- |
-| Persona | Pro Code / Maker |
-| Estimated duration | 75 minutes |
-| Audience assumptions | Familiarity with Dataverse, VS Code, Github Copilot, PAC CLI, Node.js |
-| Author / team | Power CAT |
-| Last updated | 2026-05-01 |
-| Version | [v1.0] |
 
 # 1. Lab overview
+<!-- PDF refresh trigger: 2026-05-16 -->
 
 ## 1.1 Lab purpose
 
 This lab demonstrates how **Generative Pages** in **Power Platform** enables makers and developers to rapidly design and evolve applications using natural language. You will build a modern business app using AI‑assisted page generation, iterative UX refinement, and automated logic, backed by **Dataverse** for secure and scalable data storage.
 
-Throughout the lab, you will use prompts to generate and refine model‑driven app pages, understand how prompt intent shapes UX and functionality, and integrate Generative Pages with Canvas Apps and Power Automate to deliver an end‑to‑end solution. The lab also covers best practices for prompt design, governance, and extensibility to ensure production‑ready apps with built‑in security, RBAC, and enterprise scale.
+Throughout the lab, you will use prompts to generate and refine model‑driven app pages, understand how prompt intent shapes UX and functionality, and integrate Generative Pages with Dataverse to deliver an end‑to‑end solution. The lab also covers best practices for prompt design, governance, and extensibility to ensure production‑ready apps with built‑in security, RBAC, and enterprise scale.
 
 ## 1.2 Why this matters
 
@@ -61,14 +57,14 @@ Gen Pages bring together:
 | Intelligence type | Where it’s used | Purpose |
 | --- | --- | --- |
 | GitHub Copilot | Visual Studio Code | Provide a code agent to help the developer quickly code their application |
-| `/model-apps:genpage` skill | GitHub Copilot Chat in Visual Studio Code | Generate model-driven app pages from natural language prompts grounded in Dataverse tables |
-| Power Platform skills for GitHub Copilot | GitHub Copilot Chat in Visual Studio Code | Provide Power Platform–aware tools (environment selection, Dataverse metadata, page authoring) to Copilot |
-| Dataverse MCP server | GitHub Copilot Chat | Expose Dataverse table metadata to Copilot so generated pages bind to real tables and columns |
-| Image grounding in Copilot Chat | GitHub Copilot Chat | Use a reference screenshot to guide layout and visual style of a generated page |
+| `/model-apps:genpage` skill | GitHub Copilot CLI Chat in Visual Studio Code | Generate model-driven app pages from natural language prompts grounded in Dataverse tables |
+| Power Platform skills for GitHub Copilot | GitHub Copilot CLI Chat in Visual Studio Code | Provide Power Platform–aware tools (environment selection, Dataverse metadata, page authoring) to Copilot |
+| Dataverse MCP server | GitHub Copilot CLI Chat | Expose Dataverse table metadata to Copilot so generated pages bind to real tables and columns |
+| Image grounding in GitHub Copilot CLI Chat | GitHub Copilot CLI Chat in Visual Studio Code | Use a reference screenshot to guide layout and visual style of a generated page |
 
 # 5. Documentation & learning resources
 
-- [Generative pages overview (Microsoft Learn)](https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/generative-pages-overview)
+- [Generative pages overview (Microsoft Learn)](https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/generative-pages)
 - [Use generative pages with external tools (Microsoft Learn)](https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/generative-page-external-tools)
 - [Power Platform skills for GitHub Copilot (GitHub repo)](https://github.com/microsoft/power-platform-skills)
 - [GitHub Copilot documentation](https://docs.github.com/en/copilot)
@@ -79,17 +75,21 @@ Gen Pages bring together:
 Before starting this lab, ensure the following are in place:
 
 **Environment & Access**
-- You have access to **Power Apps**
-- You can create apps in a **Power Platform environment** (Dev/Sandbox preferred)
-- Your user account has **Maker permissions** and **Dataverse access** (default environment is acceptable for lab)
+
+- [Review the shared workshop prerequisites](/labs/prereqs.md).
+- You can create apps in a **Power Platform environment** with Dataverse enabled (Dev/Sandbox preferred)
+- Confirm that your attendee account has the **Environment Maker** role.
+- Ask a Power Platform administrator to confirm that the environment's data policies permit Dataverse.
 
 **Solution & Data**
-- Import [**Northwind Traders**](../../solutions) version 1.0.0.11 or later to the environment and seed with data using the Northwind Sample Data App. [See Solutions folder for the solution and full instructions](../../solutions)
+
+- Ask the workshop facilitator or a Power Platform administrator to import and seed the latest Northwind Traders solution before the lab. If you import and seed it yourself, your account needs the **System Administrator** or **System Customizer** security role, or equivalent custom privileges. [Follow the Northwind Traders solution import and sample data instructions](../../solutions/README.md).
 
 **Tools**
+
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [GitHub Copilot](https://github.com/features/copilot) — active subscription and the GitHub Copilot extension installed in VS Code
-- [Node.js Long-term support (LTS) version](https://nodejs.org/) — required for all skills
+- [Node.js Long-term support (LTS) version](https://nodejs.org/) (includes npm and npx) — required for all skills
 - [.NET SDK](https://dotnet.microsoft.com/download) — required to install and update the PAC CLI via `dotnet tool`
 - [Power Platform CLI](https://learn.microsoft.com/power-platform/developer/cli/introduction?tabs=windows) >= 2.3.1 — required for schema generation and deployment
 
@@ -103,6 +103,7 @@ Before starting this lab, ensure the following are in place:
   ```
 
 **Plugins**
+
 - Install the **Model Apps plugin** for GitHub Copilot (provides the `/genpage` skill):
   ```
   /plugin marketplace add microsoft/power-platform-skills
@@ -110,13 +111,14 @@ Before starting this lab, ensure the following are in place:
   ```
 
 **Licensing**
-- End users that run model-driven apps need a **Power Apps Premium License**
+
+- End users that run model-driven apps need a **Power Apps Premium License** or **Dynamics 365 License**
 
 # 7. Learning outcomes
 
 By the end of this lab, you will be able to:
 
-- Use the `/model-apps:genpage` skill in GitHub Copilot Chat to generate a model-driven app page from natural language.
+- Use the `/model-apps:genpage` skill in GitHub Copilot CLI Chat to generate a model-driven app page from natural language.
 - Bind a Gen Page to Dataverse tables and relationships in an existing solution (Northwind Traders).
 - Publish a generated page into a new or existing model-driven app and verify it in the browser.
 - Iterate on a generated page with follow-up prompts to apply modern styling, conditional formatting, and richer expanded views.
@@ -126,11 +128,13 @@ By the end of this lab, you will be able to:
 
 | Module | Description | Value | Est. time |
 | --- | --- | --- | --- |
-| Generate an Orders page with the genpage skill | Use the `/model-apps:genpage` skill to scaffold a modern Orders page bound to Northwind Dataverse tables, then publish it to a new app. | Go from natural language to a published, working page in minutes — no manual scaffolding. | 20 min |
-| Refine the page with style and behavior prompts | Apply a modern visual style, add conditional formatting for high shipping fees, and improve the expanded order view with side-by-side tiles and a map. | Iterate on UX and behavior through focused prompts without writing code by hand. | 15 min |
-| Art of the possible — build a New Order Creation page | Generate a complex order-entry page with shipping, payments, and a paginated product catalog gallery using a single prompt and a reference image. | See how rich prompts and image grounding unlock complex layouts in one pass. | 20 min |
+| Generate an Orders page with the genpage skill | Use the `/model-apps:genpage` skill to scaffold a modern Orders page bound to Northwind Dataverse tables, then publish it to a new app. | Go from natural language to a published, working page in minutes — no manual scaffolding. | 25 min |
+| Refine the page with style and behavior prompts | Apply a modern visual style, add conditional formatting for high shipping fees, and improve the expanded order view with side-by-side tiles and a map. | Iterate on UX and behavior through focused prompts without writing code by hand. | 25 min |
+| Art of the possible — build a New Order Creation page | Generate a complex order-entry page with shipping, payments, and a paginated product catalog gallery using a single prompt and a reference image. | See how rich prompts and image grounding unlock complex layouts in one pass. | 25 min |
 
 # 9. Lab instructions
+
+Variations are expected because AI is non-deterministic, and GitHub Copilot's suggestions can also be influenced by the AI model used by GitHub Copilot, the user's authentication context, permissions, and the specific Power Platform environment being accessed.
 
 ## Module 1: Generate an Orders page with the genpage skill
 
@@ -142,17 +146,17 @@ By the end of this lab, you will be able to:
 
 ### Tasks covered
 
-1. Start GitHub Copilot Chat in your working directory.
+1. Start GitHub Copilot CLI Chat in your working directory.
 2. Run the `/genpage` skill and select your target environment.
 3. Describe the page in natural language and confirm the generation plan.
 4. Publish the page to a new model-driven app and verify it in the browser.
 
 ### Step-by-step instructions
 
-1. Open Visual Studio Code in your current working directory for the Gen Page lab and start GitHub Copilot Chat.
+1. Open Visual Studio Code in your current working directory for the Gen Page lab and start GitHub Copilot CLI Chat.
 
    ![Open GitHub Copilot Chat in Visual Studio Code](images/start-copilot-chat.png)  
-   Figure: Start GitHub Copilot Chat from the activity bar.
+   Figure: Start GitHub Copilot CLI Chat from the activity bar.
 
 2. In the chat input, type `/` to bring up the available skills, then run the Gen Page skill:
 
@@ -161,7 +165,7 @@ By the end of this lab, you will be able to:
    ```
 
    ![Run the model-apps genpage skill from the slash menu](images/run-genpage-skill.png)  
-   Figure: Invoke the `/model-apps:genpage` skill from GitHub Copilot Chat.
+   Figure: Invoke the `/model-apps:genpage` skill from GitHub Copilot CLI Chat.
 
 3. The skill validates that it has everything it needs. If you have one or more environments listed, select the environment you want to target.
 
@@ -271,7 +275,7 @@ You generated a working model-driven app page from a single natural language pro
 
 ### Step-by-step instructions
 
-1. Back in GitHub Copilot Chat, ask the agent to update the app:
+1. Back in GitHub Copilot CLI Chat, ask the agent to update the app:
 
    ![Prompt the agent to update the existing app](images/update-app-prompt.png)  
    Figure: Continue the chat to make further changes.
@@ -342,7 +346,7 @@ You evolved the page through a sequence of focused prompts — styling, conditio
 
 ### Step-by-step instructions
 
-1. In GitHub Copilot Chat, enter the following prompt to create the new page:
+1. In GitHub Copilot CLI Chat, enter the following prompt to create the new page:
 
    ```
    I want to create a new page in the same app which is a modern looking form with animations and styling with modern colorful background. I need to be able to enter all the order details. I also want to see the product catalog to be able to add to the order. Ensure all the columns except Order Number, Status and state code shows up in the form. For each of the columns, show me column name as well. Once the record is created grab the order number and then create a related order detail. Add a separate section to enter all shipping details and another section for payments and taxes. Do not create any mock data. Use the nwind_orders, nwind_order_details, and nwind_products tables from the Northwind Traders solution.
@@ -353,12 +357,12 @@ You evolved the page through a sequence of focused prompts — styling, conditio
    ![Generated new order creation form](images/new-order-form.png)  
    Figure: The agent generates the order-entry form.
 
-2. As you give prompts to the App Agent, you can also provide a sample image for reference. Save the image below and share it with the agent along with the next prompt.
+2. You can also provide a sample image for reference. Copy the image below and paste it in the GitHub Copilot CLI chat along with the next prompt.
 
    ![Sample form layout to share with the agent as a reference image](images/sample-form-reference.png)  
    Figure: Sample reference image for the product catalog layout.
 
-3. Attach the saved image and send the following prompt:
+3. Paste the image and send the following prompt:
 
    ```
    Display the full product catalog as a vertical gallery positioned on the right side of the order form. Each product entry should be presented as a card that includes a product image as a thumbnail. The gallery should paginate the catalog to show 4 products per page, with clear navigation controls that allow users to move between pages within the catalog. Ensure the layout remains visually aligned with the form and supports smooth browsing without disrupting the order-creation flow.
@@ -390,10 +394,10 @@ Congratulations! You used the `/model-apps:genpage` skill to scaffold, refine, a
 ## Key takeaways
 
 - You can generate a working model-driven app page from a natural language prompt and publish it to a new app in minutes.
-- Iterating with focused prompts lets you restyle pages, add conditional formatting, and reshape the expanded view without leaving Copilot Chat.
+- Iterating with focused prompts lets you restyle pages, add conditional formatting, and reshape the expanded view without leaving GitHub Copilot CLI Chat.
 - A single rich prompt — combined with a reference image — can produce a complex multi-section page like the New Order Creation form.
 - Grounding Copilot in the Dataverse MCP server ensures generated pages bind to real tables and columns in your environment.
-- Generative pages keep you in your developer flow (Visual Studio Code + GitHub Copilot Chat) while still producing first-class model-driven app artifacts.
+- Generative pages keep you in your developer flow (Visual Studio Code + GitHub Copilot CLI Chat) while still producing first-class model-driven app artifacts.
 
 # 12. Challenge: apply this to your scenario
 
