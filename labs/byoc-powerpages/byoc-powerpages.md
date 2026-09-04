@@ -8,6 +8,7 @@ author: "Nikita Polyakov"
 last_updated: "2026-08-25"
 version: "v1.0"
 tags: [improve-customer-interactions]
+description: "Generate a custom website with GitHub Copilot and connect it to Dataverse."
 
 ---
 

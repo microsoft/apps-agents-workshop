@@ -8,7 +8,7 @@ author: "Anshul Gupta / Power CAT"
 last_updated: "2026-08-25"
 version: "v1.0"
 tags: [digitize-internal-operations, modernize-existing-applications]
-
+description: "Use GitHub Copilot and MCP to create a Dataverse data model and polished canvas app from natural-language prompts."
 ---
 
 **Power CAT | The Intelligent Enterprise | Power Platform**

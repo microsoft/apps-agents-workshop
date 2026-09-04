@@ -8,6 +8,7 @@ author: "Power CAT"
 last_updated: "2026-09-01"
 version: "v1.0"
 tags: [modernize-existing-applications]
+description: "Generate and refine model-driven app pages from prompts to augment your applications with custom user experiences."
 
 ---
 

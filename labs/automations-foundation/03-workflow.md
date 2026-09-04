@@ -6,6 +6,7 @@ estimated_duration: "45 minutes"
 tags: [automate-workflows-and-processes]
 author: "Power CAT"
 last_updated: "2026-08-24"
+description: "Build a workflow that your agent can call as a tool, mid-conversation, and get a grounded answer back"
 ---
 
 

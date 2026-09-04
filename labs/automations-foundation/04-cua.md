@@ -6,6 +6,7 @@ estimated_duration: "60 minutes"
 tags: [automate-workflows-and-processes]
 author: "Power CAT"
 last_updated: "2026-08-24"
+description: "Build an agent in Microsoft Copilot Studio with a computer use tool that operates that portal the way a person would."
 ---
 
 # Module 4: CUA

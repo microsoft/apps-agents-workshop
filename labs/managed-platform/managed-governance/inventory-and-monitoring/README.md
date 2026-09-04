@@ -7,6 +7,7 @@ tags: [strengthen-governance-and-security]
 author: "Power CAT"
 last_updated: "2026-08-10"
 version: "1.0"
+description: "Build a unified view of all agents, apps, and flows built on Power Platform across your organization."
 ---
 
 

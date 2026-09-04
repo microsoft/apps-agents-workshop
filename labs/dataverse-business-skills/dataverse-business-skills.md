@@ -8,6 +8,7 @@ author: "Power CAT"
 last_updated: "2026-09-01"
 version: "v1.0"
 tags: [digitize-internal-operations, modernize-existing-applications]
+description: "Create reusable business skills over Dataverse data so agents and apps can execute consistent business operations."
 
 
 ---
