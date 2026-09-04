@@ -1,9 +1,15 @@
 ---
-title: "Dataverse Business Skills"
+title: "Centralize Business Rules & Policies in Dataverse Skills"
 level: 300
-persona: "Maker / Pro Code"
+persona: "pro code developers, Power Apps makers"
 estimated_duration: 75 minutes
 audience_assumptions: "familiarity with Dataverse, Power Platform, Copilot Studio, VS Code, PAC CLI"
+author: "Power CAT"
+last_updated: "2026-09-01"
+version: "v1.0"
+tags: [digitize-internal-operations, modernize-existing-applications]
+
+
 ---
 
 _Power CAT | The Intelligent Enterprise - Power Platform & AI for Frontier Firms_
@@ -121,7 +127,7 @@ By the end of this module, you will:
 
 ## 7. Prerequisites
 
-Review the [workshop prerequisites](../prereqs.md) before you begin.
+Review the [workshop prerequisites](/labs/prereqs.md) before you begin.
 
 1. A Power Platform environment with Dataverse enabled.
 

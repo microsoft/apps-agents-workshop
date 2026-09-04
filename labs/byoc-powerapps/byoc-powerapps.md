@@ -1,23 +1,21 @@
 ---
-title: "Code App with Dataverse"
+title: "Building code first apps (code apps) in Power Platform"
 level: 200
-persona: "Pro Code / Maker"
+persona: "pro code developers, Power Apps makers"
 estimated_duration: "40 minutes (115 minutes with all optional extensions)"
-audience_assumptions: "familiarity with Dataverse, VS Code, Power Apps CLI, Node.js"
+audience_assumptions: "Familiarity with Dataverse, Code Tools, and basic web app development"
+author: "Christopher Moncayo"
+last_updated: "2026-08-25"
+version: "v1.0"
+tags: [digitize-internal-operations, modernize-existing-applications]
+
 ---
 
-# Code App with Dataverse
+
+# Building code first apps (code apps) in Power Platform
 
 **Power CAT | The Intelligent Enterprise - Power Platform & AI for Frontier Firms**
 
-| Level | 200 |
-| --- | --- |
-| Persona | Pro Code / Maker |
-| Estimated duration | 40 minutes; 115 minutes with all optional extensions |
-| Audience assumptions | Familiarity with Dataverse, Code Tools, and basic web app development |
-| Author / team | Christopher Moncayo |
-| Last updated | 2026-08-14 |
-| Version | [v0.4] |
 
 ## 1. Lab overview
 
@@ -98,8 +96,9 @@ The BYOC feature empowers development teams to **reuse existing code** or **crea
 
 ## 6. Prerequisites
 
-- [Review the shared workshop prerequisites](../prereqs.md).
+- [Review the shared workshop prerequisites](/labs/prereqs.md).
 - Install [Visual Studio Code](https://code.visualstudio.com/download).
+- The command examples use PowerShell in the Visual Studio Code integrated terminal on Windows. You can run the same `npm`, `npx`, and `npx pa` commands in any terminal where Node.js is available; PowerShell is not required.
 - Confirm that **Power Apps code apps** are enabled in your Power Platform environment. If the feature is disabled, ask a Power Platform administrator to enable it under **Manage** > **Environments** > your environment > **Settings** > **Product** > **Features**.
 - Ask the workshop facilitator or a Power Platform administrator to import and seed the latest Northwind Traders solution before the lab. If you import and seed it yourself, your account needs the **System Administrator** or **System Customizer** security role, or equivalent custom privileges. [Follow the Northwind Traders solution import and sample data instructions](../../solutions/README.md).
 - Confirm that your attendee account has the **Environment Maker** role and the **Basic User** role, or equivalent custom privileges, in the workshop environment. These permissions are required to create connections and publish a code app.
@@ -134,30 +133,6 @@ Complete only the prerequisites for the extensions you select. If an expected so
 - Confirm that the Microsoft Copilot Studio connector is available in your environment's region.
 - Confirm that each app tester can use the imported agent. Microsoft Copilot Studio connector connections aren't shareable, so every app user is prompted to create or authorize their own connection.
 - Install the [Accessibility Insights for Web](https://accessibilityinsights.io/docs/web/overview/) extension for Microsoft Edge or Google Chrome.
-
-### Configure PowerShell execution policy
-
-To run scripts on your system, configure the PowerShell execution policy.
-
-**Recommended setting:**
-
-- `RemoteSigned` at the `CurrentUser` scope (preferred - no admin required, affects current user only)
-- `RemoteSigned` at the `LocalMachine` scope (alternative - requires administrator elevation, affects all users on this machine)
-
-This setting allows locally developed scripts to run while requiring scripts downloaded from external sources to be signed or explicitly trusted.
-
-```powershell
-# Preferred (no admin required, current user only):
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-
-# Alternative (requires admin, affects all users on this machine):
-Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy RemoteSigned
-```
-
-For more information, see [about_Execution_Policies](https://go.microsoft.com/fwlink/?LinkID=135170).
-
-> [!NOTE]
-> Execution policies are not a security boundary. They help prevent unintentional script execution but should be combined with other security controls.
 
 ## 7. Learning outcomes
 
@@ -312,7 +287,7 @@ You've completed the first part of the lab and published your code app.
 
 ### Tasks covered
 
-- Use PowerShell to add your data source.
+- Use the Power Apps CLI to add your data source.
 - Test the code app locally.
 
 ### Step-by-step instructions
@@ -928,25 +903,19 @@ Code Apps golden rules:
 
 ### Troubleshooting
 
-#### Scripts are blocked from running
+#### PowerShell reports that scripts are disabled
 
-If you encounter an error such as:
+PowerShell isn't required for this lab. Don't change its execution policy unless PowerShell reports an error such as:
 
     running scripts is disabled on this system
 
-Confirm the current execution policy:
+If you want to continue in PowerShell, list the execution policy values by scope:
 
 ```powershell
 Get-ExecutionPolicy -List
 ```
 
-Ensure that `RemoteSigned` is set at either the `LocalMachine` or `CurrentUser` scope.
-
-***
-
-#### Running scripts in VS Code or during tool setup
-
-Some development tools (for example, VS Code, npm scripts, or CLI bootstrapping) may encounter script execution errors. First, verify that `RemoteSigned` is set at the `CurrentUser` scope. This resolves most tool setup issues without requiring elevated permissions:
+If `MachinePolicy` or `UserPolicy` is controlled by your organization, follow your organization's guidance or use another terminal. Otherwise, set `RemoteSigned` for your account without administrator elevation:
 
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
@@ -964,6 +933,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 > [!IMPORTANT]
 > `Bypass` removes all warnings and prompts; nothing is blocked. Use it only as a last resort for temporary troubleshooting. Do not use `Bypass` as a persistent or recommended configuration.
+
+Execution policies aren't a security boundary. Follow your organization's security guidance. For more information, see [about_Execution_Policies](https://go.microsoft.com/fwlink/?LinkID=135170).
 
 ***
 
