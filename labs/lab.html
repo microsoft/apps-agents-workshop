@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Power Series rendered lab detail.">
+  <link rel="icon" href="assets/power-platform-logo.png">
+  <title>Power Series Lab</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("theme");
+      const stored = localStorage.getItem("powerSeriesTheme");
+      const theme = ["light", "dark"].includes(param || stored) ? param || stored : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #fbf8ff;
+      --cp-bg-elevated: #f3ecfa;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f1e9f7;
+      --cp-border: #ded0ec;
+      --cp-text: #22182f;
+      --cp-text-muted: #63596e;
+      --cp-accent: #6b3a8f;
+      --cp-accent-hover: #572876;
+      --cp-accent-soft: rgba(107, 58, 143, 0.14);
+      --cp-accent-fg: #ffffff;
+      --cp-link: #6b3a8f;
+      --cp-shadow: 0 18px 46px rgba(107, 58, 143, 0.22);
+      --cp-highlight: rgba(107, 58, 143, 0.16);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #0c1430;
+      --cp-bg-elevated: #111b3d;
+      --cp-surface: #162245;
+      --cp-surface-soft: #1e2c54;
+      --cp-border: #2f4069;
+      --cp-text: #f5f7ff;
+      --cp-text-muted: #aebbd7;
+      --cp-accent: #55b7ff;
+      --cp-accent-hover: #7ac6ff;
+      --cp-accent-soft: rgba(85, 183, 255, 0.14);
+      --cp-accent-fg: #08112b;
+      --cp-link: #7ac6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-highlight: rgba(85, 183, 255, 0.12);
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    a { color: inherit; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 28px;
+      padding: 0 5vw;
+      background: color-mix(in srgb, var(--cp-surface) 96%, transparent);
+      border-bottom: 1px solid var(--cp-border);
+      box-shadow: 0 4px 18px rgba(42, 68, 111, 0.06);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .brand-logo {
+      width: 220px;
+      height: auto;
+      object-fit: contain;
+    }
+    nav {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    nav a {
+      color: var(--cp-text-muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+    nav a:hover { color: var(--cp-text); }
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+    }
+    .theme-choice {
+      min-height: 28px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 0.5rem;
+      background: transparent;
+      color: var(--cp-text-muted);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    .theme-choice[aria-pressed="true"] {
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+    .power-cat-lockup {
+      justify-self: end;
+      display: block;
+      width: 118px;
+      height: 46px;
+    }
+    .power-cat-lockup img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: right center;
+    }
+    .theme-dark-only { display: none !important; }
+    html[data-theme="dark"] .theme-light-only { display: none !important; }
+    html[data-theme="dark"] .theme-dark-only { display: block !important; }
+    .detail-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      gap: 40px;
+      align-items: start;
+      padding: 80px max(5vw, calc((100vw - 1280px) / 2));
+      background: radial-gradient(700px 260px at 78% 25%, var(--cp-highlight), transparent 68%), var(--cp-bg-elevated);
+      border-bottom: 8px solid transparent;
+      border-image: linear-gradient(90deg, #6b3a8f, #8f4d9d 55%, #b36a93) 1;
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--cp-accent);
+      font-size: 15px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+    .detail-hero h1 {
+      margin: 0;
+      color: var(--cp-text);
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1;
+    }
+    .detail-summary {
+      max-width: 860px;
+      color: var(--cp-text-muted);
+      font-size: clamp(18px, 1.5vw, 22px);
+      line-height: 1.5;
+    }
+    .metadata-card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-top: 4px solid var(--cp-accent);
+      border-radius: 0.625rem;
+      padding: 22px;
+      box-shadow: var(--cp-shadow);
+    }
+    .meta-grid {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .meta-item span {
+      display: block;
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+    .meta-item strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--cp-text);
+      line-height: 1.35;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .primary-action,
+    .secondary-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 0.625rem;
+      text-decoration: none;
+      font-weight: 650;
+      font-size: 14px;
+    }
+    .primary-action {
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      border: 1px solid var(--cp-accent);
+    }
+    .primary-action:hover { background: var(--cp-accent-hover); }
+    .secondary-action {
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      border: 1px solid var(--cp-border);
+    }
+    .secondary-action:hover {
+      border-color: var(--cp-accent);
+      color: var(--cp-accent);
+    }
+    .detail-docs-section {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 64px 5vw 88px;
+    }
+    .rendered-markdown {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-top: 4px solid var(--cp-accent);
+      border-radius: 0.625rem;
+      padding: clamp(24px, 4vw, 44px);
+      box-shadow: var(--cp-shadow);
+      color: var(--cp-text-muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    .rendered-markdown h1,
+    .rendered-markdown h2,
+    .rendered-markdown h3,
+    .rendered-markdown h4,
+    .rendered-markdown h5,
+    .rendered-markdown h6 {
+      color: var(--cp-text);
+      line-height: 1.15;
+    }
+    .rendered-markdown h1 { font-size: clamp(34px, 4vw, 48px); }
+    .rendered-markdown h2 {
+      margin-top: 42px;
+      padding-top: 8px;
+      border-top: 1px solid var(--cp-border);
+      font-size: 30px;
+    }
+    .rendered-markdown h3 { margin-top: 28px; font-size: 22px; }
+    .rendered-markdown h4 { margin-top: 24px; font-size: 19px; }
+    .rendered-markdown h5,
+    .rendered-markdown h6 {
+      margin-top: 20px;
+      color: var(--cp-accent);
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .rendered-markdown p,
+    .rendered-markdown li { color: var(--cp-text-muted); }
+    .rendered-markdown a {
+      color: var(--cp-link);
+      font-weight: 650;
+    }
+    .rendered-markdown code {
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.375rem;
+      padding: 0.1em 0.35em;
+      color: var(--cp-text);
+    }
+    .rendered-markdown pre {
+      overflow-x: auto;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      padding: 16px;
+    }
+    .rendered-markdown pre code {
+      background: transparent;
+      border: 0;
+      padding: 0;
+    }
+    .rendered-markdown blockquote {
+      margin: 18px 0;
+      padding: 14px 18px;
+      border-left: 4px solid var(--cp-accent);
+      border-radius: 0.625rem;
+      background: var(--cp-accent-soft);
+      color: var(--cp-text);
+    }
+    .rendered-markdown blockquote p { margin: 0; }
+    .rendered-markdown table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 14px;
+    }
+    .rendered-markdown th,
+    .rendered-markdown td {
+      border: 1px solid var(--cp-border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .rendered-markdown th {
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+    }
+    .rendered-markdown img {
+      max-width: 100%;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      box-shadow: 0 8px 24px rgba(42, 68, 111, 0.06);
+    }
+    footer {
+      min-height: 92px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 0 5vw;
+      border-top: 1px solid var(--cp-border);
+      background: var(--cp-bg);
+      color: var(--cp-text-muted);
+      font-size: 13px;
+    }
+    .microsoft-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cp-text);
+      font-weight: 600;
+    }
+    .microsoft-mark {
+      display: grid;
+      grid-template-columns: repeat(2, 10px);
+      grid-template-rows: repeat(2, 10px);
+      gap: 2px;
+      width: 22px;
+      height: 22px;
+    }
+    .microsoft-mark i:nth-child(1) { background: #f25022; }
+    .microsoft-mark i:nth-child(2) { background: #7fba00; }
+    .microsoft-mark i:nth-child(3) { background: #00a4ef; }
+    .microsoft-mark i:nth-child(4) { background: #ffb900; }
+    @media (max-width: 760px) {
+      .site-header,
+      .detail-hero {
+        display: block;
+      }
+      nav { justify-content: start; margin-top: 12px; flex-wrap: wrap; }
+      .power-cat-lockup { margin-top: 12px; }
+      .metadata-card { margin-top: 28px; }
+      footer {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="Power Series Labs home">
+      <img class="brand-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="./index.html#needs">Business needs</a>
+      <a href="./index.html#labs">Labs</a>
+      <a href="../README.md">Repository</a>
+      <div class="theme-switch" aria-label="Theme">
+        <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button class="theme-choice" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      </div>
+    </nav>
+    <div class="power-cat-lockup">
+      <img class="theme-light-only" src="assets/power-cat-dark.png" alt="Power CAT">
+      <img class="theme-dark-only" src="assets/power-cat-light.png" alt="Power CAT">
+    </div>
+  </header>
+
+  <main>
+    <section class="detail-hero" aria-labelledby="lab-title">
+      <div>
+        <p class="eyebrow">Power Series lab</p>
+        <h1 id="lab-title">Loading lab...</h1>
+        <p class="detail-summary" id="lab-summary"></p>
+      </div>
+      <aside class="metadata-card">
+        <div class="meta-grid">
+          <div class="meta-item"><span>Level</span><strong id="lab-level">-</strong></div>
+          <div class="meta-item"><span>Duration</span><strong id="lab-duration">-</strong></div>
+          <div class="meta-item"><span>Persona</span><strong id="lab-persona">-</strong></div>
+        </div>
+        <div class="actions">
+          <a class="primary-action" id="repo-link" href="#" target="_blank" rel="noopener">Open in repo</a>
+          <a class="secondary-action" id="deck-link" href="#" target="_blank" rel="noopener" hidden>Presentation</a>
+          <a class="secondary-action" href="./index.html#labs">Back to catalog</a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="detail-docs-section">
+      <article class="rendered-markdown" id="markdown"><p>Loading lab content...</p></article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="microsoft-brand"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</div>
+    <div>Power CAT · Power Series Labs · microsoft/apps-agents-workshop</div>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const path = params.get("path");
+    const deck = params.get("deck");
+    const title = document.querySelector("#lab-title");
+    const summary = document.querySelector("#lab-summary");
+    const level = document.querySelector("#lab-level");
+    const duration = document.querySelector("#lab-duration");
+    const persona = document.querySelector("#lab-persona");
+    const markdown = document.querySelector("#markdown");
+    const repoLink = document.querySelector("#repo-link");
+    const deckLink = document.querySelector("#deck-link");
+    const themeChoices = document.querySelectorAll("[data-theme-choice]");
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("powerSeriesTheme", theme);
+      themeChoices.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.themeChoice === theme));
+      });
+    }
+
+    function escapeHtml(value) {
+      return value.replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    function repoUrl(path) {
+      return `https://github.com/microsoft/apps-agents-workshop/blob/main/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
+    }
+
+    function resolveMarkdownUrl(url, basePath) {
+      if (/^(https?:|mailto:|#|\/)/.test(url)) return url;
+      return `${basePath}/${url}`;
+    }
+
+    function renderInlineMarkdown(value, basePath) {
+      return escapeHtml(value)
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => `<img src="${resolveMarkdownUrl(src, basePath)}" alt="${alt}">`)
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => `<a href="${resolveMarkdownUrl(href, basePath)}" target="_blank" rel="noopener">${label}</a>`)
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/`([^`]+)`/g, "<code>$1</code>");
+    }
+
+    function parseFrontMatter(source) {
+      const match = source.match(/^---\s*([\s\S]*?)\s*---/);
+      const fields = {};
+      if (!match) return fields;
+      match[1].split(/\r?\n/).forEach(line => {
+        const item = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (!item) return;
+        const key = item[1];
+        let value = item[2].trim();
+        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+          value = value.slice(1, -1);
+        }
+        fields[key] = value;
+      });
+      return fields;
+    }
+
+    function renderMarkdown(source, basePath) {
+      const lines = source.replace(/^---[\s\S]*?---\s*/, "").split(/\r?\n/);
+      const blocks = [];
+      let paragraph = [];
+      let code = [];
+      let inCode = false;
+      let table = [];
+      let list = [];
+      let listType = "";
+      let quote = [];
+
+      function flushParagraph() {
+        if (!paragraph.length) return;
+        blocks.push(`<p>${renderInlineMarkdown(paragraph.join(" "), basePath)}</p>`);
+        paragraph = [];
+      }
+      function flushTable() {
+        if (!table.length) return;
+        blocks.push(renderTable(table.join("\n"), basePath));
+        table = [];
+      }
+      function flushList() {
+        if (!list.length) return;
+        const tag = listType === "ol" ? "ol" : "ul";
+        blocks.push(`<${tag}>${list.map(item => `<li>${renderInlineMarkdown(item, basePath)}</li>`).join("")}</${tag}>`);
+        list = [];
+        listType = "";
+      }
+      function flushQuote() {
+        if (!quote.length) return;
+        blocks.push(`<blockquote><p>${renderInlineMarkdown(quote.join("<br>"), basePath)}</p></blockquote>`);
+        quote = [];
+      }
+      function flushAll() {
+        flushParagraph();
+        flushTable();
+        flushList();
+        flushQuote();
+      }
+
+      for (const line of lines) {
+        if (/^```/.test(line)) {
+          if (inCode) {
+            blocks.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+            code = [];
+            inCode = false;
+          } else {
+            flushAll();
+            inCode = true;
+          }
+          continue;
+        }
+        if (inCode) {
+          code.push(line);
+          continue;
+        }
+        if (!line.trim()) {
+          flushAll();
+          continue;
+        }
+        const heading = line.match(/^(#{1,6})\s+(.+)$/);
+        if (heading) {
+          flushAll();
+          const headingLevel = heading[1].length;
+          blocks.push(`<h${headingLevel}>${renderInlineMarkdown(heading[2], basePath)}</h${headingLevel}>`);
+          continue;
+        }
+        if (/^\|/.test(line)) {
+          flushParagraph();
+          flushList();
+          flushQuote();
+          table.push(line);
+          continue;
+        }
+        const unordered = line.match(/^\s*[-*]\s+(.+)$/);
+        const ordered = line.match(/^\s*\d+\.\s+(.+)$/);
+        if (unordered || ordered) {
+          flushParagraph();
+          flushTable();
+          flushQuote();
+          const type = ordered ? "ol" : "ul";
+          if (listType && listType !== type) flushList();
+          listType = type;
+          list.push((ordered || unordered)[1]);
+          continue;
+        }
+        const quoted = line.match(/^>\s?(.*)$/);
+        if (quoted) {
+          flushParagraph();
+          flushTable();
+          flushList();
+          quote.push(quoted[1]);
+          continue;
+        }
+        flushTable();
+        flushList();
+        flushQuote();
+        paragraph.push(line.trim());
+      }
+      flushAll();
+      return blocks.join("\n");
+    }
+
+    function renderTable(markdownTable, basePath) {
+      const rows = markdownTable.split("\n").filter(row => row.includes("|"));
+      const cleanRows = rows.filter(row => !/^\|\s*-/.test(row));
+      return `<table>${cleanRows.map((row, index) => {
+        const cells = row.replace(/^\||\|$/g, "").split("|").map(cell => cell.trim());
+        const tag = index === 0 ? "th" : "td";
+        return `<tr>${cells.map(cell => `<${tag}>${renderInlineMarkdown(cell, basePath)}</${tag}>`).join("")}</tr>`;
+      }).join("")}</table>`;
+    }
+
+    async function loadLab() {
+      if (!path) {
+        title.textContent = "Lab not found";
+        markdown.innerHTML = "<p>No lab path was provided.</p>";
+        return;
+      }
+
+      repoLink.href = repoUrl(path);
+      if (deck) {
+        deckLink.hidden = false;
+        deckLink.href = deck;
+      }
+
+      try {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`Unable to load ${path}`);
+        const source = await response.text();
+        const metadata = parseFrontMatter(source);
+        const basePath = path.split("/").slice(0, -1).join("/") || ".";
+        document.title = metadata.title ? `${metadata.title} | Power Series Lab` : "Power Series Lab";
+        title.textContent = metadata.title || "Power Series Lab";
+        summary.textContent = metadata.description || "";
+        level.textContent = metadata.level || "-";
+        duration.textContent = metadata.estimated_duration || "-";
+        persona.textContent = metadata.persona || "-";
+        markdown.innerHTML = renderMarkdown(source, basePath);
+      } catch (error) {
+        title.textContent = "Lab unavailable";
+        markdown.innerHTML = `<p>${escapeHtml(error.message)}. Use Open in repo to view the source.</p>`;
+      }
+    }
+
+    setTheme(document.documentElement.getAttribute("data-theme") || "light");
+    themeChoices.forEach(button => button.addEventListener("click", () => setTheme(button.dataset.themeChoice)));
+    loadLab();
+  </script>
+</body>
+</html>
