@@ -779,7 +779,8 @@
       if (localPreview) return fallbackLabSources;
 
       try {
-        const commitResponse = await fetch(`https://api.github.com/repos/${repo}/commits/${encodeURIComponent(discoveryRef)}`);
+        const encodedDiscoveryRef = discoveryRef.split("/").map(encodeURIComponent).join("/");
+        const commitResponse = await fetch(`https://api.github.com/repos/${repo}/commits/${encodedDiscoveryRef}`);
         if (!commitResponse.ok) return fallbackLabSources;
 
         const commitData = await commitResponse.json();
