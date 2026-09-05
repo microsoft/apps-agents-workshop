@@ -1100,7 +1100,7 @@
       renderNeeds();
       renderLabs();
     }).catch(error => {
-      resultCount.textContent = error.message;
+      resultCount.textContent = (error && error.message) ? String(error.message) : "Failed to load catalog.";
     });
   </script>
 </body>

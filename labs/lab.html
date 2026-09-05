@@ -674,7 +674,8 @@ function resolveMarkdownUrl(url, basePath) {
         markdown.innerHTML = renderMarkdown(source, basePath);
       } catch (error) {
         title.textContent = "Lab unavailable";
-        markdown.innerHTML = `<p>${escapeHtml(error.message)}. Use Open in repo to view the source.</p>`;
+        const message = (error && error.message) ? String(error.message) : "Unable to load this lab";
+        markdown.innerHTML = `<p>${escapeHtml(message)}. Use Open in repo to view the source.</p>`;
       }
     }
 
