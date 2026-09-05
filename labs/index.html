@@ -850,11 +850,8 @@
       { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", deck: "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx" }
     ];
     const repo = "microsoft/apps-agents-workshop";
-    // Markdown content is always fetched same-origin (relative paths), so lab
-    // discovery must reflect the branch actually hosting this page, not any
-    // user-supplied ?branch= value. Keep that in sync with the hosted default.
-    const discoveryRef = "main";
     const branch = new URLSearchParams(window.location.search).get("branch") || "main";
+    const discoveryRef = branch;
     let labs = [];
     let needs = knownNeeds;
 
@@ -909,6 +906,13 @@
 
     function basename(path) {
       return path.split("/").pop();
+    }
+
+    function contentUrl(path) {
+      if (["localhost", "127.0.0.1"].includes(window.location.hostname)) return path;
+      const encodedBranch = branch.split("/").map(encodeURIComponent).join("/");
+      const encodedPath = path.split("/").map(encodeURIComponent).join("/");
+      return `https://raw.githubusercontent.com/${repo}/${encodedBranch}/labs/${encodedPath}`;
     }
 
     function bestDeckForLab(path, decks) {
@@ -967,7 +971,7 @@
       const sources = await discoverLabSources();
       const entries = await Promise.all(sources.map(async source => {
         try {
-          const response = await fetch(source.path);
+          const response = await fetch(contentUrl(source.path));
           if (!response.ok) return null;
           const content = await response.text();
           const metadata = parseFrontMatter(content) || {};
