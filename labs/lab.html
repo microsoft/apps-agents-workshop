@@ -526,7 +526,7 @@
         for (const segment of segments) {
           if (!segment || segment === ".") continue;
           if (segment === "..") {
-            if (!normalizedSegments.length) return resolvedRelative;
+            if (!normalizedSegments.length) return "#";
             normalizedSegments.pop();
           } else {
             normalizedSegments.push(segment);
