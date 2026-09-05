@@ -877,11 +877,6 @@
       });
     }
 
-    function repoUrl(path) {
-      const encodedBranch = branch.split("/").map(encodeURIComponent).join("/");
-      return `https://github.com/${repo}/blob/${encodedBranch}/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
-    }
-
     function parseFrontMatter(source) {
       const match = source.match(/^---\s*([\s\S]*?)\s*---/);
       if (!match) return null;

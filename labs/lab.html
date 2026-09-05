@@ -533,7 +533,7 @@
       }
       function flushQuote() {
         if (!quote.length) return;
-        blocks.push(`<blockquote><p>${renderInlineMarkdown(quote.join("<br>"), basePath)}</p></blockquote>`);
+        blocks.push(`<blockquote><p>${quote.map(line => renderInlineMarkdown(line, basePath)).join("<br>")}</p></blockquote>`);
         quote = [];
       }
       function flushAll() {
