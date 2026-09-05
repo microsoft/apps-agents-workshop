@@ -954,7 +954,9 @@
       const files = data.tree
         .filter(item => item.type === "blob" && item.path.startsWith("labs/"))
         .map(item => item.path.replace(/^labs\//, ""));
-      const markdownFiles = files.filter(path => /\.md$/i.test(path));
+      const markdownFiles = files.filter(path =>
+        /\.md$/i.test(path) && (path.split("/").length === 2 || basename(path).toLowerCase() === "readme.md")
+      );
       const decks = files.filter(path => /\.pptx?$/i.test(path));
       return markdownFiles.map(path => ({ path, deck: bestDeckForLab(path, decks) }));
     }
