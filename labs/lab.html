@@ -432,7 +432,7 @@
       ? requestedPath
       : null;
 
-    const deck = (requestedDeck && /^[A-Za-z0-9][A-Za-z0-9 _./-]*\.pptx?$/i.test(requestedDeck) && !requestedDeck.startsWith("/") && !requestedDeck.includes("..") && !requestedDeck.includes(":"))
+    const deck = (requestedDeck && /^[A-Za-z0-9][A-Za-z0-9 &_./-]*\.pptx?$/i.test(requestedDeck) && !requestedDeck.startsWith("/") && !requestedDeck.includes("..") && !requestedDeck.includes(":"))
       ? requestedDeck
       : null;
     const title = document.querySelector("#lab-title");
