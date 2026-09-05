@@ -410,7 +410,7 @@
         <div class="actions">
           <a class="primary-action" id="repo-link" href="#" target="_blank" rel="noopener">Open in repo</a>
           <a class="secondary-action" id="deck-link" href="#" target="_blank" rel="noopener" hidden>Presentation</a>
-          <a class="secondary-action" href="./index.html#labs">Back to catalog</a>
+          <a class="secondary-action" id="catalog-link" href="./index.html#labs">Back to catalog</a>
         </div>
       </aside>
     </section>
@@ -445,6 +445,7 @@
     const markdown = document.querySelector("#markdown");
     const repoLink = document.querySelector("#repo-link");
     const deckLink = document.querySelector("#deck-link");
+    const catalogLink = document.querySelector("#catalog-link");
     const themeChoices = document.querySelectorAll("[data-theme-choice]");
 
     function setTheme(theme) {
@@ -453,6 +454,11 @@
       themeChoices.forEach(button => {
         button.setAttribute("aria-pressed", String(button.dataset.themeChoice === theme));
       });
+    }
+
+    const branch = params.get("branch");
+    if (branch) {
+      catalogLink.href = `./index.html?branch=${encodeURIComponent(branch)}#labs`;
     }
 
     function escapeHtml(value) {
@@ -472,20 +478,29 @@
     }
 
 function resolveMarkdownUrl(url, basePath) {
-  if (/^(https?:|mailto:|#)/.test(url)) return url;
-  if (url.startsWith("/")) {
-    const siteBase = window.location.pathname.match(/^(.*)\/labs\//)?.[1] ?? "";
-    return `${siteBase}${url}`;
+  const trimmed = String(url ?? "").trim();
+  if (!trimmed || /^(?:javascript:|data:)/i.test(trimmed)) {
+    return "#";
   }
-  return `${basePath}/${url}`;
+  if (/^(https?:|mailto:|#)/i.test(trimmed)) return trimmed;
+  if (trimmed.startsWith("/")) {
+    const siteBase = window.location.pathname.match(/^(.*)\/labs\//)?.[1] ?? "";
+    return `${siteBase}${trimmed}`;
+  }
+  const normalizedBase = (basePath && basePath !== ".") ? basePath.replace(/\/+$/, "") : "";
+  const basePrefix = normalizedBase ? `${normalizedBase}/` : "";
+  return `${basePrefix}${trimmed}`;
 }
-
+ 
     function renderInlineMarkdown(value, basePath) {
       return escapeHtml(value)
-        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => `<img src="${resolveMarkdownUrl(src, basePath)}" alt="${alt}">`)
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+          const resolvedSrc = escapeHtml(resolveMarkdownUrl(src, basePath));
+          return `<img src="${resolvedSrc}" alt="${escapeHtml(alt)}">`;
+        })
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
-          const resolved = resolveMarkdownUrl(href, basePath);
-          const attrs = /^(https?:|mailto:)/.test(resolved) ? ' target="_blank" rel="noopener"' : "";
+          const resolved = escapeHtml(resolveMarkdownUrl(href, basePath));
+          const attrs = /^(https?:|mailto:)/i.test(resolveMarkdownUrl(href, basePath)) ? ' target="_blank" rel="noopener"' : "";
           return `<a href="${resolved}"${attrs}>${label}</a>`;
         })
         .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
@@ -647,7 +662,7 @@ function resolveMarkdownUrl(url, basePath) {
           .map(line => line.trim())
           .find(line => line && !line.startsWith("#"));
         const titleText = metadata.title || heading || "Power Series Lab";
-        document.title = metadata.title || heading ? `${titleText} | Power Series Lab` : "Power Series Lab";
+        document.title = (metadata.title || heading) ? `${titleText} | Power Series Lab` : "Power Series Lab";
         title.textContent = titleText;
         summary.textContent = metadata.description || fallbackDescription || "";
         level.textContent = metadata.level || "-";
