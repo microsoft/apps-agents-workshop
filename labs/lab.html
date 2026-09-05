@@ -497,7 +497,26 @@ function resolveMarkdownUrl(url, basePath) {
 }
  
     function renderInlineMarkdown(value, basePath) {
-      return escapeHtml(value)
+      const htmlTokens = [];
+      const escapedValue = String(value).replace(/<\/?p(?:\s+align="center")?\s*>|<img\s+([^>]+)>/gi, (match, attributes) => {
+        let safeTag = "";
+        if (/^<\/p/i.test(match)) {
+          safeTag = "</p>";
+        } else if (/^<p/i.test(match)) {
+          safeTag = '<p align="center">';
+        } else {
+          const src = attributes.match(/\bsrc="([^"]*)"/i)?.[1];
+          const alt = attributes.match(/\balt="([^"]*)"/i)?.[1] ?? "";
+          const width = attributes.match(/\bwidth="(\d+)"/i)?.[1];
+          if (!src) return match;
+          safeTag = `<img src="${escapeHtml(resolveMarkdownUrl(src, basePath))}" alt="${escapeHtml(alt)}"${width ? ` width="${width}"` : ""}>`;
+        }
+        const token = `\u0000HTML${htmlTokens.length}\u0000`;
+        htmlTokens.push(safeTag);
+        return token;
+      });
+
+      return escapeHtml(escapedValue)
         .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
           const resolvedSrc = resolveMarkdownUrl(src, basePath);
           return `<img src="${resolvedSrc}" alt="${alt}">`;
@@ -508,7 +527,8 @@ function resolveMarkdownUrl(url, basePath) {
           return `<a href="${resolved}"${attrs}>${label}</a>`;
         })
         .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-        .replace(/`([^`]+)`/g, "<code>$1</code>");
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\u0000HTML(\d+)\u0000/g, (_, index) => htmlTokens[index]);
     }
 
     function parseFrontMatter(source) {
@@ -538,6 +558,7 @@ function resolveMarkdownUrl(url, basePath) {
       let list = [];
       let listType = "";
       let quote = [];
+      let codeIndent = "";
 
       function flushParagraph() {
         if (!paragraph.length) return;
@@ -569,19 +590,22 @@ function resolveMarkdownUrl(url, basePath) {
       }
 
       for (const line of lines) {
-        if (/^```/.test(line)) {
+        const fence = line.match(/^(\s{0,4})```/);
+        if (fence) {
           if (inCode) {
             blocks.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
             code = [];
             inCode = false;
+            codeIndent = "";
           } else {
             flushAll();
             inCode = true;
+            codeIndent = fence[1];
           }
           continue;
         }
         if (inCode) {
-          code.push(line);
+          code.push(line.startsWith(codeIndent) ? line.slice(codeIndent.length) : line);
           continue;
         }
         if (!line.trim()) {
@@ -595,11 +619,12 @@ function resolveMarkdownUrl(url, basePath) {
           blocks.push(`<h${headingLevel}>${renderInlineMarkdown(heading[2], basePath)}</h${headingLevel}>`);
           continue;
         }
-        if (/^\|/.test(line)) {
+        const tableLine = line.replace(/^\s{1,4}(?=\|)/, "");
+        if (/^\|/.test(tableLine)) {
           flushParagraph();
           flushList();
           flushQuote();
-          table.push(line);
+          table.push(tableLine);
           continue;
         }
         const unordered = line.match(/^\s*[-*]\s+(.+)$/);
@@ -614,7 +639,7 @@ function resolveMarkdownUrl(url, basePath) {
           list.push((ordered || unordered)[1]);
           continue;
         }
-        const quoted = line.match(/^>\s?(.*)$/);
+        const quoted = line.match(/^\s{0,4}>\s?(.*)$/);
         if (quoted) {
           flushParagraph();
           flushTable();
