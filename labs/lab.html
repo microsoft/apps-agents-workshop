@@ -495,7 +495,7 @@
       return `https://raw.githubusercontent.com/microsoft/apps-agents-workshop/${encodedBranch}/labs/${encodedPath}`;
     }
 
-    function resolveMarkdownUrl(url, basePath) {
+    function resolveMarkdownUrl(url, basePath, isLink = false) {
       const trimmed = String(url ?? "").trim();
       if (!trimmed || trimmed.startsWith("//")) return "#";
       if (trimmed.startsWith("#")) return trimmed;
@@ -505,12 +505,39 @@
       if (/^(?:https?:|mailto:|tel:)/i.test(trimmed)) return trimmed;
       if (trimmed.startsWith("/")) {
         const siteBase = window.location.pathname.match(/^(.*)\/labs\//)?.[1] ?? "";
+        if (isLink && /^\/labs\/[^?#]+\.md(?:[?#].*)?$/i.test(trimmed)) {
+          const target = trimmed.slice("/labs/".length);
+          const [targetPath, fragment = ""] = target.split("#", 2);
+          if (!targetPath.includes("..")) {
+            const branchParam = params.get("branch") ? `&branch=${encodeURIComponent(params.get("branch"))}` : "";
+            return `./lab.html?path=${encodeURIComponent(targetPath)}${branchParam}${fragment ? `#${fragment}` : ""}`;
+          }
+        }
         return `${siteBase}${trimmed}`;
       }
 
       const normalizedBase = (basePath && basePath !== ".") ? basePath.replace(/\/+$/, "") : "";
       const basePrefix = normalizedBase ? `${normalizedBase}/` : "";
-      const resolvedRelative = `${basePrefix}${trimmed}`;
+      const [relativePath, relativeFragment = ""] = trimmed.split("#", 2);
+      const resolvedRelative = `${basePrefix}${relativePath}`;
+      if (isLink && /\.md(?:#.*)?$/i.test(trimmed)) {
+        const segments = resolvedRelative.split("/");
+        const normalizedSegments = [];
+        for (const segment of segments) {
+          if (!segment || segment === ".") continue;
+          if (segment === "..") {
+            if (!normalizedSegments.length) return resolvedRelative;
+            normalizedSegments.pop();
+          } else {
+            normalizedSegments.push(segment);
+          }
+        }
+        const labPath = normalizedSegments.join("/");
+        if (/\.md$/i.test(labPath)) {
+          const branchParam = params.get("branch") ? `&branch=${encodeURIComponent(params.get("branch"))}` : "";
+          return `./lab.html?path=${encodeURIComponent(labPath)}${branchParam}${relativeFragment ? `#${relativeFragment}` : ""}`;
+        }
+      }
 
       const isLocalPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
       const isImageAsset = /\.(?:png|jpe?g|gif|svg|webp|avif)$/i.test(trimmed);
@@ -544,7 +571,7 @@
           return `<img src="${escapeHtml(resolvedSrc)}" alt="${alt}">`;
         })
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
-          const resolved = resolveMarkdownUrl(decodeMarkdownUrl(href), basePath);
+          const resolved = resolveMarkdownUrl(decodeMarkdownUrl(href), basePath, true);
           const attrs = /^(?:https?:|mailto:|tel:)/i.test(resolved) ? ' target="_blank" rel="noopener"' : "";
           return `<a href="${escapeHtml(resolved)}"${attrs}>${label}</a>`;
         })
@@ -581,6 +608,7 @@
       let listType = "";
       let quote = [];
       let codeIndent = "";
+      let htmlBlock = [];
       const headingIds = new Map();
 
       function getHeadingId(value) {
@@ -646,6 +674,19 @@
           code.push(line.startsWith(codeIndent) ? line.slice(codeIndent.length) : line);
           continue;
         }
+        if (htmlBlock.length) {
+          htmlBlock.push(line);
+          if (/^\s*<\/p>\s*$/i.test(line)) {
+            blocks.push(renderInlineMarkdown(htmlBlock.join(" "), basePath));
+            htmlBlock = [];
+          }
+          continue;
+        }
+        if (/^\s*<p\s+align="center">\s*$/i.test(line)) {
+          flushAll();
+          htmlBlock = [line];
+          continue;
+        }
         if (!line.trim()) {
           flushAll();
           continue;
@@ -690,6 +731,9 @@
         flushList();
         flushQuote();
         paragraph.push(line.trim());
+      }
+      if (htmlBlock.length) {
+        blocks.push(`<p>${renderInlineMarkdown(htmlBlock.join(" "), basePath)}</p>`);
       }
       flushAll();
       return blocks.join("\n");
