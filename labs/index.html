@@ -1227,9 +1227,10 @@
       }).join("")}</table>`;
     }
 
+    setTheme(document.documentElement.getAttribute("data-theme") || "light");
+    themeChoices.forEach(button => button.addEventListener("click", () => setTheme(button.dataset.themeChoice)));
+
     loadCatalogMetadata().then(() => {
-      setTheme(document.documentElement.getAttribute("data-theme") || "light");
-      themeChoices.forEach(button => button.addEventListener("click", () => setTheme(button.dataset.themeChoice)));
       renderCatalogTabs();
       renderNeeds();
       renderLabs();
