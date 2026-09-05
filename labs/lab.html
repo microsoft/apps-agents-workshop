@@ -465,7 +465,8 @@
 
     function repoUrl(path) {
       const branch = params.get("branch") || "main";
-      return `https://github.com/microsoft/apps-agents-workshop/blob/${encodeURIComponent(branch)}/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
+      const encodedBranch = branch.split("/").map(encodeURIComponent).join("/");
+      return `https://github.com/microsoft/apps-agents-workshop/blob/${encodedBranch}/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
     }
 
     function resolveMarkdownUrl(url, basePath) {
@@ -621,7 +622,7 @@
       repoLink.href = repoUrl(path);
       if (deck) {
         deckLink.hidden = false;
-        deckLink.href = deck;
+        deckLink.href = encodeURI(deck);
       }
 
       try {

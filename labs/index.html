@@ -769,7 +769,7 @@
       <p class="hero-copy">Get hands-on with Power Platform and learn to design the right solution for any business process. Run a track end to end, or choose the modules that fit your scenario, audience and skill level.</p>
       <div class="hero-actions">
         <a class="primary-action" href="#needs">Explore labs <span aria-hidden="true">↓</span></a>
-        <span class="secondary-action cta-with-badge" role="button" aria-disabled="true"><sup class="coming-soon">Coming soon</sup><span>Get Solution Guidance</span></span>
+        <button class="secondary-action cta-with-badge" type="button" disabled><sup class="coming-soon">Coming soon</sup><span>Get Solution Guidance</span></button>
       </div>
     </section>
 
@@ -815,21 +815,6 @@
       </div>
     </section>
 
-    <section class="reader" id="reader" aria-labelledby="reader-title">
-      <div class="reader-shell">
-        <div class="reader-header">
-          <div>
-            <p class="eyebrow">Lab detail</p>
-            <h2 id="reader-title">Select a lab</h2>
-          </div>
-          <div class="reader-actions">
-            <a class="secondary-action" id="raw-link" href="#" target="_blank" rel="noopener">Open in repo</a>
-            <button class="primary-action" type="button" id="close-reader">Back to catalog</button>
-          </div>
-        </div>
-        <article class="markdown" id="markdown"></article>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
@@ -876,11 +861,6 @@
     const marketTabs = document.querySelector("#market-tabs");
     const skillResultsLabel = document.querySelector("#skill-results-label");
     const skillResultsCount = document.querySelector("#skill-results-count");
-    const reader = document.querySelector("#reader");
-    const readerTitle = document.querySelector("#reader-title");
-    const markdown = document.querySelector("#markdown");
-    const rawLink = document.querySelector("#raw-link");
-    const closeReader = document.querySelector("#close-reader");
     const themeChoices = document.querySelectorAll("[data-theme-choice]");
     let activeNeed = "all";
 
@@ -897,7 +877,8 @@
     }
 
     function repoUrl(path) {
-      return `https://github.com/${repo}/blob/${encodeURIComponent(branch)}/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
+      const encodedBranch = branch.split("/").map(encodeURIComponent).join("/");
+      return `https://github.com/${repo}/blob/${encodedBranch}/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
     }
 
     function parseFrontMatter(source) {
@@ -976,27 +957,42 @@
     async function loadCatalogMetadata() {
       const sources = await discoverLabSources();
       const entries = await Promise.all(sources.map(async source => {
-        const response = await fetch(source.path);
-        if (!response.ok) throw new Error(`Unable to load ${source.path}`);
-        const metadata = parseFrontMatter(await response.text());
-        if (!hasRequiredFrontMatter(metadata)) return null;
-        return {
-          title: metadata.title,
-          path: source.path,
-          level: String(metadata.level),
-          duration: metadata.estimated_duration || metadata.duration,
-          persona: metadata.persona,
-          tags: Array.isArray(metadata.tags) ? metadata.tags : [],
-          description: metadata.description,
-          deck: source.deck
-        };
+        try {
+          const response = await fetch(source.path);
+          if (!response.ok) return null;
+          const content = await response.text();
+          const metadata = parseFrontMatter(content) || {};
+          const heading = content.match(/^#\s+(.+)$/m)?.[1]?.trim();
+          const description = content
+            .replace(/^---[\s\S]*?---\s*/, "")
+            .split(/\r?\n/)
+            .map(line => line.trim())
+            .find(line => line && !line.startsWith("#"));
+          if (!hasRequiredFrontMatter(metadata) && !heading) return null;
+          if (!hasRequiredFrontMatter(metadata)) {
+            metadata.title = heading;
+            metadata.level = "—";
+            metadata.duration = "Self-paced";
+            metadata.persona = "All learners";
+            metadata.tags = [];
+            metadata.description = description || "Explore this workshop resource.";
+          }
+          return {
+            title: metadata.title,
+            path: source.path,
+            level: String(metadata.level),
+            duration: metadata.estimated_duration || metadata.duration,
+            persona: metadata.persona,
+            tags: Array.isArray(metadata.tags) ? metadata.tags : [],
+            description: metadata.description,
+            deck: source.deck
+          };
+        } catch {
+          return null;
+        }
       }));
       labs = entries.filter(Boolean);
       buildNeedsFromLabs();
-    }
-
-    function normalize(value) {
-      return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     }
 
     function catalogFilters() {
@@ -1063,21 +1059,18 @@
       labGrid.innerHTML = visible.map(lab => `
         <article class="lab-card">
           <div class="lab-meta">
-            <span class="pill pill-accent">${lab.persona}</span>
-            <span class="pill">Level ${lab.level}</span>
-            <span class="pill">${lab.duration}</span>
+            <span class="pill pill-accent">${escapeHtml(String(lab.persona))}</span>
+            <span class="pill">Level ${escapeHtml(String(lab.level))}</span>
+            <span class="pill">${escapeHtml(String(lab.duration))}</span>
           </div>
-          <h3>${lab.title}</h3>
-          <p>${lab.description}</p>
+          <h3>${escapeHtml(String(lab.title))}</h3>
+          <p>${escapeHtml(String(lab.description))}</p>
           <div class="lab-actions">
             <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" target="_blank" rel="noopener">Lab</a>
             ${lab.deck ? `<a class="deck-link" href="${encodeURI(lab.deck)}" target="_blank" rel="noopener">Presentation</a>` : ""}
           </div>
         </article>
       `).join("");
-      labGrid.querySelectorAll("[data-path]").forEach(button => {
-        button.addEventListener("click", () => openLab(button.dataset.path));
-      });
     }
 
     function escapeHtml(value) {
@@ -1234,29 +1227,6 @@
       }).join("")}</table>`;
     }
 
-    async function openLab(path) {
-      const lab = labs.find(item => item.path === path);
-      if (!lab) return;
-      reader.dataset.open = "true";
-      readerTitle.textContent = lab.title;
-      rawLink.href = repoUrl(path);
-      markdown.innerHTML = "<p>Loading lab content...</p>";
-      location.hash = "reader";
-      try {
-        const response = await fetch(path);
-        if (!response.ok) throw new Error(`Unable to load ${path}`);
-        const source = await response.text();
-        const basePath = path.split("/").slice(0, -1).join("/");
-        markdown.innerHTML = renderMarkdown(source, basePath || ".");
-      } catch (error) {
-        markdown.innerHTML = `<p>${escapeHtml(error.message)}. Open the markdown link above to view the lab source.</p>`;
-      }
-    }
-
-    closeReader.addEventListener("click", () => {
-      reader.dataset.open = "false";
-      document.querySelector("#labs").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
     loadCatalogMetadata().then(() => {
       setTheme(document.documentElement.getAttribute("data-theme") || "light");
       themeChoices.forEach(button => button.addEventListener("click", () => setTheme(button.dataset.themeChoice)));
