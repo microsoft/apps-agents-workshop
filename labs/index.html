@@ -624,7 +624,7 @@
       <a href="#needs">Business needs</a>
       <a href="#labs">Labs</a>
       <a href="../README.md">Repository</a>
-      <div class="theme-switch" aria-label="Theme">
+      <div class="theme-switch" role="group" aria-label="Theme">
         <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
         <button class="theme-choice" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
       </div>
@@ -643,7 +643,6 @@
       <p class="hero-copy">Get hands-on with Power Platform and learn to design the right solution for any business process. Run a track end to end, or choose the modules that fit your scenario, audience and skill level.</p>
       <div class="hero-actions">
         <a class="primary-action" href="#needs">Explore labs <span aria-hidden="true">↓</span></a>
-        <button class="secondary-action cta-with-badge" type="button" disabled><sup class="coming-soon">Coming soon</sup><span>Get Solution Guidance</span></button>
       </div>
     </section>
 
@@ -703,7 +702,6 @@
       { id: "improve-customer-interactions", title: "Improve customer interactions", description: "Create secure app and portal experiences for customers, partners, and communities." },
       { id: "modernize-existing-applications", title: "Modernize existing applications", description: "Evolve legacy solutions with modern apps, automation, and AI." },
       { id: "strengthen-governance-and-security", title: "Strengthen governance and security", description: "Apply guardrails, visibility, and control across the platform." },
-      { id: "solution-guidance", title: "Explore Solution Guidance", description: "Move from a business requirement to a suitable Power Platform architecture." },
       { id: "skills-marketplace", title: "Explore Skills Marketplace", description: "Find Power CAT skills for assessment, design, migration, review, and documentation.", url: "https://microsoft.github.io/power-cat-skills/power-platform-migration-factory/index.html#tracks" }
     ];
 
@@ -844,7 +842,7 @@
         title: labelFromTag(id),
         description: `Explore labs tagged ${labelFromTag(id)}.`
       });
-      needs.push(...knownNeeds.filter(need => need.id === "solution-guidance" || need.url));
+      needs.push(...knownNeeds.filter(need => need.url));
     }
 
     async function loadCatalogMetadata() {
@@ -891,7 +889,7 @@
     function catalogFilters() {
       return [
         { id: "all", title: "All" },
-        ...needs.filter(need => need.id !== "solution-guidance" && !need.url)
+        ...needs.filter(need => !need.url)
       ];
     }
 
@@ -919,10 +917,10 @@
           <small>Open marketplace</small>
         </a>
       ` : `
-        <button class="need-card" type="button" ${need.id === "solution-guidance" ? "disabled" : `data-need="${escapeHtml(String(need.id))}" aria-pressed="${activeNeed === need.id}"`}>
+        <button class="need-card" type="button" data-need="${escapeHtml(String(need.id))}" aria-pressed="${activeNeed === need.id}">
           <strong>${escapeHtml(String(need.title))}</strong>
           <span>${escapeHtml(String(need.description))}</span>
-          <small>${need.id === "solution-guidance" ? "Coming soon" : "Explore labs"}</small>
+          <small>Explore labs</small>
         </button>
       `).join("");
       needGrid.querySelectorAll("[data-need]").forEach(button => {
