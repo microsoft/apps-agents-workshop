@@ -469,10 +469,14 @@
       return `https://github.com/microsoft/apps-agents-workshop/blob/${encodedBranch}/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
     }
 
-    function resolveMarkdownUrl(url, basePath) {
-      if (/^(https?:|mailto:|#|\/)/.test(url)) return url;
-      return `${basePath}/${url}`;
-    }
+function resolveMarkdownUrl(url, basePath) {
+  if (/^(https?:|mailto:|#)/.test(url)) return url;
+  if (url.startsWith("/")) {
+    const siteBase = window.location.pathname.match(/^(.*)\/labs\//)?.[1] ?? "";
+    return `${siteBase}${url}`;
+  }
+  return `${basePath}/${url}`;
+}
 
     function renderInlineMarkdown(value, basePath) {
       return escapeHtml(value)
