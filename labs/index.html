@@ -896,7 +896,7 @@
     }
 
     function repoUrl(path) {
-      return `https://github.com/microsoft/apps-agents-workshop/blob/main/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
+      return `https://github.com/${repo}/blob/${encodeURIComponent(branch)}/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
     }
 
     function parseFrontMatter(source) {
