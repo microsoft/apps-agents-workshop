@@ -885,13 +885,19 @@
           <span>${escapeHtml(String(need.description))}</span>
           <small>Open marketplace</small>
         </a>
+      ` : (need.id === "solution-guidance" ? `
+        <button class="need-card" type="button" disabled aria-disabled="true">
+          <strong>${escapeHtml(String(need.title))}</strong>
+          <span>${escapeHtml(String(need.description))}</span>
+          <small>Coming soon</small>
+        </button>
       ` : `
         <button class="need-card" type="button" data-need="${escapeHtml(String(need.id))}" aria-pressed="${activeNeed === need.id}">
           <strong>${escapeHtml(String(need.title))}</strong>
           <span>${escapeHtml(String(need.description))}</span>
           <small>Explore labs</small>
         </button>
-      `).join("");
+      `)).join("");
       needGrid.querySelectorAll("[data-need]").forEach(button => {
         button.addEventListener("click", () => {
           const selected = button.dataset.need;
