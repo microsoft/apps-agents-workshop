@@ -1004,8 +1004,8 @@
 
     function renderCatalogTabs() {
       marketTabs.innerHTML = catalogFilters().map(filter => `
-        <button class="market-tab" type="button" data-need="${filter.id}" aria-pressed="${activeNeed === filter.id}">
-          ${filter.title}
+        <button class="market-tab" type="button" data-need="${escapeHtml(String(filter.id))}" aria-pressed="${activeNeed === filter.id}">
+          ${escapeHtml(String(filter.title))}
         </button>
       `).join("");
       marketTabs.querySelectorAll("[data-need]").forEach(button => {
