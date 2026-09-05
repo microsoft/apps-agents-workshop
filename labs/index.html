@@ -850,6 +850,10 @@
       { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", deck: "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx" }
     ];
     const repo = "microsoft/apps-agents-workshop";
+    // Markdown content is always fetched same-origin (relative paths), so lab
+    // discovery must reflect the branch actually hosting this page, not any
+    // user-supplied ?branch= value. Keep that in sync with the hosted default.
+    const discoveryRef = "main";
     const branch = new URLSearchParams(window.location.search).get("branch") || "main";
     let labs = [];
     let needs = knownNeeds;
@@ -924,7 +928,7 @@
       if (localPreview) return fallbackLabSources;
 
       try {
-        const commitResponse = await fetch(`https://api.github.com/repos/${repo}/commits/${encodeURIComponent(branch)}`);
+        const commitResponse = await fetch(`https://api.github.com/repos/${repo}/commits/${encodeURIComponent(discoveryRef)}`);
         if (!commitResponse.ok) return fallbackLabSources;
 
         const commitData = await commitResponse.json();

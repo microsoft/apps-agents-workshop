@@ -641,6 +641,8 @@ function resolveMarkdownUrl(url, basePath) {
       if (!path) {
         title.textContent = "Lab not found";
         markdown.innerHTML = "<p>No lab path was provided.</p>";
+        repoLink.hidden = true;
+        deckLink.hidden = true;
         return;
       }
 
