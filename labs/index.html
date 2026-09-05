@@ -1068,7 +1068,7 @@
           <p>${escapeHtml(String(lab.description))}</p>
           <div class="lab-actions">
             <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" target="_blank" rel="noopener" aria-label="Open lab details for ${escapeHtml(String(lab.title))}">Lab</a>
-            ${lab.deck ? `<a class="deck-link" href="${encodeURI(lab.deck)}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))}">Presentation</a>` : ""}
+            ${lab.deck ? `<a class="deck-link" href="${escapeHtml(encodeURI(lab.deck))}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))}">Presentation</a>` : ""}
           </div>
         </article>
       `).join("");
