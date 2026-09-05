@@ -552,7 +552,7 @@
         if (/^<\/p/i.test(match)) {
           safeTag = "</p>";
         } else if (/^<p/i.test(match)) {
-          safeTag = '<p align="center">';
+          safeTag = /align\s*=\s*"center"/i.test(match) ? '<p align="center">' : "<p>";
         } else {
           const src = attributes.match(/\bsrc="([^"]*)"/i)?.[1];
           const alt = attributes.match(/\balt="([^"]*)"/i)?.[1] ?? "";
