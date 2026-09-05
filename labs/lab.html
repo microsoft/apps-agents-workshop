@@ -500,7 +500,7 @@ function resolveMarkdownUrl(url, basePath) {
       return escapeHtml(value)
         .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
           const resolvedSrc = resolveMarkdownUrl(src, basePath);
-          return `<img src="${resolvedSrc}" alt="${escapeHtml(alt)}">`;
+          return `<img src="${resolvedSrc}" alt="${alt}">`;
         })
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
           const resolved = resolveMarkdownUrl(href, basePath);
