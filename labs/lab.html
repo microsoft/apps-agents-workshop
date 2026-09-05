@@ -425,8 +425,16 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const path = params.get("path");
-    const deck = params.get("deck");
+    const requestedPath = params.get("path");
+    const requestedDeck = params.get("deck");
+
+    const path = (requestedPath && /^[A-Za-z0-9][A-Za-z0-9_./-]*\.md$/i.test(requestedPath) && !requestedPath.startsWith("/") && !requestedPath.includes(".."))
+      ? requestedPath
+      : null;
+
+    const deck = (requestedDeck && /^[A-Za-z0-9][A-Za-z0-9 _./-]*\.pptx?$/i.test(requestedDeck) && !requestedDeck.startsWith("/") && !requestedDeck.includes("..") && !requestedDeck.includes(":"))
+      ? requestedDeck
+      : null;
     const title = document.querySelector("#lab-title");
     const summary = document.querySelector("#lab-summary");
     const level = document.querySelector("#lab-level");
