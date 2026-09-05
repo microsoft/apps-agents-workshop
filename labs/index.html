@@ -1053,7 +1053,9 @@
       const visible = labs.filter(labMatches);
       resultCount.textContent = `${visible.length} of ${labs.length} labs`;
       const selectedFilter = catalogFilters().find(filter => filter.id === activeNeed);
-      skillResultsLabel.textContent = activeNeed === "all" ? "All Power Series labs" : selectedFilter.title;
+      skillResultsLabel.textContent = activeNeed === "all"
+        ? "All Power Series labs"
+        : (selectedFilter?.title ?? labelFromTag(activeNeed));
       skillResultsCount.textContent = `${visible.length} ${visible.length === 1 ? "lab" : "labs"}`;
       labGrid.innerHTML = visible.map(lab => `
         <article class="lab-card">
