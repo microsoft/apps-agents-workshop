@@ -494,24 +494,28 @@
       return `https://raw.githubusercontent.com/microsoft/apps-agents-workshop/${encodedBranch}/labs/${encodedPath}`;
     }
 
-function resolveMarkdownUrl(url, basePath) {
-  const trimmed = String(url ?? "").trim();
-  if (!trimmed || trimmed.startsWith("//")) {
-    return "#";
-  }
-  if (trimmed.startsWith("#")) return trimmed;
-  if (/^[a-z][a-z\d+.-]*:/i.test(trimmed) && !/^(?:https?:|mailto:|tel:)/i.test(trimmed)) {
-    return "#";
-  }
-  if (/^(?:https?:|mailto:|tel:)/i.test(trimmed)) return trimmed;
-  if (trimmed.startsWith("/")) {
-    const siteBase = window.location.pathname.match(/^(.*)\/labs\//)?.[1] ?? "";
-    return `${siteBase}${trimmed}`;
-  }
-  const normalizedBase = (basePath && basePath !== ".") ? basePath.replace(/\/+$/, "") : "";
-  const basePrefix = normalizedBase ? `${normalizedBase}/` : "";
-  return `${basePrefix}${trimmed}`;
-}
+    function resolveMarkdownUrl(url, basePath) {
+      const trimmed = String(url ?? "").trim();
+      if (!trimmed || trimmed.startsWith("//")) return "#";
+      if (trimmed.startsWith("#")) return trimmed;
+      if (/^[a-z][a-z\d+.-]*:/i.test(trimmed) && !/^(?:https?:|mailto:|tel:)/i.test(trimmed)) {
+        return "#";
+      }
+      if (/^(?:https?:|mailto:|tel:)/i.test(trimmed)) return trimmed;
+      if (trimmed.startsWith("/")) {
+        const siteBase = window.location.pathname.match(/^(.*)\/labs\//)?.[1] ?? "";
+        return `${siteBase}${trimmed}`;
+      }
+
+      const normalizedBase = (basePath && basePath !== ".") ? basePath.replace(/\/+$/, "") : "";
+      const basePrefix = normalizedBase ? `${normalizedBase}/` : "";
+      const resolvedRelative = `${basePrefix}${trimmed}`;
+
+      const isLocalPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+      const isImageAsset = /\.(?:png|jpe?g|gif|svg|webp|avif)$/i.test(trimmed);
+      const isSafeRelative = !trimmed.startsWith("../") && !trimmed.includes("..");
+      return (!isLocalPreview && isImageAsset && isSafeRelative) ? contentUrl(resolvedRelative) : resolvedRelative;
+    }
  
     function renderInlineMarkdown(value, basePath) {
       const htmlTokens = [];
