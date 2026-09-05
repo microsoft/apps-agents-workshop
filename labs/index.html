@@ -930,18 +930,22 @@
       const localPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
       if (localPreview) return fallbackLabSources;
 
-      const response = await fetch(`https://api.github.com/repos/${repo}/git/trees/${encodeURIComponent(branch)}?recursive=1`);
-      if (!response.ok) return fallbackLabSources;
+      try {
+        const response = await fetch(`https://api.github.com/repos/${repo}/git/trees/${encodeURIComponent(branch)}?recursive=1`);
+        if (!response.ok) return fallbackLabSources;
 
-      const data = await response.json();
-      const files = data.tree
-        .filter(item => item.type === "blob" && item.path.startsWith("labs/"))
-        .map(item => item.path.replace(/^labs\//, ""));
-      const markdownFiles = files.filter(path =>
-        /\.md$/i.test(path) && (path.split("/").length === 1 || basename(path).toLowerCase() === "readme.md")
-      );
-      const decks = files.filter(path => /\.pptx?$/i.test(path));
-      return markdownFiles.map(path => ({ path, deck: bestDeckForLab(path, decks) }));
+        const data = await response.json();
+        const files = data.tree
+          .filter(item => item.type === "blob" && item.path.startsWith("labs/"))
+          .map(item => item.path.replace(/^labs\//, ""));
+        const markdownFiles = files.filter(path =>
+          /\.md$/i.test(path) && (path.split("/").length <= 2 || basename(path).toLowerCase() === "readme.md")
+        );
+        const decks = files.filter(path => /\.pptx?$/i.test(path));
+        return markdownFiles.map(path => ({ path, deck: bestDeckForLab(path, decks) }));
+      } catch {
+        return fallbackLabSources;
+      }
     }
 
     function buildNeedsFromLabs() {
