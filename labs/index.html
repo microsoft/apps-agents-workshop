@@ -834,6 +834,7 @@
     ];
 
     const fallbackLabSources = [
+      { path: "prereqs.md" },
       { path: "automations-foundation/01-cloud-flow.md", deck: "automations-foundation/01-Power Series - Automation Foundation_Cloud Flows.pptx" },
       { path: "automations-foundation/02-rpa.md", deck: "automations-foundation/02-Power Series - Automation Foundation_RPA.pptx" },
       { path: "automations-foundation/03-workflow.md", deck: "automations-foundation/03-Power Series - Automation Foundation_Workflows.pptx" },
@@ -937,7 +938,7 @@
         .filter(item => item.type === "blob" && item.path.startsWith("labs/"))
         .map(item => item.path.replace(/^labs\//, ""));
       const markdownFiles = files.filter(path =>
-        /\.md$/i.test(path) && (path.split("/").length === 2 || basename(path).toLowerCase() === "readme.md")
+        /\.md$/i.test(path) && (path.split("/").length === 1 || basename(path).toLowerCase() === "readme.md")
       );
       const decks = files.filter(path => /\.pptx?$/i.test(path));
       return markdownFiles.map(path => ({ path, deck: bestDeckForLab(path, decks) }));
@@ -1020,15 +1021,15 @@
 
     function renderNeeds() {
       needGrid.innerHTML = needs.map(need => need.url ? `
-        <a class="need-card" href="${need.url}" target="_blank" rel="noopener">
-          <strong>${need.title}</strong>
-          <span>${need.description}</span>
+        <a class="need-card" href="${escapeHtml(encodeURI(String(need.url)))}" target="_blank" rel="noopener">
+          <strong>${escapeHtml(String(need.title))}</strong>
+          <span>${escapeHtml(String(need.description))}</span>
           <small>Open marketplace</small>
         </a>
       ` : `
-        <button class="need-card" type="button" data-need="${need.id}" aria-pressed="${activeNeed === need.id}">
-          <strong>${need.title}</strong>
-          <span>${need.description}</span>
+        <button class="need-card" type="button" data-need="${escapeHtml(String(need.id))}" aria-pressed="${activeNeed === need.id}">
+          <strong>${escapeHtml(String(need.title))}</strong>
+          <span>${escapeHtml(String(need.description))}</span>
           <small>${need.id === "solution-guidance" ? "Coming soon" : "Explore labs"}</small>
         </button>
       `).join("");
