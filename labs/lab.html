@@ -479,10 +479,14 @@
 
 function resolveMarkdownUrl(url, basePath) {
   const trimmed = String(url ?? "").trim();
-  if (!trimmed || /^(?:javascript:|data:)/i.test(trimmed)) {
+  if (!trimmed || trimmed.startsWith("//")) {
     return "#";
   }
-  if (/^(https?:|mailto:|#)/i.test(trimmed)) return trimmed;
+  if (trimmed.startsWith("#")) return trimmed;
+  if (/^[a-z][a-z\d+.-]*:/i.test(trimmed) && !/^(?:https?:|mailto:|tel:)/i.test(trimmed)) {
+    return "#";
+  }
+  if (/^(?:https?:|mailto:|tel:)/i.test(trimmed)) return trimmed;
   if (trimmed.startsWith("/")) {
     const siteBase = window.location.pathname.match(/^(.*)\/labs\//)?.[1] ?? "";
     return `${siteBase}${trimmed}`;
@@ -500,7 +504,7 @@ function resolveMarkdownUrl(url, basePath) {
         })
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
           const resolved = escapeHtml(resolveMarkdownUrl(href, basePath));
-          const attrs = /^(https?:|mailto:)/i.test(resolveMarkdownUrl(href, basePath)) ? ' target="_blank" rel="noopener"' : "";
+          const attrs = /^(?:https?:|mailto:|tel:)/i.test(resolveMarkdownUrl(href, basePath)) ? ' target="_blank" rel="noopener"' : "";
           return `<a href="${resolved}"${attrs}>${label}</a>`;
         })
         .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
