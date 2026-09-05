@@ -1070,8 +1070,8 @@
           <h3>${lab.title}</h3>
           <p>${lab.description}</p>
           <div class="lab-actions">
-            <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" target="_blank" rel="noopener">Lab</a>
-            ${lab.deck ? `<a class="deck-link" href="${lab.deck}" target="_blank" rel="noopener">Presentation</a>` : ""}
+            <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" target="_blank" rel="noopener">Lab</a>
+            ${lab.deck ? `<a class="deck-link" href="${encodeURI(lab.deck)}" target="_blank" rel="noopener">Presentation</a>` : ""}
           </div>
         </article>
       `).join("");
