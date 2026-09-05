@@ -768,10 +768,10 @@
       if (folderDecks.length <= 1) return folderDecks[0];
       const prefix = basename(path).match(/^\d+/)?.[0];
       if (prefix) {
-        const matchingPrefix = folderDecks.find(deck => basename(deck).startsWith(prefix));
+        const matchingPrefix = folderDecks.find(deck => basename(deck).match(/^\d+/)?.[0] === prefix);
         if (matchingPrefix) return matchingPrefix;
       }
-      return folderDecks[0];
+      return undefined;
     }
 
     async function discoverLabSources() {
