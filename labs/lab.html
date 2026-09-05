@@ -538,6 +538,7 @@
           return `./lab.html?path=${encodeURIComponent(labPath)}${branchParam}${relativeFragment ? `#${relativeFragment}` : ""}`;
         }
       }
+      if (resolvedRelative.includes("..")) return "#";
 
       const isLocalPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
       const isImageAsset = /\.(?:png|jpe?g|gif|svg|webp|avif)$/i.test(trimmed);
