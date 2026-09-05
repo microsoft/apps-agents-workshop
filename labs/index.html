@@ -10,7 +10,9 @@
     (() => {
       const param = new URLSearchParams(window.location.search).get("theme");
       const stored = localStorage.getItem("powerSeriesTheme");
-      const theme = ["light", "dark"].includes(param || stored) ? param || stored : "light";
+      const theme = ["light", "dark"].includes(param)
+        ? param
+        : (["light", "dark"].includes(stored) ? stored : "light");
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
