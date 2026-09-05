@@ -630,12 +630,18 @@
         if (!response.ok) throw new Error(`Unable to load ${path}`);
         const source = await response.text();
         const metadata = parseFrontMatter(source);
-        const basePath = path.split("/").slice(0, -1).join("/") || ".";
-        document.title = metadata.title ? `${metadata.title} | Power Series Lab` : "Power Series Lab";
-        title.textContent = metadata.title || "Power Series Lab";
-        summary.textContent = metadata.description || "";
+        const heading = source.match(/^#\s+(.+)$/m)?.[1]?.trim();
+        const fallbackDescription = source
+          .replace(/^---[\s\S]*?---\s*/, "")
+          .split(/\r?\n/)
+          .map(line => line.trim())
+          .find(line => line && !line.startsWith("#"));
+        const titleText = metadata.title || heading || "Power Series Lab";
+        document.title = metadata.title || heading ? `${titleText} | Power Series Lab` : "Power Series Lab";
+        title.textContent = titleText;
+        summary.textContent = metadata.description || fallbackDescription || "";
         level.textContent = metadata.level || "-";
-        duration.textContent = metadata.estimated_duration || "-";
+        duration.textContent = metadata.estimated_duration || metadata.duration || "-";
         persona.textContent = metadata.persona || "-";
         markdown.innerHTML = renderMarkdown(source, basePath);
       } catch (error) {
