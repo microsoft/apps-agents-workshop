@@ -499,12 +499,12 @@ function resolveMarkdownUrl(url, basePath) {
     function renderInlineMarkdown(value, basePath) {
       return escapeHtml(value)
         .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
-          const resolvedSrc = escapeHtml(resolveMarkdownUrl(src, basePath));
+          const resolvedSrc = resolveMarkdownUrl(src, basePath);
           return `<img src="${resolvedSrc}" alt="${escapeHtml(alt)}">`;
         })
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
-          const resolved = escapeHtml(resolveMarkdownUrl(href, basePath));
-          const attrs = /^(?:https?:|mailto:|tel:)/i.test(resolveMarkdownUrl(href, basePath)) ? ' target="_blank" rel="noopener"' : "";
+          const resolved = resolveMarkdownUrl(href, basePath);
+          const attrs = /^(?:https?:|mailto:|tel:)/i.test(resolved) ? ' target="_blank" rel="noopener"' : "";
           return `<a href="${resolved}"${attrs}>${label}</a>`;
         })
         .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
