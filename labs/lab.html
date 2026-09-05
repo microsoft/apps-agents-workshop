@@ -430,8 +430,9 @@
     const requestedPath = params.get("path");
     const requestedDeck = params.get("deck");
 
-    const path = (requestedPath && /^[A-Za-z0-9][A-Za-z0-9_./-]*\.md$/i.test(requestedPath) && !requestedPath.startsWith("/") && !requestedPath.includes(".."))
-      ? requestedPath
+    const normalizedPath = requestedPath ? requestedPath.replace(/^labs\//, "") : null;
+    const path = (normalizedPath && /^[A-Za-z0-9][A-Za-z0-9_./-]*\.md$/i.test(normalizedPath) && !normalizedPath.startsWith("/") && !normalizedPath.includes(".."))
+      ? normalizedPath
       : null;
 
     const deck = (requestedDeck && /^[A-Za-z0-9][A-Za-z0-9 &_./-]*\.pptx?$/i.test(requestedDeck) && !requestedDeck.startsWith("/") && !requestedDeck.includes("..") && !requestedDeck.includes(":"))
