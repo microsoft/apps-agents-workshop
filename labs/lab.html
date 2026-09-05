@@ -477,7 +477,11 @@
     function renderInlineMarkdown(value, basePath) {
       return escapeHtml(value)
         .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => `<img src="${resolveMarkdownUrl(src, basePath)}" alt="${alt}">`)
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => `<a href="${resolveMarkdownUrl(href, basePath)}" target="_blank" rel="noopener">${label}</a>`)
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+          const resolved = resolveMarkdownUrl(href, basePath);
+          const attrs = /^(https?:|mailto:)/.test(resolved) ? ' target="_blank" rel="noopener"' : "";
+          return `<a href="${resolved}"${attrs}>${label}</a>`;
+        })
         .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
         .replace(/`([^`]+)`/g, "<code>$1</code>");
     }
