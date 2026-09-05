@@ -643,6 +643,7 @@
         level.textContent = metadata.level || "-";
         duration.textContent = metadata.estimated_duration || metadata.duration || "-";
         persona.textContent = metadata.persona || "-";
+        const basePath = path.split("/").slice(0, -1).join("/") || ".";
         markdown.innerHTML = renderMarkdown(source, basePath);
       } catch (error) {
         title.textContent = "Lab unavailable";
