@@ -468,16 +468,6 @@
       font-size: 14px;
       font-weight: 700;
     }
-    .control label {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--ps-text-muted);
-      font-size: 12px;
-      font-weight: 750;
-      text-transform: uppercase;
-    }
-    .control input,
-    .control select,
     .clear-button {
       width: 100%;
       min-height: 44px;
@@ -557,114 +547,6 @@
       margin-top: auto;
       padding-top: 14px;
     }
-    .reader {
-      display: none;
-      background: var(--ps-surface);
-      border-top: 1px solid var(--ps-border);
-    }
-    .reader[data-open="true"] { display: block; }
-    .reader-shell {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 64px 5vw 88px;
-    }
-    .reader-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 24px;
-      align-items: start;
-      margin-bottom: 24px;
-    }
-    .reader-header h2 {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 48px);
-      line-height: 1.05;
-    }
-    .reader-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .reader-actions .primary-action,
-    .reader-actions .secondary-action {
-      min-width: 142px;
-      min-height: 42px;
-      padding: 0 14px;
-      font-size: 14px;
-    }
-    .markdown {
-      max-width: 940px;
-      color: var(--ps-text);
-      font-size: 16px;
-      line-height: 1.65;
-    }
-    .markdown h1,
-    .markdown h2,
-    .markdown h3,
-    .markdown h4,
-    .markdown h5,
-    .markdown h6 {
-      color: var(--ps-text);
-      line-height: 1.15;
-    }
-    .markdown h1 { font-size: 40px; }
-    .markdown h2 {
-      margin-top: 42px;
-      padding-top: 8px;
-      border-top: 1px solid var(--ps-border);
-      font-size: 30px;
-    }
-    .markdown h3 { margin-top: 28px; font-size: 22px; }
-    .markdown h4 { margin-top: 24px; font-size: 19px; }
-    .markdown h5,
-    .markdown h6 {
-      margin-top: 20px;
-      color: var(--ps-accent);
-      font-size: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-    .markdown p,
-    .markdown li { color: var(--ps-text-muted); }
-    .markdown blockquote {
-      margin: 20px 0;
-      padding: 14px 18px;
-      background: var(--ps-accent-soft);
-      border-left: 4px solid var(--ps-accent);
-      border-radius: 0.625rem;
-    }
-    .markdown blockquote p { margin: 0; }
-    .markdown table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 18px 0;
-      font-size: 14px;
-    }
-    .markdown th,
-    .markdown td {
-      padding: 10px 12px;
-      border: 1px solid var(--ps-border);
-      text-align: left;
-      vertical-align: top;
-    }
-    .markdown th { background: var(--ps-surface-soft); color: var(--ps-text); }
-    .markdown code,
-    .markdown pre {
-      border-radius: 0.625rem;
-      background: var(--ps-surface-soft);
-    }
-    .markdown code { padding: 2px 5px; }
-    .markdown pre {
-      overflow: auto;
-      padding: 16px;
-    }
-    .markdown img {
-      max-width: 100%;
-      border: 1px solid var(--ps-border);
-      border-radius: 0.625rem;
-      box-shadow: 0 8px 24px rgba(42, 68, 111, 0.06);
-    }
     .site-footer {
       display: flex;
       align-items: center;
@@ -697,8 +579,7 @@
     @media (max-width: 760px) {
       .site-header,
       .section-heading,
-      .catalog-heading,
-      .reader-header {
+      .catalog-heading {
         display: block;
       }
       nav { justify-content: start; margin-top: 12px; flex-wrap: wrap; }
@@ -730,7 +611,6 @@
         padding-bottom: 4px;
       }
       .market-tab { flex: 0 0 min(280px, 78vw); }
-      .reader-actions { justify-content: flex-start; margin-top: 16px; }
       .site-footer { align-items: flex-start; flex-direction: column; }
     }
   </style>
@@ -1039,7 +919,7 @@
           <small>Open marketplace</small>
         </a>
       ` : `
-        <button class="need-card" type="button" data-need="${escapeHtml(String(need.id))}" aria-pressed="${activeNeed === need.id}">
+        <button class="need-card" type="button" ${need.id === "solution-guidance" ? "disabled" : `data-need="${escapeHtml(String(need.id))}" aria-pressed="${activeNeed === need.id}"`}>
           <strong>${escapeHtml(String(need.title))}</strong>
           <span>${escapeHtml(String(need.description))}</span>
           <small>${need.id === "solution-guidance" ? "Coming soon" : "Explore labs"}</small>
