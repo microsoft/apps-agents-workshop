@@ -822,7 +822,7 @@
           .replace(/^---[\s\S]*?---\s*/, "")
           .split(/\r?\n/)
           .map(line => line.trim())
-          .find(line => line && !line.startsWith("#"));
+          .find(line => line && !line.startsWith("#") && !line.startsWith("<!--"));
         const titleText = metadata.title || heading || "Power Series Lab";
         document.title = (metadata.title || heading) ? `${titleText} | Power Series Lab` : "Power Series Lab";
         title.textContent = titleText;
