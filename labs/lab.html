@@ -579,7 +579,8 @@
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
           const resolved = resolveMarkdownUrl(decodeMarkdownUrl(href), basePath, true);
           const isExternal = /^(?:https?:|mailto:|tel:)/i.test(resolved);
-          const attrs = isExternal ? ` target="_blank" rel="noopener" aria-label="${escapeHtml(label)} (opens in a new tab)"` : "";
+          const accessibleLabel = decodeMarkdownUrl(label).replace(/[*_~`]/g, "");
+          const attrs = isExternal ? ` target="_blank" rel="noopener" aria-label="${escapeHtml(accessibleLabel)} (opens in a new tab)"` : "";
           return `<a href="${escapeHtml(resolved)}"${attrs}>${label}</a>`;
         })
         .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
