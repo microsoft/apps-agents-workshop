@@ -693,7 +693,10 @@
       }
       function flushQuote() {
         if (!quote.length) return;
-        blocks.push(`<blockquote>${renderMarkdown(quote.join("\n"), basePath, true)}</blockquote>`);
+        const alert = quote[0].match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]$/i);
+        const content = alert ? quote.slice(1) : quote;
+        const label = alert ? `<p><strong>${alert[1][0] + alert[1].slice(1).toLowerCase()}</strong></p>` : "";
+        blocks.push(`<blockquote>${label}${renderMarkdown(content.join("\n"), basePath, true)}</blockquote>`);
         quote = [];
       }
       function flushAll() {
