@@ -462,6 +462,15 @@
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
     }
+    .empty-catalog-message {
+      grid-column: 1 / -1;
+      padding: 24px;
+      background: var(--ps-card-bg);
+      border: 1px solid var(--ps-border);
+      border-radius: 12px;
+      color: var(--ps-text-muted);
+      text-align: center;
+    }
     .lab-card {
       display: flex;
       flex-direction: column;
@@ -881,7 +890,7 @@
 
     function renderNeeds() {
       needGrid.innerHTML = needs.map(need => need.url ? `
-        <a class="need-card" href="${escapeHtml(encodeURI(String(need.url)))}" target="_blank" rel="noopener">
+        <a class="need-card" href="${escapeHtml(encodeURI(String(need.url)))}" target="_blank" rel="noopener" aria-label="${escapeHtml(String(need.title))} - Open marketplace (opens in a new tab)">
           <strong>${escapeHtml(String(need.title))}</strong>
           <span>${escapeHtml(String(need.description))}</span>
           <small>Open marketplace</small>
@@ -917,6 +926,22 @@
         ? "All Power Series labs"
         : (selectedFilter?.title ?? labelFromTag(activeNeed));
       skillResultsCount.textContent = `${visible.length} ${visible.length === 1 ? "lab" : "labs"}`;
+      if (labs.length === 0) {
+        labGrid.innerHTML = `
+          <div class="empty-catalog-message" role="alert">
+            <p>Unable to load lab catalog metadata. Please check your network connection or selected branch and refresh the page.</p>
+          </div>
+        `;
+        return;
+      }
+      if (visible.length === 0) {
+        labGrid.innerHTML = `
+          <div class="empty-catalog-message">
+            <p>No labs match the selected filter.</p>
+          </div>
+        `;
+        return;
+      }
       labGrid.innerHTML = visible.map(lab => `
         <article class="lab-card">
           <div class="lab-meta">
@@ -927,8 +952,8 @@
           <h3>${escapeHtml(String(lab.title))}</h3>
           <p>${escapeHtml(String(lab.description))}</p>
           <div class="lab-actions">
-            <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" target="_blank" rel="noopener" aria-label="Open lab details for ${escapeHtml(String(lab.title))}">Lab</a>
-            ${lab.deck ? `<a class="deck-link" href="${escapeHtml(contentUrl(lab.deck))}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))}">Presentation</a>` : ""}
+            <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" target="_blank" rel="noopener" aria-label="Open lab details for ${escapeHtml(String(lab.title))} (opens in a new tab)">Lab</a>
+            ${lab.deck ? `<a class="deck-link" href="${escapeHtml(contentUrl(lab.deck))}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))} (opens in a new tab)">Presentation</a>` : ""}
           </div>
         </article>
       `).join("");
@@ -952,7 +977,12 @@
       renderNeeds();
       renderLabs();
     }).catch(error => {
-      resultCount.textContent = (error && error.message) ? String(error.message) : "Failed to load catalog.";
+      resultCount.textContent = "0 labs";
+      labGrid.innerHTML = `
+        <div class="empty-catalog-message" role="alert">
+          <p>Failed to load catalog: ${escapeHtml((error && error.message) ? String(error.message) : "Unable to fetch lab catalog metadata.")}</p>
+        </div>
+      `;
     });
   </script>
 </body>
