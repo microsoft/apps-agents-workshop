@@ -781,7 +781,7 @@
           });
           continue;
         }
-        const alert = line.match(/^\s{0,4}>\s*\[!(NOTE|TIP|IMPORTANT|WARNING)\]\s*(.*)$/i);
+        const alert = line.match(/^\s{0,4}>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(.*)$/i);
         if (alert) {
           flushParagraph();
           flushTable();
@@ -807,7 +807,7 @@
               nextIndex += 1;
               continue;
             }
-            if (/^\[!(NOTE|TIP|IMPORTANT|WARNING)\]/i.test(nextText)) break;
+            if (/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i.test(nextText)) break;
             contentLines.push(nextText);
             nextIndex += 1;
           }
