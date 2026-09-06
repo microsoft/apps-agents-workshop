@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Power Series Labs flyer with linked learning modules.">
+  <link rel="icon" href="assets/infinity-panel-crop-transparent-dark.png">
+  <title>Power Series Labs Flyer - Dense</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param === "light" || param === "dark"
+          ? param
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #fbf8ff;
+      --cp-bg-elevated: #f3ecfa;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f1e9f7;
+      --cp-border: #ded0ec;
+      --cp-border-strong: #8d57ad;
+      --cp-text: #22182f;
+      --cp-text-muted: #63596e;
+      --cp-text-soft: #7c7288;
+      --cp-accent: #6b3a8f;
+      --cp-accent-hover: #572876;
+      --cp-accent-soft: rgba(107, 58, 143, 0.14);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #6b3a8f;
+      --cp-shadow: 0 18px 46px rgba(107, 58, 143, 0.22);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(107, 58, 143, 0.16);
+      --cp-blue: #0878d1;
+      --cp-purple: #8746d8;
+      --cp-orange: #ed9846;
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #0c1430;
+      --cp-bg-elevated: #111b3d;
+      --cp-surface: #162245;
+      --cp-surface-soft: #1e2c54;
+      --cp-border: #2f4069;
+      --cp-border-strong: #6175a5;
+      --cp-text: #f5f7ff;
+      --cp-text-muted: #aebbd7;
+      --cp-text-soft: #c9d2e7;
+      --cp-accent: #55b7ff;
+      --cp-accent-hover: #7ac6ff;
+      --cp-accent-soft: rgba(85, 183, 255, 0.14);
+      --cp-accent-fg: #08112b;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #7ac6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(12, 20, 48, 0.88);
+      --cp-panel: rgba(12, 20, 48, 0.78);
+      --cp-panel-strong: rgba(12, 20, 48, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(85, 183, 255, 0.12);
+      --cp-blue: #55b7ff;
+      --cp-purple: #aebbd7;
+      --cp-orange: #fbbf24;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    a { color: inherit; }
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 64px) 56px;
+    }
+    header {
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 28px;
+      align-items: center;
+      margin: 0 calc(clamp(24px, 5vw, 64px) * -1);
+      padding: 0 clamp(24px, 5vw, 64px);
+      background: var(--cp-panel-strong);
+      border-bottom: 1px solid var(--cp-border);
+      box-shadow: 0 4px 18px rgba(42, 68, 111, 0.06);
+    }
+    .platform-logo {
+      width: 220px;
+      height: auto;
+      display: block;
+      font-weight: 600;
+    }
+    .power-cat {
+      width: 118px;
+      height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      object-fit: contain;
+      object-position: right center;
+      font-weight: 600;
+    }
+    .logo-on-dark { display: none !important; }
+    html[data-theme="dark"] .logo-on-light { display: none !important; }
+    html[data-theme="dark"] .logo-on-dark { display: block !important; }
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1fr);
+      gap: 44px;
+      align-items: center;
+      margin: 0 calc(clamp(24px, 5vw, 64px) * -1) 0;
+      padding: 42px clamp(24px, 5vw, 64px) 50px;
+      overflow: hidden;
+      background: radial-gradient(700px 260px at 78% 25%, var(--cp-highlight), transparent 68%), var(--cp-bg-elevated);
+      border-bottom: 8px solid transparent;
+      border-image: linear-gradient(90deg, #6b3a8f, #8f4d9d 55%, #b36a93) 1;
+    }
+    .hero::before {
+      content: none;
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--cp-accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      color: var(--cp-text);
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: 0.96;
+      letter-spacing: -0.02em;
+    }
+    .catalog-line {
+      margin: 28px 0 0;
+      color: var(--cp-text-muted);
+      font-size: clamp(20px, 2.5vw, 32px);
+      font-weight: 650;
+      line-height: 1.15;
+    }
+    .hero-copy {
+      max-width: 560px;
+      margin: 14px 0 0;
+      color: var(--cp-text-muted);
+      font-size: clamp(15px, 1.35vw, 18px);
+      line-height: 1.42;
+    }
+    .hero-subhead {
+      margin: 0;
+      color: var(--cp-text);
+      font-size: clamp(18px, 1.7vw, 24px);
+      font-weight: 750;
+      line-height: 1.3;
+    }
+    .series-title {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      max-width: 720px;
+      margin: 0;
+      color: var(--cp-text);
+      font-size: clamp(38px, 4.3vw, 56px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+    .series-mark {
+      position: relative;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      transform: rotate(45deg);
+    }
+    .series-mark i {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+    }
+    .series-mark i:nth-child(1) { top: 0; left: 0; background: #8a3fd1; }
+    .series-mark i:nth-child(2) { top: 0; right: 0; background: #d648b3; }
+    .series-mark i:nth-child(3) { right: 0; bottom: 0; background: #0878d1; }
+    .catalog-line span:nth-child(1) { color: var(--cp-blue); }
+    .catalog-line span:nth-child(2) { color: var(--cp-purple); }
+    .catalog-line span:nth-child(3) { color: var(--cp-orange); }
+    .toolbox-story {
+      position: relative;
+      min-height: 230px;
+      margin: 0 0 28px;
+      overflow: hidden;
+      padding: 0;
+      background: var(--cp-bg);
+      border-bottom: 0.5px solid var(--cp-border);
+    }
+    .toolbox-story-inner {
+      position: relative;
+      z-index: 1;
+      min-height: 230px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 20px 0;
+    }
+    .toolbox-visual {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 50%;
+      height: 100%;
+      object-fit: contain;
+      object-position: 0 center;
+    }
+    html[data-theme="dark"] .toolbox-visual {
+      width: 50%;
+      object-fit: cover;
+      object-position: 42% center;
+      transform: scale(1.06);
+      transform-origin: left center;
+    }
+    .toolbox-copy {
+      width: 48%;
+      max-width: 540px;
+      padding: 0;
+      transform: translateX(-40px);
+    }
+    .toolbox-copy h2 {
+      max-width: 500px;
+      margin: 0;
+      color: var(--cp-text);
+      font-size: clamp(23px, 2.5vw, 32px);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+    }
+    .toolbox-copy p {
+      max-width: 500px;
+      margin: 10px 0 0;
+      color: var(--cp-text-muted);
+      font-size: clamp(14px, 1.1vw, 16px);
+      line-height: 1.5;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .primary-action,
+    .secondary-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 0.625rem;
+      font-weight: 650;
+      text-decoration: none;
+    }
+    .primary-action {
+      min-height: 36px;
+      padding: 0 14px;
+      background: var(--cp-surface);
+      color: var(--cp-accent);
+      border: 1px solid var(--cp-border-strong);
+      font-size: 13px;
+    }
+    .secondary-action {
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      border: 1px solid var(--cp-border);
+    }
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 48px;
+      margin-bottom: 24px;
+    }
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(32px, 3.4vw, 44px);
+      line-height: 1.1;
+    }
+    .section-heading .eyebrow {
+      margin: 10px 0 0;
+    }
+    .section-heading p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--cp-text-muted);
+      line-height: 1.55;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+    .lab-table {
+      width: 100%;
+      min-width: 0;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .lab-table th {
+      position: relative;
+      min-height: 76px;
+      padding: 18px 12px 32px;
+      color: var(--cp-text);
+      font-size: 13.5px;
+      font-family: "Segoe UI Semibold", "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 750;
+      line-height: 1.2;
+      text-align: left;
+      vertical-align: top;
+      background: var(--cp-surface);
+      border-bottom: 1px solid var(--cp-border);
+      border-right: 1px solid var(--cp-border);
+    }
+    .lab-table th::after {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: var(--cp-accent);
+      opacity: 0.72;
+    }
+    .lab-table th:last-child,
+    .lab-table td:last-child { border-right: 0; }
+    .lab-table th span {
+      position: absolute;
+      right: 10px;
+      bottom: 9px;
+      display: block;
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .lab-table td {
+      padding: 10px;
+      vertical-align: top;
+      background: var(--cp-surface);
+      border-right: 1px solid var(--cp-border);
+    }
+    .lab-cell-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .lab-cell-list a {
+      position: relative;
+      display: block;
+      min-height: 58px;
+      overflow: hidden;
+      padding: 10px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-left: 3px solid var(--cp-accent);
+      border-radius: 0.625rem;
+      color: var(--cp-text);
+      text-decoration: none;
+      box-shadow:
+        0 6px 14px rgba(107, 58, 143, 0.12),
+        inset 0 1px 0 var(--cp-sheen);
+      transform: translateZ(0);
+    }
+    .lab-cell-list a:hover {
+      border-color: var(--cp-accent);
+      color: var(--cp-link);
+      box-shadow:
+        0 8px 18px rgba(107, 58, 143, 0.16),
+        inset 0 1px 0 var(--cp-sheen);
+    }
+    .lab-cell-list a:focus-visible {
+      border-color: var(--cp-accent);
+      color: var(--cp-link);
+      outline: 3px solid var(--cp-accent);
+      outline-offset: 2px;
+      box-shadow:
+        0 8px 18px rgba(107, 58, 143, 0.16),
+        inset 0 1px 0 var(--cp-sheen);
+    }
+    .lab-title {
+      display: block;
+      font-size: 12px;
+      font-family: "Segoe UI Semibold", "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 700;
+      line-height: 1.28;
+    }
+    .lab-meta {
+      display: block;
+      margin-top: 3px;
+      color: var(--cp-text-muted);
+      font-size: 9.5px;
+      line-height: 1.35;
+    }
+    .table-note {
+      margin: 8px 0 0;
+      color: var(--cp-text-muted);
+      font-size: 11px;
+      text-align: left;
+    }
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      font-size: 13px;
+    }
+    .footer-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
+    }
+    .microsoft-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cp-text);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .microsoft-mark {
+      display: grid;
+      grid-template-columns: repeat(2, 10px);
+      grid-template-rows: repeat(2, 10px);
+      gap: 2px;
+      width: 22px;
+      height: 22px;
+    }
+    .microsoft-mark i:nth-child(1) { background: #f25022; }
+    .microsoft-mark i:nth-child(2) { background: #7fba00; }
+    .microsoft-mark i:nth-child(3) { background: #00a4ef; }
+    .microsoft-mark i:nth-child(4) { background: #ffb900; }
+    @media print {
+      body { background: var(--cp-bg); }
+      .page { max-width: none; padding: 24px; }
+      header,
+      .hero,
+      .table-wrap { break-inside: avoid; }
+      a { text-decoration: none; }
+    }
+    @media (max-width: 1080px) {
+      .table-wrap { margin-right: calc(clamp(24px, 5vw, 64px) * -1); }
+    }
+    @media (max-width: 760px) {
+      header,
+      .hero,
+      .toolbox-story-inner,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+      .toolbox-story-inner {
+        grid-template-columns: 1fr;
+      }
+      .toolbox-visual {
+        width: 520px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <span class="platform-logo">Microsoft Power Platform</span>
+      <span></span>
+      <span class="power-cat logo-on-light">Power CAT</span>
+      <span class="power-cat logo-on-dark">Power CAT</span>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 class="series-title" id="hero-title"><span class="series-mark" aria-hidden="true"><i></i><i></i><i></i></span>Power Series</h1>
+        <p class="catalog-line"><span>Learn Faster.</span> <span>Build Smarter.</span> <span>Apply with Confidence.</span></p>
+      </div>
+      <div>
+        <p class="hero-subhead">Let your business need shape the solution.</p>
+        <p class="hero-copy">Get hands-on with Power Platform and learn to design the right solution for any business process. Run a track end to end, or choose the modules that fit your scenario, audience and skill level.</p>
+        <div class="cta-row">
+          <a class="primary-action" href="index.html#labs">Explore labs</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolbox-story" aria-labelledby="toolbox-title">
+      <div class="toolbox-story-inner">
+        <img class="toolbox-visual logo-on-light" src="assets/infinity-panel-crop-transparent-dark.png" alt="">
+        <img class="toolbox-visual logo-on-dark" src="assets/infinity-panel-crop-transparent-dark.png" alt="">
+        <div class="toolbox-copy">
+          <h2 id="toolbox-title">One toolbox. So you have the right tool, every time.</h2>
+          <p>Power Platform brings apps, automation, agents and data together in one governed toolbox. Each tool has a distinct role, and together they adapt to your context and constraints.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="tracks-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="tracks-title">Power Series lab catalog</h2>
+          <p class="eyebrow">Choose your path</p>
+          <p class="table-note">Click any lab title to open the full lab.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="lab-table" aria-label="Power Series lab catalog">
+          <thead>
+            <tr>
+              <th>Digitize internal operations <span>3 labs</span></th>
+              <th>Automate workflows and processes <span>4 labs</span></th>
+              <th>Improve customer interactions <span>1 lab</span></th>
+              <th>Modernize existing applications <span>4 labs</span></th>
+              <th>Strengthen governance and security <span>3 labs</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <ul class="lab-cell-list">
+                  <li><a href="canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md"><span class="lab-title">Authoring Canvas Apps and Dataverse Tables with MCP</span><span class="lab-meta">Level 200 · 40 minutes</span></a></li>
+                  <li><a href="powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md"><span class="lab-title">Automate Work in Power Apps with Supervised Agents</span><span class="lab-meta">Level 100 · 1 hour</span></a></li>
+                  <li><a href="byoc-powerapps/byoc-powerapps.md"><span class="lab-title">Building code first apps (code apps) in Power Platform</span><span class="lab-meta">Level 200 · 40 minutes (115 minutes with all optional extensions)</span></a></li>
+                </ul>
+              </td>
+              <td>
+                <ul class="lab-cell-list">
+                  <li><a href="automations-foundation/01-cloud-flow.md"><span class="lab-title">Automation Foundations: Cloud Flow</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
+                  <li><a href="automations-foundation/02-rpa.md"><span class="lab-title">Automation Foundations: Robotic Process Automation</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
+                  <li><a href="automations-foundation/03-workflow.md"><span class="lab-title">Automation Foundations: Workflows</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
+                  <li><a href="automations-foundation/04-cua.md"><span class="lab-title">Automation Foundations: Computer Use Agent</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
+                </ul>
+              </td>
+              <td>
+                <ul class="lab-cell-list">
+                  <li><a href="byoc-powerpages/byoc-powerpages.md"><span class="lab-title">Building code first website with Power Pages</span><span class="lab-meta">Level 200 · 40 minutes</span></a></li>
+                </ul>
+              </td>
+              <td>
+                <ul class="lab-cell-list">
+                  <li><a href="generative-pages/generative-pages-github-copilot.md"><span class="lab-title">AI-Powered Modern UX for Model-Driven Apps</span><span class="lab-meta">Level 200 · 75 minutes</span></a></li>
+                  <li><a href="in-app-agents/in-app-agents.md"><span class="lab-title">Bring AI Inside Your App: Natural Language Queries, Auto Charts & Smart Form Fill</span><span class="lab-meta">Level 100 · 30 mins</span></a></li>
+                  <li><a href="dataverse-business-skills/dataverse-business-skills.md"><span class="lab-title">Centralize Business Rules &amp; Policies in Dataverse Skills</span><span class="lab-meta">Level 300 · 75 minutes</span></a></li>
+                  <li><a href="mcp-apps/mcp-apps.md"><span class="lab-title">Enable Power Apps (MDA) and custom tools in Microsoft 365 Copilot</span><span class="lab-meta">Level 200 · 40 mins</span></a></li>
+                </ul>
+              </td>
+              <td>
+                <ul class="lab-cell-list">
+                  <li><a href="managed-platform/managed-governance/environment-strategy-and-governance/README.md"><span class="lab-title">Managed Governance: Environment Strategy &amp; Governance</span><span class="lab-meta">Level 200 · 120 minutes</span></a></li>
+                  <li><a href="managed-platform/managed-governance/inventory-and-monitoring/README.md"><span class="lab-title">Managed Operations: Inventory &amp; Monitoring</span><span class="lab-meta">Level 200 · 120 minutes</span></a></li>
+                  <li><a href="managed-platform/managed-security/README.md"><span class="lab-title">Managed Security</span><span class="lab-meta">Level 300 · 120 minutes</span></a></li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-left">
+        <span class="microsoft-brand"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span>
+        <a href="https://aka.ms/PowerSeries/Labs">aka.ms/PowerSeries/Labs</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
