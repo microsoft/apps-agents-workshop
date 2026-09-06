@@ -541,9 +541,9 @@
       if (resolvedRelative.includes("..")) return "#";
 
       const isLocalPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-      const isImageAsset = /\.(?:png|jpe?g|gif|svg|webp|avif)$/i.test(trimmed);
+      const isBranchAsset = /\.(?:png|jpe?g|gif|svg|webp|avif|pdf)$/i.test(relativePath);
       const isSafeRelative = !trimmed.startsWith("../") && !trimmed.includes("..");
-      return (!isLocalPreview && isImageAsset && isSafeRelative) ? contentUrl(resolvedRelative) : resolvedRelative;
+      return (!isLocalPreview && isBranchAsset && isSafeRelative) ? contentUrl(resolvedRelative) : resolvedRelative;
     }
  
     function renderInlineMarkdown(value, basePath) {
@@ -704,7 +704,7 @@
         const line = lines[index];
         if (/^\s*<!--.*?-->\s*$/.test(line) || /^\s*<!--/.test(line) || /^\s*-->/.test(line)) continue;
 
-        const fence = line.match(/^(\s{0,4})```/);
+        const fence = line.match(/^(\s*)```/);
         if (fence) {
           if (inCode) {
             blocks.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
@@ -781,6 +781,11 @@
           flushTable();
           flushList();
           quote.push(quoted[1]);
+          continue;
+        }
+        if (/^\s{0,3}(?:-{3,}|\*{3,}|_{3,})\s*$/.test(line)) {
+          flushAll();
+          blocks.push("<hr>");
           continue;
         }
         flushTable();
