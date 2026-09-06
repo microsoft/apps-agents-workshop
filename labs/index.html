@@ -908,6 +908,8 @@
           renderNeeds();
           renderCatalogTabs();
           renderLabs();
+          [...marketTabs.querySelectorAll("[data-need]")]
+            .find(tab => tab.dataset.need === activeNeed)?.focus();
         });
       });
     }
