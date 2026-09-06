@@ -691,7 +691,8 @@
         flushQuote();
       }
 
-      for (const line of lines) {
+      for (let index = 0; index < lines.length; index += 1) {
+        const line = lines[index];
         if (/^\s*<!--.*?-->\s*$/.test(line) || /^\s*<!--/.test(line) || /^\s*-->/.test(line)) continue;
 
         const fence = line.match(/^(\s{0,4})```/);
@@ -727,6 +728,10 @@
         }
         if (/^\s*<!--.*-->\s*$/.test(line)) continue;
         if (!line.trim()) {
+          const nextNonEmpty = lines.slice(index + 1).find(nextLine => nextLine.trim());
+          if (nextNonEmpty && /^\s*(?:[-*+]\s+|\d+[.)]\s+)/.test(nextNonEmpty)) {
+            continue;
+          }
           flushAll();
           continue;
         }
