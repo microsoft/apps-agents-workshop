@@ -685,6 +685,13 @@
       { id: "skills-marketplace", title: "Explore Skills Marketplace", description: "Find Power CAT skills for assessment, design, migration, review, and documentation.", url: "https://microsoft.github.io/power-cat-skills/power-platform-migration-factory/index.html#tracks" }
     ];
 
+    const fallbackLabTags = {
+      "automations-foundation/README.md": ["automate-workflows-and-processes"],
+      "managed-platform/managed-security/ip-firewall/README.md": ["strengthen-governance-and-security"],
+      "managed-platform/managed-security/ip-cookie-binding/README.md": ["strengthen-governance-and-security"],
+      "managed-platform/managed-security/cmk/README.md": ["strengthen-governance-and-security"]
+    };
+
     const fallbackLabSources = [
       { path: "prereqs.md" },
       { path: "automations-foundation/README.md" },
@@ -756,6 +763,18 @@
 
     function hasRequiredFrontMatter(metadata) {
       return ["title", "level", "description", "persona", "tags"].every(field => metadata?.[field]) && (metadata.estimated_duration || metadata.duration);
+    }
+
+    function deriveFallbackDescription(content) {
+      return content
+        .replace(/^---[\s\S]*?---\s*/, "")
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .find(line => line
+          && !line.startsWith("#")
+          && !line.startsWith("<!--")
+          && !line.startsWith("-->")
+          && !/^built by:/i.test(line));
     }
 
     function dirname(path) {
@@ -835,18 +854,14 @@
           const content = await response.text();
           const metadata = parseFrontMatter(content) || {};
           const heading = content.match(/^#\s+(.+)$/m)?.[1]?.trim();
-          const description = content
-            .replace(/^---[\s\S]*?---\s*/, "")
-            .split(/\r?\n/)
-            .map(line => line.trim())
-            .find(line => line && !line.startsWith("#") && !line.startsWith("<!--") && !line.startsWith("-->"));
+          const description = deriveFallbackDescription(content);
           if (!hasRequiredFrontMatter(metadata) && !heading) return null;
           if (!hasRequiredFrontMatter(metadata)) {
             metadata.title = heading;
             metadata.level = "—";
             metadata.duration = "Self-paced";
             metadata.persona = "All learners";
-            metadata.tags = [];
+            metadata.tags = fallbackLabTags[source.path] || [];
             metadata.description = description || "Explore this workshop resource.";
           }
           return {

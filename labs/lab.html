@@ -605,8 +605,8 @@
       return fields;
     }
 
-    function renderMarkdown(source, basePath) {
-      const lines = source.replace(/^---[\s\S]*?---\s*/, "").split(/\r?\n/);
+    function renderMarkdown(source, basePath, nested = false) {
+      const lines = (nested ? source : source.replace(/^---[\s\S]*?---\s*/, "")).split(/\r?\n/);
       const blocks = [];
       let paragraph = [];
       let code = [];
@@ -637,7 +637,12 @@
 
       function flushParagraph() {
         if (!paragraph.length) return;
-        blocks.push(`<p>${renderInlineMarkdown(paragraph.join(" "), basePath)}</p>`);
+        const joined = paragraph
+          .map((entry, position) => position === paragraph.length - 1
+            ? entry.text
+            : `${entry.text}${entry.hardBreak ? "\u0000BR\u0000" : " "}`)
+          .join("");
+        blocks.push(`<p>${renderInlineMarkdown(joined, basePath).replace(/\u0000BR\u0000/g, "<br>")}</p>`);
         paragraph = [];
       }
       function flushTable() {
@@ -690,7 +695,7 @@
       }
       function flushQuote() {
         if (!quote.length) return;
-        blocks.push(`<blockquote><p>${quote.map(line => renderInlineMarkdown(line, basePath)).join("<br>")}</p></blockquote>`);
+        blocks.push(`<blockquote>${renderMarkdown(quote.join("\n"), basePath, true)}</blockquote>`);
         quote = [];
       }
       function flushAll() {
@@ -791,7 +796,7 @@
         flushTable();
         flushList();
         flushQuote();
-        paragraph.push(line.trim());
+        paragraph.push({ text: line.trim(), hardBreak: /\S {2,}$/.test(line) });
       }
       if (htmlBlock.length) {
         blocks.push(`<p>${renderInlineMarkdown(htmlBlock.join(" "), basePath)}</p>`);
@@ -835,7 +840,11 @@
           .replace(/^---[\s\S]*?---\s*/, "")
           .split(/\r?\n/)
           .map(line => line.trim())
-          .find(line => line && !line.startsWith("#") && !line.startsWith("<!--"));
+          .find(line => line
+            && !line.startsWith("#")
+            && !line.startsWith("<!--")
+            && !line.startsWith("-->")
+            && !/^built by:/i.test(line));
         const titleText = metadata.title || heading || "Power Series Lab";
         document.title = (metadata.title || heading) ? `${titleText} | Power Series Lab` : "Power Series Lab";
         title.textContent = titleText;
