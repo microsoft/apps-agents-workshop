@@ -689,6 +689,7 @@
           htmlBlock = [line];
           continue;
         }
+        if (/^\s*<!--.*-->\s*$/.test(line)) continue;
         if (!line.trim()) {
           flushAll();
           continue;
