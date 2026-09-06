@@ -629,7 +629,7 @@
     <section class="toolbox-panel" aria-label="Power Platform toolbox">
       <div class="toolbox-inner">
         <img class="toolbox-visual theme-light-only" src="assets/infinity-panel-crop-transparent.png" alt="">
-        <img class="toolbox-visual theme-dark-only" src="assets/Leon_imagery_Dark.png" alt="">
+        <img class="toolbox-visual theme-dark-only" src="assets/inifinity-panel-crop-dark.png" alt="">
         <div class="toolbox-copy">
           <h2>One toolbox. So you have the right tool, every time.</h2>
           <p>Power Platform brings apps, automation, agents and data together in one governed toolbox. Each tool has a distinct role, and together they adapt to your context and constraints to meet the needs of every audience and level of complexity.</p>
@@ -890,11 +890,18 @@
     }
 
     function renderCatalogTabs() {
+      const previousFocus = document.activeElement instanceof HTMLElement && document.activeElement.matches("[data-need]")
+        ? document.activeElement.dataset.need
+        : null;
       marketTabs.innerHTML = catalogFilters().map(filter => `
         <button class="market-tab" type="button" data-need="${escapeHtml(String(filter.id))}" aria-pressed="${activeNeed === filter.id}">
           ${escapeHtml(String(filter.title))}
         </button>
       `).join("");
+      const activeButton = [...marketTabs.querySelectorAll("[data-need]")].find(button => button.dataset.need === activeNeed);
+      if (activeButton && previousFocus === activeNeed) {
+        activeButton.focus();
+      }
       marketTabs.querySelectorAll("[data-need]").forEach(button => {
         button.addEventListener("click", () => {
           activeNeed = button.dataset.need;

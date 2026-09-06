@@ -520,7 +520,8 @@
       const basePrefix = normalizedBase ? `${normalizedBase}/` : "";
       const [relativePath, relativeFragment = ""] = trimmed.split("#", 2);
       const resolvedRelative = `${basePrefix}${relativePath}`;
-      if (isLink && /\.md(?:#.*)?$/i.test(trimmed)) {
+      const isDownloadResourceLink = /(^|\/)resources\//i.test(relativePath);
+      if (isLink && /\.md(?:#.*)?$/i.test(trimmed) && !isDownloadResourceLink) {
         const segments = resolvedRelative.split("/");
         const normalizedSegments = [];
         for (const segment of segments) {
@@ -545,7 +546,7 @@
       const isSafeRelative = !trimmed.startsWith("../") && !trimmed.includes("..");
       return (!isLocalPreview && isBranchAsset && isSafeRelative) ? contentUrl(resolvedRelative) : resolvedRelative;
     }
- 
+
     function renderInlineMarkdown(value, basePath) {
       const htmlTokens = [];
       const escapedValue = String(value).replace(/<\/?p(?:\s+align="center")?\s*>|<img\s+([^>]+)>/gi, (match, attributes) => {
@@ -652,15 +653,11 @@
       }
       function flushList() {
         if (!listItems.length) return;
-        function renderListGroup(index, indent) {
-          const item = listItems[index];
-          if (!item || item.indent < indent) {
-            return { html: "", nextIndex: index };
-          }
-          const tag = item.type === "ol" ? "ol" : "ul";
-          const startAttr = tag === "ol" && item.start > 1 ? ` start="${item.start}"` : "";
+        function renderListGroup(startIndex, indent) {
+          const currentType = listItems[startIndex].type;
+          const listTag = currentType === "ol" ? "ol" : "ul";
           const renderedItems = [];
-          let position = index;
+          let position = startIndex;
           while (position < listItems.length) {
             const current = listItems[position];
             if (current.indent < indent) break;
@@ -672,18 +669,19 @@
               position = nested.nextIndex;
               continue;
             }
-            if (current.type !== tag) break;
-            const children = [];
-            if (position + 1 < listItems.length && listItems[position + 1].indent > indent) {
-              const nested = renderListGroup(position + 1, listItems[position + 1].indent);
-              children.push(nested.html);
-              position = nested.nextIndex;
-            } else {
-              position += 1;
+            if (current.type !== currentType) break;
+            let itemPosition = position + 1;
+            const childBlocks = [];
+            while (itemPosition < listItems.length && listItems[itemPosition].indent > indent) {
+              const nested = renderListGroup(itemPosition, listItems[itemPosition].indent);
+              childBlocks.push(nested.html);
+              itemPosition = nested.nextIndex;
             }
-            renderedItems.push(`<li>${renderInlineMarkdown(current.text, basePath)}${children.join("")}</li>`);
+            renderedItems.push(`<li>${renderInlineMarkdown(current.text, basePath)}${childBlocks.join("")}</li>`);
+            position = itemPosition;
           }
-          return { html: `<${tag}${startAttr}>${renderedItems.join("")}</${tag}>`, nextIndex: position };
+          const startAttr = listTag === "ol" && listItems[startIndex].start > 1 ? ` start="${listItems[startIndex].start}"` : "";
+          return { html: `<${listTag}${startAttr}>${renderedItems.join("")}</${listTag}>`, nextIndex: position };
         }
         let index = 0;
         while (index < listItems.length) {
@@ -778,6 +776,41 @@
             start: ordered ? Number(match[2]) : 1,
             text: match[3]
           });
+          continue;
+        }
+        const alert = line.match(/^\s{0,4}>\s*\[!(NOTE|TIP|IMPORTANT|WARNING)\]\s*(.*)$/i);
+        if (alert) {
+          flushParagraph();
+          flushTable();
+          flushList();
+          const alertKind = alert[1].toLowerCase();
+          const label = alert[1].charAt(0).toUpperCase() + alert[1].slice(1).toLowerCase();
+          const contentLines = [];
+          if (alert[2].trim()) contentLines.push(alert[2].trim());
+          let nextIndex = index + 1;
+          while (nextIndex < lines.length) {
+            const nextLine = lines[nextIndex];
+            if (!nextLine.trim()) {
+              if (contentLines.length) {
+                nextIndex += 1;
+                continue;
+              }
+              break;
+            }
+            const nextQuote = nextLine.match(/^\s{0,4}>\s?(.*)$/);
+            if (!nextQuote) break;
+            const nextText = nextQuote[1].trim();
+            if (!nextText) {
+              nextIndex += 1;
+              continue;
+            }
+            if (/^\[!(NOTE|TIP|IMPORTANT|WARNING)\]/i.test(nextText)) break;
+            contentLines.push(nextText);
+            nextIndex += 1;
+          }
+          const content = contentLines.join("\n").trim();
+          blocks.push(`<blockquote class="markdown-alert markdown-alert-${alertKind}"><p><strong>${label}</strong>${content ? ` ${renderInlineMarkdown(content, basePath)}` : ""}</p></blockquote>`);
+          index = nextIndex - 1;
           continue;
         }
         const quoted = line.match(/^\s{0,4}>\s?(.*)$/);
