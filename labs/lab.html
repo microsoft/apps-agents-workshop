@@ -661,10 +661,13 @@
             if (current.indent < indent) break;
             if (current.indent > indent) {
               const nested = renderListGroup(position, current.indent);
-              renderedItems.push(nested.html);
+              if (renderedItems.length) {
+                renderedItems[renderedItems.length - 1] = renderedItems[renderedItems.length - 1].replace(/<\/li>$/, `${nested.html}</li>`);
+              }
               position = nested.nextIndex;
               continue;
             }
+            if (current.type !== tag) break;
             const children = [];
             if (position + 1 < listItems.length && listItems[position + 1].indent > indent) {
               const nested = renderListGroup(position + 1, listItems[position + 1].indent);
@@ -677,7 +680,12 @@
           }
           return { html: `<${tag}${startAttr}>${renderedItems.join("")}</${tag}>`, nextIndex: position };
         }
-        blocks.push(renderListGroup(0, listItems[0].indent).html);
+        let index = 0;
+        while (index < listItems.length) {
+          const group = renderListGroup(index, listItems[index].indent);
+          blocks.push(group.html);
+          index = group.nextIndex;
+        }
         listItems = [];
       }
       function flushQuote() {
