@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Power Series Labs flyer with linked learning modules.">
-  <link rel="icon" href="assets/power-platform-logo.png">
+  <link rel="icon" href="assets/infinity-panel-crop-transparent-dark.png">
   <title>Power Series Labs Flyer - Dense</title>
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("scoutTheme");
       const theme =
-        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        param === "light" || param === "dark"
+          ? param
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
@@ -103,12 +105,17 @@
       width: 220px;
       height: auto;
       display: block;
+      font-weight: 600;
     }
     .power-cat {
       width: 118px;
       height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
       object-fit: contain;
       object-position: right center;
+      font-weight: 600;
     }
     .logo-on-dark { display: none !important; }
     html[data-theme="dark"] .logo-on-light { display: none !important; }
@@ -388,6 +395,15 @@
         0 8px 18px rgba(107, 58, 143, 0.16),
         inset 0 1px 0 var(--cp-sheen);
     }
+    .lab-cell-list a:focus-visible {
+      border-color: var(--cp-accent);
+      color: var(--cp-link);
+      outline: 3px solid var(--cp-accent);
+      outline-offset: 2px;
+      box-shadow:
+        0 8px 18px rgba(107, 58, 143, 0.16),
+        inset 0 1px 0 var(--cp-sheen);
+    }
     .lab-title {
       display: block;
       font-size: 12px;
@@ -476,12 +492,10 @@
 <body>
   <div class="page">
     <header>
-      <img class="platform-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
+      <span class="platform-logo">Microsoft Power Platform</span>
       <span></span>
-      <picture>
-        <img class="power-cat logo-on-light" src="assets/power-cat-dark.png" alt="Power CAT">
-        <img class="power-cat logo-on-dark" src="assets/power-cat-light.png" alt="Power CAT">
-      </picture>
+      <span class="power-cat logo-on-light">Power CAT</span>
+      <span class="power-cat logo-on-dark">Power CAT</span>
     </header>
 
     <section class="hero" aria-labelledby="hero-title">
@@ -493,14 +507,14 @@
         <p class="hero-subhead">Let your business need shape the solution.</p>
         <p class="hero-copy">Get hands-on with Power Platform and learn to design the right solution for any business process. Run a track end to end, or choose the modules that fit your scenario, audience and skill level.</p>
         <div class="cta-row">
-          <a class="primary-action" href="https://microsoft.github.io/apps-agents-workshop/labs/index.html#labs">Explore labs</a>
+          <a class="primary-action" href="index.html#labs">Explore labs</a>
         </div>
       </div>
     </section>
 
     <section class="toolbox-story" aria-labelledby="toolbox-title">
       <div class="toolbox-story-inner">
-        <img class="toolbox-visual logo-on-light" src="assets/infinity-panel-crop-transparent.png" alt="">
+        <img class="toolbox-visual" src="assets/infinity-panel-crop-transparent-dark.png" alt="">
         <img class="toolbox-visual logo-on-dark" src="assets/infinity-panel-crop-transparent-dark.png" alt="">
         <div class="toolbox-copy">
           <h2 id="toolbox-title">One toolbox. So you have the right tool, every time.</h2>
@@ -519,7 +533,7 @@
       </div>
 
       <div class="table-wrap">
-        <table class="lab-table">
+        <table class="lab-table" aria-label="Power Series lab catalog">
           <thead>
             <tr>
               <th>Digitize internal operations <span>3 labs</span></th>
@@ -533,37 +547,37 @@
             <tr>
               <td>
                 <ul class="lab-cell-list">
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md"><span class="lab-title">Authoring Canvas Apps and Dataverse Tables with MCP</span><span class="lab-meta">Level 200 · 40 minutes</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md"><span class="lab-title">Automate Work in Power Apps with Supervised Agents</span><span class="lab-meta">Level 100 · 1 hour</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/byoc-powerapps/byoc-powerapps.md"><span class="lab-title">Building code first apps (code apps) in Power Platform</span><span class="lab-meta">Level 200 · 40 minutes (115 minutes with all optional extensions)</span></a></li>
+                  <li><a href="canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md"><span class="lab-title">Authoring Canvas Apps and Dataverse Tables with MCP</span><span class="lab-meta">Level 200 · 40 minutes</span></a></li>
+                  <li><a href="powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md"><span class="lab-title">Automate Work in Power Apps with Supervised Agents</span><span class="lab-meta">Level 100 · 1 hour</span></a></li>
+                  <li><a href="byoc-powerapps/byoc-powerapps.md"><span class="lab-title">Building code first apps (code apps) in Power Platform</span><span class="lab-meta">Level 200 · 40 minutes (115 minutes with all optional extensions)</span></a></li>
                 </ul>
               </td>
               <td>
                 <ul class="lab-cell-list">
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/automations-foundation/01-cloud-flow.md"><span class="lab-title">Automation Foundations: Cloud Flow</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/automations-foundation/02-rpa.md"><span class="lab-title">Automation Foundations: Robotic Process Automation</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/automations-foundation/03-workflow.md"><span class="lab-title">Automation Foundations: Workflows</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/automations-foundation/04-cua.md"><span class="lab-title">Automation Foundations: Computer Use Agent</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
+                  <li><a href="automations-foundation/01-cloud-flow.md"><span class="lab-title">Automation Foundations: Cloud Flow</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
+                  <li><a href="automations-foundation/02-rpa.md"><span class="lab-title">Automation Foundations: Robotic Process Automation</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
+                  <li><a href="automations-foundation/03-workflow.md"><span class="lab-title">Automation Foundations: Workflows</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
+                  <li><a href="automations-foundation/04-cua.md"><span class="lab-title">Automation Foundations: Computer Use Agent</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
                 </ul>
               </td>
               <td>
                 <ul class="lab-cell-list">
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/byoc-powerpages/byoc-powerpages.md"><span class="lab-title">Building code first website with Power Pages</span><span class="lab-meta">Level 200 · 40 minutes</span></a></li>
+                  <li><a href="byoc-powerpages/byoc-powerpages.md"><span class="lab-title">Building code first website with Power Pages</span><span class="lab-meta">Level 200 · 40 minutes</span></a></li>
                 </ul>
               </td>
               <td>
                 <ul class="lab-cell-list">
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/generative-pages/generative-pages-github-copilot.md"><span class="lab-title">AI-Powered Modern UX for Model-Driven Apps</span><span class="lab-meta">Level 200 · 75 minutes</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/in-app-agents/in-app-agents.md"><span class="lab-title">Bring AI Inside Your App: Natural Language Queries, Auto Charts & Smart Form Fill</span><span class="lab-meta">Level 100 · 30 mins</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/dataverse-business-skills/dataverse-business-skills.md"><span class="lab-title">Centralize Business Rules &amp; Policies in Dataverse Skills</span><span class="lab-meta">Level 300 · 75 minutes</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/mcp-apps/mcp-apps.md"><span class="lab-title">Enable Power Apps (MDA) and custom tools in Microsoft 365 Copilot</span><span class="lab-meta">Level 200 · 40 mins</span></a></li>
+                  <li><a href="generative-pages/generative-pages-github-copilot.md"><span class="lab-title">AI-Powered Modern UX for Model-Driven Apps</span><span class="lab-meta">Level 200 · 75 minutes</span></a></li>
+                  <li><a href="in-app-agents/in-app-agents.md"><span class="lab-title">Bring AI Inside Your App: Natural Language Queries, Auto Charts & Smart Form Fill</span><span class="lab-meta">Level 100 · 30 mins</span></a></li>
+                  <li><a href="dataverse-business-skills/dataverse-business-skills.md"><span class="lab-title">Centralize Business Rules &amp; Policies in Dataverse Skills</span><span class="lab-meta">Level 300 · 75 minutes</span></a></li>
+                  <li><a href="mcp-apps/mcp-apps.md"><span class="lab-title">Enable Power Apps (MDA) and custom tools in Microsoft 365 Copilot</span><span class="lab-meta">Level 200 · 40 mins</span></a></li>
                 </ul>
               </td>
               <td>
                 <ul class="lab-cell-list">
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/managed-platform/managed-governance/environment-strategy-and-governance/README.md"><span class="lab-title">Managed Governance: Environment Strategy &amp; Governance</span><span class="lab-meta">Level 200 · 120 minutes</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/managed-platform/managed-governance/inventory-and-monitoring/README.md"><span class="lab-title">Managed Operations: Inventory &amp; Monitoring</span><span class="lab-meta">Level 200 · 120 minutes</span></a></li>
-                  <li><a href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/managed-platform/managed-security/README.md"><span class="lab-title">Managed Security</span><span class="lab-meta">Level 300 · 120 minutes</span></a></li>
+                  <li><a href="managed-platform/managed-governance/environment-strategy-and-governance/README.md"><span class="lab-title">Managed Governance: Environment Strategy &amp; Governance</span><span class="lab-meta">Level 200 · 120 minutes</span></a></li>
+                  <li><a href="managed-platform/managed-governance/inventory-and-monitoring/README.md"><span class="lab-title">Managed Operations: Inventory &amp; Monitoring</span><span class="lab-meta">Level 200 · 120 minutes</span></a></li>
+                  <li><a href="managed-platform/managed-security/README.md"><span class="lab-title">Managed Security</span><span class="lab-meta">Level 300 · 120 minutes</span></a></li>
                 </ul>
               </td>
             </tr>
