@@ -483,14 +483,14 @@
 
     function repoUrl(path) {
       const branch = params.get("branch") || "main";
-      const encodedBranch = branch.split("/").map(encodeURIComponent).join("/");
+      const encodedBranch = encodeURIComponent(branch);
       return `https://github.com/microsoft/apps-agents-workshop/blob/${encodedBranch}/labs/${path.split("/").map(encodeURIComponent).join("/")}`;
     }
 
     function contentUrl(path) {
       if (["localhost", "127.0.0.1"].includes(window.location.hostname)) return path;
       const selectedBranch = params.get("branch") || "main";
-      const encodedBranch = selectedBranch.split("/").map(encodeURIComponent).join("/");
+      const encodedBranch = encodeURIComponent(selectedBranch);
       const encodedPath = path.split("/").map(encodeURIComponent).join("/");
       return `https://raw.githubusercontent.com/microsoft/apps-agents-workshop/${encodedBranch}/labs/${encodedPath}`;
     }
@@ -567,6 +567,11 @@
       });
 
       return escapeHtml(escapedValue)
+        .replace(/&lt;(https?:\/\/[^&\s]+)&gt;/gi, (_, url) => {
+          const resolved = decodeMarkdownUrl(url);
+          const rendered = escapeHtml(resolved);
+          return `<a href="${rendered}" target="_blank" rel="noopener" aria-label="${rendered} (opens in a new tab)">${rendered}</a>`;
+        })
         .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
           const resolvedSrc = resolveMarkdownUrl(decodeMarkdownUrl(src), basePath);
           return `<img src="${escapeHtml(resolvedSrc)}" alt="${alt}">`;
@@ -606,8 +611,7 @@
       let code = [];
       let inCode = false;
       let table = [];
-      let list = [];
-      let listType = "";
+      let listItems = [];
       let quote = [];
       let codeIndent = "";
       let htmlBlock = [];
@@ -621,7 +625,9 @@
           .toLowerCase()
           .normalize("NFKD")
           .replace(/[\u0300-\u036f]/g, "")
-          .replace(/[^\p{Letter}\p{Number}]+/gu, "-")
+          .replace(/[^\p{Letter}\p{Number} -]+/gu, "")
+          .replace(/[\u2012-\u2015\u2212\uFE58\uFE63\uFF0D]/g, "")
+          .replace(/ /g, "-")
           .replace(/^-+|-+$/g, "") || "heading";
         const count = headingIds.get(baseId) || 0;
         headingIds.set(baseId, count + 1);
@@ -639,11 +645,39 @@
         table = [];
       }
       function flushList() {
-        if (!list.length) return;
-        const tag = listType === "ol" ? "ol" : "ul";
-        blocks.push(`<${tag}>${list.map(item => `<li>${renderInlineMarkdown(item, basePath)}</li>`).join("")}</${tag}>`);
-        list = [];
-        listType = "";
+        if (!listItems.length) return;
+        function renderListGroup(index, indent) {
+          const item = listItems[index];
+          if (!item || item.indent < indent) {
+            return { html: "", nextIndex: index };
+          }
+          const tag = item.type === "ol" ? "ol" : "ul";
+          const startAttr = tag === "ol" && item.start > 1 ? ` start="${item.start}"` : "";
+          const renderedItems = [];
+          let position = index;
+          while (position < listItems.length) {
+            const current = listItems[position];
+            if (current.indent < indent) break;
+            if (current.indent > indent) {
+              const nested = renderListGroup(position, current.indent);
+              renderedItems.push(nested.html);
+              position = nested.nextIndex;
+              continue;
+            }
+            const children = [];
+            if (position + 1 < listItems.length && listItems[position + 1].indent > indent) {
+              const nested = renderListGroup(position + 1, listItems[position + 1].indent);
+              children.push(nested.html);
+              position = nested.nextIndex;
+            } else {
+              position += 1;
+            }
+            renderedItems.push(`<li>${renderInlineMarkdown(current.text, basePath)}${children.join("")}</li>`);
+          }
+          return { html: `<${tag}${startAttr}>${renderedItems.join("")}</${tag}>`, nextIndex: position };
+        }
+        blocks.push(renderListGroup(0, listItems[0].indent).html);
+        listItems = [];
       }
       function flushQuote() {
         if (!quote.length) return;
@@ -658,6 +692,8 @@
       }
 
       for (const line of lines) {
+        if (/^\s*<!--.*?-->\s*$/.test(line) || /^\s*<!--/.test(line) || /^\s*-->/.test(line)) continue;
+
         const fence = line.match(/^(\s{0,4})```/);
         if (fence) {
           if (inCode) {
@@ -710,16 +746,19 @@
           table.push(tableLine);
           continue;
         }
-        const unordered = line.match(/^\s*[-*]\s+(.+)$/);
-        const ordered = line.match(/^\s*\d+\.\s+(.+)$/);
+        const unordered = line.match(/^(\s*)([-*+])\s+(.+)$/);
+        const ordered = line.match(/^(\s*)(\d+)[.)]\s+(.+)$/);
         if (unordered || ordered) {
           flushParagraph();
           flushTable();
           flushQuote();
-          const type = ordered ? "ol" : "ul";
-          if (listType && listType !== type) flushList();
-          listType = type;
-          list.push((ordered || unordered)[1]);
+          const match = ordered || unordered;
+          listItems.push({
+            indent: match[1].length,
+            type: ordered ? "ol" : "ul",
+            start: ordered ? Number(match[2]) : 1,
+            text: match[3]
+          });
           continue;
         }
         const quoted = line.match(/^\s{0,4}>\s?(.*)$/);

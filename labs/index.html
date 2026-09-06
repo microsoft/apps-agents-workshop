@@ -766,7 +766,7 @@
 
     function contentUrl(path) {
       if (["localhost", "127.0.0.1"].includes(window.location.hostname)) return path;
-      const encodedBranch = branch.split("/").map(encodeURIComponent).join("/");
+      const encodedBranch = encodeURIComponent(branch);
       const encodedPath = path.split("/").map(encodeURIComponent).join("/");
       return `https://raw.githubusercontent.com/${repo}/${encodedBranch}/labs/${encodedPath}`;
     }
@@ -788,7 +788,7 @@
       if (localPreview) return fallbackLabSources;
 
       try {
-        const encodedDiscoveryRef = discoveryRef.split("/").map(encodeURIComponent).join("/");
+        const encodedDiscoveryRef = encodeURIComponent(discoveryRef);
         const commitResponse = await fetch(`https://api.github.com/repos/${repo}/commits/${encodedDiscoveryRef}`);
         if (!commitResponse.ok) return fallbackLabSources;
 
@@ -837,7 +837,7 @@
             .replace(/^---[\s\S]*?---\s*/, "")
             .split(/\r?\n/)
             .map(line => line.trim())
-            .find(line => line && !line.startsWith("#"));
+            .find(line => line && !line.startsWith("#") && !line.startsWith("<!--") && !line.startsWith("-->"));
           if (!hasRequiredFrontMatter(metadata) && !heading) return null;
           if (!hasRequiredFrontMatter(metadata)) {
             metadata.title = heading;
