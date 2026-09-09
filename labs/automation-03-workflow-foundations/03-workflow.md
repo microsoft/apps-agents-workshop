@@ -17,7 +17,7 @@ description: "Build a workflow that your agent can call as a tool, mid-conversat
 
 ## Overview
 
-In [Module 1](01-cloud-flow.md), you built **Order Automation** — a cloud flow that routes new orders through approval and creates an invoice. In [Module 2](02-rpa.md), you fed it orders from a legacy file. Eventually those orders ship, arrive, and close — and that's when customers start asking a new question: *can I return this?* Answering it means checking the order's status, weighing its shipping fee, and getting a manager's sign-off above certain values — today a slow, manual detour. In this module, you build **Validate Returns**: a workflow that a customer-facing agent calls as a tool, mid-conversation, and gets a grounded answer back — built on the same Orders data every module in this series shares.
+In [Module 1](../automation-01-cloud-flow/01-cloud-flow.md), you built **Order Automation** — a cloud flow that routes new orders through approval and creates an invoice. In [Module 2](../automation-02-rpa-foundations/02-rpa.md), you fed it orders from a legacy file. Eventually those orders ship, arrive, and close — and that's when customers start asking a new question: *can I return this?* Answering it means checking the order's status, weighing its shipping fee, and getting a manager's sign-off above certain values — today a slow, manual detour. In this module, you build **Validate Returns**: a workflow that a customer-facing agent calls as a tool, mid-conversation, and gets a grounded answer back — built on the same Orders data every module in this series shares.
 
 A workflow is Copilot Studio's automation format: a visual designer with native AI actions. It's the pattern that makes agents reliable — instead of leaving a decision to the model alone, the agent calls a workflow where **deterministic branches decide the business outcome** (whether the order is eligible for return, and which approval tier its shipping fee requires), **generative AI only drafts the customer- and approver-facing wording**, and **a person signs off** on higher-value cases. This module is built in the new workflows experience (see [Prerequisites](#prerequisites)).
 
@@ -729,4 +729,4 @@ Collecting a Yes/No isn't enough — **branch on it** (Step 7) so **Yes** yields
 
 ## Recommended next step
 
-You've built the customer-facing side: an agent that answers shoppers with grounded, approved decisions. Continue to [Module 4: CUA](04-cua.md), where a second agent — the Northwind Operations Agent — takes on the operations side, using computer use to operate a website no connector or API can reach.
+You've built the customer-facing side: an agent that answers shoppers with grounded, approved decisions. Continue to [Module 4: CUA](../automation-04-cua-foundations/04-cua.md), where a second agent — the Northwind Operations Agent — takes on the operations side, using computer use to operate a website no connector or API can reach.

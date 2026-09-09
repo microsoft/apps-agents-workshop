@@ -18,7 +18,7 @@ description: "Build a workflow that starts on its own from a trigger, and runs t
 
 ## Overview
 
-In [Module 3: Workflows](../automations-foundation/03-workflow.md) you built **Validate Returns** — an *agent flow* that a Copilot Studio agent calls as a tool, mid-conversation, to get a grounded answer back. That workflow waited to be asked. In this module you build the opposite kind of automation: a **workflow that starts on its own**, from a **trigger**, and runs to completion with no one watching — and, at the step that needs judgment, hands work to an **agent** instead of a fixed action.
+In [Module 3: Workflows](../automation-03-workflow-foundations/03-workflow.md) you built **Validate Returns** — an *agent flow* that a Copilot Studio agent calls as a tool, mid-conversation, to get a grounded answer back. That workflow waited to be asked. In this module you build the opposite kind of automation: a **workflow that starts on its own**, from a **trigger**, and runs to completion with no one watching — and, at the step that needs judgment, hands work to an **agent** instead of a fixed action.
 
 You build one **Order Management Workflow** that watches an inbox, classifies each incoming order-desk email into one of four categories, and takes a different action per category: archive junk, draft-and-approve a customer reply, reason over a supplier delay and log a restock task, or hand a quote request to a specialist agent.
 
@@ -60,7 +60,7 @@ This lab builds on the foundation series but the workflow itself stands alone �
 
     🔧 **Setup check:** The Dataverse MCP Server is a preview capability. If it does not appear when you add tools to an agent, ask your admin to confirm MCP servers are enabled for the environment.
 
-- Basic familiarity with the Copilot Studio designer. If you have not used the **Classify**, **M365 Copilot**, or **Human review** actions before, complete [Module 3: Workflows](../automations-foundation/03-workflow.md) first — this lab uses the same actions in an autonomous setting.
+- Basic familiarity with the Copilot Studio designer. If you have not used the **Classify**, **M365 Copilot**, or **Human review** actions before, complete [Module 3: Workflows](../automation-03-workflow-foundations/03-workflow.md) first — this lab uses the same actions in an autonomous setting.
 
 |  |
 | --- |
@@ -555,4 +555,4 @@ This lab keeps the intelligence on rails: deterministic branches decide *what* h
 
 ## Recommended next step
 
-Continue to [Module 8: CUA](08-cua.md) to automate a website an agent can't reach through a connector or API — using computer use to operate the screen the way a person would.
+Continue to [Module 8: CUA](../automation-08-cua-advanced/08-cua.md) to automate a website an agent can't reach through a connector or API — using computer use to operate the screen the way a person would.

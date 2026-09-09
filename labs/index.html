@@ -608,11 +608,11 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="./index.html" aria-label="Power Series Labs home">
+    <a class="brand" href="./index.html" data-branch-link aria-label="Power Series Labs home">
       <img class="brand-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
     </a>
     <nav aria-label="Primary navigation">
-      <a href="./index.html">Home</a>
+      <a href="./index.html" data-branch-link>Home</a>
       <a href="#needs">Business needs</a>
       <a href="#labs">Labs</a>
       <a href="../README.md">Repository</a>
@@ -733,6 +733,18 @@
     const skillResultsCount = document.querySelector("#skill-results-count");
     const themeChoices = document.querySelectorAll("[data-theme-choice]");
     let activeNeed = "all";
+
+    function applyBranchToNavigation() {
+      const selectedBranch = new URLSearchParams(window.location.search).get("branch");
+      if (!selectedBranch) return;
+      document.querySelectorAll("[data-branch-link]").forEach(link => {
+        const url = new URL(link.getAttribute("href"), window.location.href);
+        url.searchParams.set("branch", selectedBranch);
+        link.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
+      });
+    }
+
+    applyBranchToNavigation();
 
     function labelFromTag(tag) {
       return tag.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");

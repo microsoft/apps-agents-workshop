@@ -17,7 +17,7 @@ description: "Use Power Automate desktop flows (RPA) to automate legacy systems 
 
 ## Overview
 
-In [Module 1](01-cloud-flow.md), you built **Order Automation** — a cloud flow that routes new orders through a two-tier approval and creates an invoice. But orders don't only arrive through the Northwind Orders app: some come in as files from legacy systems that have no connection to Dataverse. In this module, you build a **desktop flow** with **Power Automate for desktop** that reads a local order file and creates the order and its line items in Dataverse — feeding the same approval process you built in Module 1, launched with a single keyboard shortcut.
+In [Module 1](../automation-01-cloud-flow/01-cloud-flow.md), you built **Order Automation** — a cloud flow that routes new orders through a two-tier approval and creates an invoice. But orders don't only arrive through the Northwind Orders app: some come in as files from legacy systems that have no connection to Dataverse. In this module, you build a **desktop flow** with **Power Automate for desktop** that reads a local order file and creates the order and its line items in Dataverse — feeding the same approval process you built in Module 1, launched with a single keyboard shortcut.
 
 ## Learning objectives
 
@@ -336,7 +336,7 @@ This lab keeps the intake deliberately simple. In production, the trigger and th
 
 ## Recommended next step
 
-Continue to [Module 3: Workflows](03-workflow.md), where an agent answers customers mid-conversation by calling an automation as a tool.
+Continue to [Module 3: Workflows](../automation-03-workflow-foundations/03-workflow.md), where an agent answers customers mid-conversation by calling an automation as a tool.
 
 ## Appendix A: Create a Microsoft Dataverse connection
 
