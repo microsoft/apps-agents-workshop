@@ -122,8 +122,8 @@ Complete this preflight setup **before Step 1**. The agent cannot run until the 
 
 1. Open [Microsoft Copilot Studio](https://copilotstudio.microsoft.com/) and confirm that the environment picker shows the environment where you want to build.
 
-	![Copilot Studio environment picker](08-cua/image1.png)
-	Figure: Confirming the target environment in Copilot Studio.
+    ![Copilot Studio environment picker](08-cua/image1.png)
+    Figure: Confirming the target environment in Copilot Studio.
 
 	> ℹ️ **Important:** If Copilot Studio opens the new creation experience with a **What would you like to build?** prompt and **Agent** and **Workflow** options, switch to the classic experience. This lab uses the classic creation flow. Do not create the agent by entering a request in the prompt box.
 
