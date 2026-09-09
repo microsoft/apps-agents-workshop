@@ -85,10 +85,10 @@
     .page {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 0 clamp(24px, 5vw, 64px) 56px;
+      padding: 0 clamp(24px, 5vw, 64px) 40px;
     }
     header {
-      min-height: 72px;
+      min-height: 56px;
       display: grid;
       grid-template-columns: auto 1fr auto;
       gap: 28px;
@@ -100,13 +100,13 @@
       box-shadow: 0 4px 18px rgba(42, 68, 111, 0.06);
     }
     .platform-logo {
-      width: 220px;
+      width: 170px;
       height: auto;
       display: block;
     }
     .power-cat {
-      width: 118px;
-      height: 46px;
+      width: 104px;
+      height: 38px;
       object-fit: contain;
       object-position: right center;
     }
@@ -120,7 +120,7 @@
       gap: 44px;
       align-items: center;
       margin: 0 calc(clamp(24px, 5vw, 64px) * -1) 0;
-      padding: 42px clamp(24px, 5vw, 64px) 50px;
+      padding: 36px clamp(24px, 5vw, 64px) 42px;
       overflow: hidden;
       background: radial-gradient(700px 260px at 78% 25%, var(--cp-highlight), transparent 68%), var(--cp-bg-elevated);
       border-bottom: 8px solid transparent;
@@ -145,7 +145,7 @@
       letter-spacing: -0.02em;
     }
     .catalog-line {
-      margin: 28px 0 0;
+      margin: 18px 0 0;
       color: var(--cp-text-muted);
       font-size: clamp(20px, 2.5vw, 32px);
       font-weight: 650;
@@ -197,8 +197,8 @@
     .catalog-line span:nth-child(3) { color: var(--cp-orange); }
     .toolbox-story {
       position: relative;
-      min-height: 230px;
-      margin: 0 0 28px;
+      min-height: 200px;
+      margin: 0 0 22px;
       overflow: hidden;
       padding: 0;
       background: var(--cp-bg);
@@ -207,11 +207,11 @@
     .toolbox-story-inner {
       position: relative;
       z-index: 1;
-      min-height: 230px;
+      min-height: 200px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 20px 0;
+      padding: 16px 0;
     }
     .toolbox-visual {
       position: absolute;
@@ -413,8 +413,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 24px;
-      margin-top: 40px;
-      padding-top: 24px;
+      margin-top: 24px;
+      padding-top: 16px;
       border-top: 1px solid var(--cp-border);
       color: var(--cp-text-muted);
       font-size: 13px;
@@ -447,7 +447,7 @@
     .microsoft-mark i:nth-child(4) { background: #ffb900; }
     @media print {
       body { background: var(--cp-bg); }
-      .page { max-width: none; padding: 24px; }
+      .page { max-width: none; padding: 12px 18px; }
       header,
       .hero,
       .table-wrap { break-inside: avoid; }
@@ -549,8 +549,8 @@
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-07-workflow-advanced%2F07-workflow.md"><span class="lab-title">Automation: Workflows (Advanced)</span><span class="lab-meta">Level 300 · 60 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-04-cua-foundations%2F04-cua.md"><span class="lab-title">Automation: Computer Use Agent (Foundation)</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-08-cua-advanced%2F08-cua.md"><span class="lab-title">Automation: Computer Use Agent (Advanced)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
-                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05a-work-queues-foundation%2F05-a-work-queues.md"><span class="lab-title">Automation: Work Queues (Foundation)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
-                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05b-work-queues-advanced%2F05-b-work-queues.md"><span class="lab-title">Automation: Work Queues (Advanced)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
+                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05a-work-queues-foundation%2F05-a-work-queues.md"><span class="lab-title">Automation: Work Queues (Foundation)</span><span class="lab-meta">Level 300 · 150 minutes</span></a></li>
+                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05b-work-queues-advanced%2F05-b-work-queues.md"><span class="lab-title">Automation: Work Queues (Advanced)</span><span class="lab-meta">Level 300 · 150 minutes</span></a></li>
                 </ul>
               </td>
               <td>
@@ -591,4 +591,3 @@
   </div>
 </body>
 </html>
-
