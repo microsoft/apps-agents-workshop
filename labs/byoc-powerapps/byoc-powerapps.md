@@ -1,5 +1,6 @@
 ---
 title: "Building code first apps (code apps) in Power Platform"
+lab: true
 level: 200
 persona: "pro code developers, Power Apps makers"
 estimated_duration: "40 minutes (115 minutes with all optional extensions)"
@@ -8,7 +9,7 @@ author: "Christopher Moncayo"
 last_updated: "2026-08-25"
 version: "v1.0"
 tags: [digitize-internal-operations, modernize-existing-applications]
-description: "Generate a custom code app, connect it to Dataverse, and extend it with GitHub Copilot."
+description: "Generate a custom code app, connect it to Dataverse and extend with GitHub Copilot."
 
 ---
 

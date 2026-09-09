@@ -1,5 +1,6 @@
 ---
 title: "Authoring Canvas Apps and Dataverse Tables with MCP"
+lab: true
 level: 200
 persona: "pro code developers, Power Apps makers"
 estimated_duration: 40 minutes

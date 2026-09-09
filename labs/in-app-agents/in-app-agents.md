@@ -1,5 +1,6 @@
 ---
 title: "Bring AI Inside Your App: Natural Language Queries, Auto Charts & Smart Form Fill"
+lab: true
 level: 100
 persona: "information workers, Power Apps makers"
 estimated_duration: "30 mins"
@@ -13,7 +14,7 @@ description: "Add focused agents inside Power Apps to support users with context
 **Power CAT | The Intelligent Enterprise - Power Platform & AI for Frontier Firms**
 
 
-# In-app agents
+# Bring AI Inside Your App: Natural Language Queries, Auto Charts & Smart Form Fill
 
 
 ## Lab overview

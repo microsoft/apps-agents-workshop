@@ -1,5 +1,6 @@
 ---
 title: "AI-Powered Modern UX for Model-Driven Apps"
+lab: true
 level: 200
 persona: "pro code developers, Power Apps makers"
 estimated_duration: 75 minutes
