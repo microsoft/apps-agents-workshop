@@ -273,11 +273,13 @@
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 0;
       display: block;
       width: 58%;
       height: 100%;
       object-fit: contain;
       object-position: 0 center;
+      pointer-events: none;
     }
     html[data-theme="dark"] .toolbox-visual {
       width: 58%;
@@ -287,9 +289,18 @@
       transform-origin: left center;
     }
     .toolbox-copy {
+      position: relative;
+      z-index: 1;
       width: 48%;
       max-width: 560px;
       padding: 0;
+    }
+    html[data-theme="dark"] .toolbox-copy {
+      padding: 24px;
+      background: color-mix(in srgb, var(--ps-surface) 88%, transparent);
+      border: 1px solid var(--ps-border);
+      border-radius: 0.625rem;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
     }
     .toolbox-copy h2 {
       max-width: 420px;
