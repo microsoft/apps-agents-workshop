@@ -1,5 +1,5 @@
 ---
-title: "Automation: Cloud Flow (Foundation)"
+title: "Automation: Cloud Flow (Foundations)"
 lab: true
 level: 200
 persona: "Maker"
@@ -65,18 +65,18 @@ This lab is self-contained — you do not need to complete any other module firs
 
     🔧 **Setup check:** Confirm the environment name in the upper-right corner is the development environment where you imported Northwind Traders. Repeat this check every time you open a maker portal in this lab.
 
-    ![The Power Automate portal home with the environment selector in the upper-right corner](images/01-cloud-flow/image1.png)  
+    ![The Power Automate portal home with the environment selector in the upper-right corner](01-cloud-flow/image1.png)  
     Figure: Confirming the environment before you start.
 
 2. Select **My flows** > **New flow** > **Automated cloud flow**.
 
-    ![The New flow menu in My flows with Automated cloud flow selected](images/01-cloud-flow/image2.png)  
+    ![The New flow menu in My flows with Automated cloud flow selected](01-cloud-flow/image2.png)  
     Figure: Creating a new automated cloud flow.
 
 3. In **Flow name**, enter `Order Automation`.
 4. In the trigger search box, enter `When a row is added, modified or deleted`, select the **Microsoft Dataverse** trigger with that name, and select **Create**.
 
-    ![The flow creation dialog with the flow name and the Dataverse trigger selected](images/01-cloud-flow/image3.png)  
+    ![The flow creation dialog with the flow name and the Dataverse trigger selected](01-cloud-flow/image3.png)  
     Figure: Naming the flow and selecting the Dataverse trigger.
 
     🔧 **Setup check:** If this is your first time using the Dataverse connector, you are prompted to sign in and create a connection before you can configure the trigger. Sign in with your lab account.
@@ -112,7 +112,7 @@ Creating a flow from the Power Automate portal opens the **modern designer** —
 
 ✅ **Checkpoint:** Your trigger shows **Modified**, **Orders**, **User**, and the filter expression.
 
-![Trigger configured with change type Modified, table Orders, scope User, and the order status filter](images/01-cloud-flow/image4.png)  
+![Trigger configured with change type Modified, table Orders, scope User, and the order status filter](01-cloud-flow/image4.png)  
 Figure: The completed trigger configuration.
 
 The flow now runs whenever an order's status is set to **New**. Any later change you save to an order that is still New runs the approval again — that is intended, so changes to a pending order are re-approved. A cloud flow needs a trigger and at least one action before it can be saved, so keep the designer open and continue to Step 2.
@@ -124,7 +124,7 @@ The **Orders** table has no total value column. Each order's value lives in its 
 7. Select (**+**) below the trigger and select **Add an action**.
 8. Search for `List rows` and select the **Microsoft Dataverse** **List rows** action.
 
-    ![The action search results showing the Dataverse List rows action](images/01-cloud-flow/image5.png)  
+    ![The action search results showing the Dataverse List rows action](01-cloud-flow/image5.png)  
     Figure: Adding the List rows action.
 
 9. Rename the action to `List Order Details`: select the action card, then select its name at the top of the configuration pane and enter the new name.
@@ -139,12 +139,12 @@ The **Orders** table has no total value column. Each order's value lives in its 
 
     🔧 **Setup check:** After pasting, the `@{...}` part should render as a token, not stay as plain text. If it stays as plain text, delete it, type the expression up to `eq `, and insert the order's unique identifier using the dynamic content picker (lightning bolt) instead.
 
-    ![The List Order Details action with the Order Details table and the parent order filter](images/01-cloud-flow/image6.png)  
+    ![The List Order Details action with the Order Details table and the parent order filter](01-cloud-flow/image6.png)  
     Figure: Retrieving the line items for the triggering order.
 
 12. Select **Save draft**.
 
-    ![The saved flow showing the trigger and the List Order Details action](images/01-cloud-flow/image7.png)  
+    ![The saved flow showing the trigger and the List Order Details action](01-cloud-flow/image7.png)  
     Figure: The flow after its first save.
 
 ✅ **Checkpoint:** The flow saves without errors, and **List Order Details** shows the **Order Details** table and the filter expression.
@@ -162,19 +162,19 @@ Each line item's value is **Unit Price × Quantity**, and the order's total is t
 
     Float suits fractional currency values, and starting at `0` guarantees a correct total.
 
-    ![The Init Order Value action with name Order Value, type Float, and value 0](images/01-cloud-flow/image8.png)  
+    ![The Init Order Value action with name Order Value, type Float, and value 0](01-cloud-flow/image8.png)  
     Figure: Initializing the order value variable.
 
 15. Select (**+**) below **Init Order Value**, search for `Apply to each`, and add it.
 16. Rename the loop to `Calculate Order Value`. In **Select an output from previous steps**, select the lightning bolt and choose **List of items** under **List Order Details**.
 
-    ![The Apply to each loop with List of items from List Order Details selected as its input](images/01-cloud-flow/image9.png)  
+    ![The Apply to each loop with List of items from List Order Details selected as its input](01-cloud-flow/image9.png)  
     Figure: Looping over the retrieved line items.
 
 17. Select (**+**) **inside the loop**, search for `Increment variable`, and add it.
 18. Rename the action to `Increment Order Value`. In **Name**, select **Order Value**.
 
-    ![The Increment Order Value action with the Order Value variable selected](images/01-cloud-flow/image10.png)  
+    ![The Increment Order Value action with the Order Value variable selected](01-cloud-flow/image10.png)  
     Figure: Incrementing the order value once per line item.
 
 19. In **Value**, open the expression editor (**fx**) and add the line item calculation. Either paste this expression directly:
@@ -189,7 +189,7 @@ Each line item's value is **Unit Price × Quantity**, and the order's total is t
     Multiply unit price by quantity
     ```
 
-    ![The expression editor containing the multiplication expression](images/01-cloud-flow/image11.png)  
+    ![The expression editor containing the multiplication expression](01-cloud-flow/image11.png)  
     Figure: The line item calculation in the expression editor.
 
 20. Select **Add** to accept the expression, then **Save draft**.
@@ -198,7 +198,7 @@ Cloud flow expressions use [Power Automate expression functions](https://learn.m
 
 ✅ **Checkpoint:** **Calculate Order Value** loops over **List of items** and contains **Increment Order Value** with the `mul()` expression. After the loop runs, **Order Value** holds the full value of the order.
 
-![The completed Calculate Order Value loop containing the increment action](images/01-cloud-flow/image12.png)  
+![The completed Calculate Order Value loop containing the increment action](01-cloud-flow/image12.png)  
 Figure: Tallying the order total across all line items.
 
 ## Step 4: Build the approval process
@@ -208,7 +208,7 @@ Orders above 1,000 USD require manager approval, and orders above 10,000 USD als
 21. Select (**+**) below the **Calculate Order Value** loop, search for `Condition`, and add it. Rename it to `Manager Approval Required`.
 22. Configure the condition: in the left value, select the **Order Value** dynamic value; choose **is greater than**; in the right value, enter `1000`.
 
-![The Manager Approval Required condition comparing Order Value to 1000](images/01-cloud-flow/image13.png)  
+![The Manager Approval Required condition comparing Order Value to 1000](01-cloud-flow/image13.png)  
 Figure: Checking whether manager approval is needed.
 
 23. Select (**+**) inside the **True** container, search for `approval`, and add **Start and wait for an approval**. Rename it to `Manager Approval`.
@@ -241,25 +241,25 @@ Figure: Checking whether manager approval is needed.
 
     💡 **Tip:** To show the value as tidy currency instead of a raw number, you can replace the **Order Value** dynamic value with the expression `formatNumber(variables('Order Value'), 'C2')`.
 
-    ![The complete Manager Approval configuration showing approval type, title, assignee, and the details template](images/01-cloud-flow/image14.png)  
+    ![The complete Manager Approval configuration showing approval type, title, assignee, and the details template](01-cloud-flow/image14.png)  
     Figure: The complete manager approval configuration.
 
 26. Select (**+**) below **Manager Approval** (still inside the **True** container), add a **Condition**, and rename it to `Check Manager Outcome`.
 27. Configure it: in the left value, select the **Outcome** dynamic value from **Manager Approval**; choose **is equal to**; in the right value, enter `Approve`.
 
-    ![The Check Manager Outcome condition comparing the approval Outcome to Approve](images/01-cloud-flow/image15.png)  
+    ![The Check Manager Outcome condition comparing the approval Outcome to Approve](01-cloud-flow/image15.png)  
     Figure: Checking the manager's decision.
 
 28. Select (**+**) inside the **False** container of **Check Manager Outcome**, search for `Terminate`, and add it. Rename it to `End Flow - Manager Rejected` and set **Status** to **Cancelled**. Leave the **True** container empty.
 
     This is what makes a rejection final: Terminate cancels the run immediately, so no executive request goes out and no invoice is created.
 
-    ![The Terminate action in the False container with status Cancelled](images/01-cloud-flow/image16.png)  
+    ![The Terminate action in the False container with status Cancelled](01-cloud-flow/image16.png)  
     Figure: Cancelling the run when the manager rejects.
 
 29. Select (**+**) below **Check Manager Outcome** (still inside the **True** container of **Manager Approval Required**), add a **Condition**, and rename it to `Executive Approval Required`. Configure it: **Order Value** **is greater than** `10000`.
 
-    ![The Executive Approval Required condition comparing Order Value to 10000](images/01-cloud-flow/image17.png)  
+    ![The Executive Approval Required condition comparing Order Value to 10000](01-cloud-flow/image17.png)  
     Figure: Checking whether executive approval is also needed.
 
 30. Inside its **True** container, add another **Start and wait for an approval** named `Executive Approval`, configured like the manager approval but with the Executive's email address and this title:
@@ -270,7 +270,7 @@ Figure: Checking whether manager approval is needed.
 
     Use the same **Details** template as in action 5.
 
-    ![The Executive Approval action configured with its title and assignee](images/01-cloud-flow/image18.png)  
+    ![The Executive Approval action configured with its title and assignee](01-cloud-flow/image18.png)  
     Figure: The executive approval configuration.
 
 31. Below **Executive Approval**, repeat the outcome pattern: add a **Condition** named `Check Executive Outcome` (**Outcome** from **Executive Approval** **is equal to** `Approve`), and in its **False** container add a **Terminate** named `End Flow - Executive Rejected` with **Status** set to **Cancelled**.
@@ -280,7 +280,7 @@ Figure: Checking whether manager approval is needed.
 
 ✅ **Checkpoint:** Inside **Manager Approval Required** > **True**, you have in order: **Manager Approval**, **Check Manager Outcome** (with Terminate in False), and **Executive Approval Required**, whose **True** container holds **Executive Approval** and **Check Executive Outcome** (with Terminate in False).
 
-![Flow canvas showing the nested approval structure with outcome checks and terminate actions](images/01-cloud-flow/image19.png)  
+![Flow canvas showing the nested approval structure with outcome checks and terminate actions](01-cloud-flow/image19.png)  
 Figure: The complete two-tier approval structure with rejection handling.
 
 > 💡 Power Automate approvals wait for a response for a maximum of 28 days.
@@ -292,12 +292,12 @@ When the flow reaches the end without being cancelled, the order is approved (or
 33. Scroll to the bottom of the flow and select the (**+**) at the **top level — below the Manager Approval Required condition, outside all condition containers**. Search for `Add a new row` and add the **Microsoft Dataverse** action.
 34. Rename the action to `Create Invoice` and in **Table name**, select **Invoices**.
 
-    ![The Add a new row action renamed Create Invoice with the Invoices table selected](images/01-cloud-flow/image20.png)  
+    ![The Add a new row action renamed Create Invoice with the Invoices table selected](01-cloud-flow/image20.png)  
     Figure: Creating a new row in the Invoices table.
 
 35. Open **Advanced parameters** and select these fields: **Amount Due**, **Due Date**, **Invoice Date**, **Order**.
 
-    ![The advanced parameters dropdown with the four invoice fields selected](images/01-cloud-flow/image21.png)  
+    ![The advanced parameters dropdown with the four invoice fields selected](01-cloud-flow/image21.png)  
     Figure: Selecting the invoice fields to write.
 
 36. In **Amount Due**, select the **Order Value** dynamic value.
@@ -317,7 +317,7 @@ When the flow reaches the end without being cancelled, the order is approved (or
 
 39. In **Order**, type `/nwind_orderses(`, insert the **Order** unique identifier dynamic value from the trigger, and type `)`. This links the new invoice to the order that triggered the flow, in the format `/Table(RecordID)`.
 
-    ![The complete Create Invoice action with Amount Due, Due Date, Invoice Date, and the order link configured](images/01-cloud-flow/image22.png)  
+    ![The complete Create Invoice action with Amount Due, Due Date, Invoice Date, and the order link configured](01-cloud-flow/image22.png)  
     Figure: The complete invoice action.
 
 40. Select **Save draft**.
@@ -326,7 +326,7 @@ When the flow reaches the end without being cancelled, the order is approved (or
 
 ✅ **Checkpoint:** **Create Invoice** sits at the top level after all conditions and writes **Amount Due**, **Due Date**, **Invoice Date**, and **Order**.
 
-![The complete Order Automation flow from the trigger through the approvals to Create Invoice](images/01-cloud-flow/image23.png)  
+![The complete Order Automation flow from the trigger through the approvals to Create Invoice](01-cloud-flow/image23.png)  
 Figure: The end-to-end flow.
 
 > 💡 Orders of 1,000 USD or less skip both approval branches and arrive here directly — small orders are invoiced without any approval, by design.
@@ -344,18 +344,18 @@ Solutions group your components so they can be managed, exported, and deployed t
 
     The publisher stamps its customization prefix on components created in the solution. The default publisher is fine for this lab; real projects [create their own publisher](https://learn.microsoft.com/power-apps/maker/data-platform/create-solution#create-a-solution-publisher) so components carry the organization's prefix.
 
-![The New solution pane with the display name and default publisher](images/01-cloud-flow/image24.png)  
+![The New solution pane with the display name and default publisher](01-cloud-flow/image24.png)  
 Figure: Creating the solution.
 
 44. Select **Create** — the new solution opens automatically.
 45. Select **Add existing** > **Automation** > **Cloud flow**. If you don't see your flow, check the **Outside Dataverse** tab. Select **Order Automation** and select **Add**.
 
-![The Add existing cloud flow picker with Order Automation selected](images/01-cloud-flow/image25.png)  
+![The Add existing cloud flow picker with Order Automation selected](01-cloud-flow/image25.png)  
 Figure: Adding the existing flow to the solution.
 
 ✅ **Checkpoint:** **Order Automation** appears in the solution's objects. Open the flow's details page and confirm the connection is listed under **Connection references**.
 
-![The solution objects list showing the Order Automation cloud flow](images/01-cloud-flow/image26.png)  
+![The solution objects list showing the Order Automation cloud flow](01-cloud-flow/image26.png)  
 Figure: The flow organized into a solution.
 
 > 💡 Now that the flow is in a solution, it is **solution-aware**: the designer shows separate **Save draft** and **Publish** buttons, and it keeps a **version history** in Dataverse. See [Appendix A: Version control for cloud flows](#appendix-a-version-control-for-cloud-flows).
@@ -364,33 +364,33 @@ Figure: The flow organized into a solution.
 
 46. In <https://make.powerautomate.com>, open **Order Automation** from **My flows**, select **Edit**, and select **Publish** in the designer.
 
-    ![The designer with the Publish button highlighted](images/01-cloud-flow/image27.png)  
+    ![The designer with the Publish button highlighted](01-cloud-flow/image27.png)  
     Figure: Publishing the flow.
 
     Because the flow is now solution-aware, **Publish** makes the current version take effect at runtime — runs always use the **last published version**, so draft edits never change live behaviour until you publish. Each publish adds to the flow's **version history**, which you can review or restore later. See [Appendix A: Version control for cloud flows](#appendix-a-version-control-for-cloud-flows).
 
 47. Start the run. The flow's automated trigger fires on its own when you save a **New** order in the next actions — or, to watch the run live as it happens, select **Test** > **Manually** > **Test** first. Both use the same input (saving a New order). See [Appendix B: Ways to test the flow](#appendix-b-ways-to-test-the-flow) for the difference.
 
-    ![The Test flow pane with Manually selected](images/01-cloud-flow/image28.png)
+    ![The Test flow pane with Manually selected](01-cloud-flow/image28.png)
     Figure: Starting a manual test.
 
 48. In a new tab, go to <https://make.powerapps.com>, select **Apps**, and select **Play** on **Northwind Orders (Model-driven)**. If you don't see the app, check the **Shared with me** tab, and confirm you are in the right environment.
 49. Select **Orders** > **New**, and select **Save** immediately. This assigns the order number and enables the **Order Details** subgrid.
 
-    ![A new order saved with its order number assigned and an empty Order Details subgrid](images/01-cloud-flow/image29.png)  
+    ![A new order saved with its order number assigned and an empty Order Details subgrid](01-cloud-flow/image29.png)  
     Figure: The new order after its first save.
 
 50. In **Order Details**, add at least two line items totaling more than 10,000 USD. Create a new order detail row, and in the product lookup press **Enter** to list the existing seeded products — select one, then set the **Quantity** (and adjust the **Unit Price** if needed). If no suitable product exists, create one inline: select **New Product** in the lookup, enter a name and a **List Price** high enough for the total, and save.
 
-    ![Creating a new order detail with the product lookup listing the existing seeded products](images/01-cloud-flow/image30.png)  
+    ![Creating a new order detail with the product lookup listing the existing seeded products](01-cloud-flow/image30.png)  
     Figure: Creating a line item from the seeded products.
 
-    ![Two order detail rows under the order, together totaling more than 10,000 USD](images/01-cloud-flow/image31.png)  
+    ![Two order detail rows under the order, together totaling more than 10,000 USD](01-cloud-flow/image31.png)  
     Figure: Line items pushing the order above the executive threshold.
 
 51. Fill in the order fields that the approval email displays — **Order Date**, **Payment Type**, **Ship City**, **Ship Country/Region**, and **Notes** — and set **Order Status** to **New**.
 
-    ![The order with all fields completed and Order Status set to New](images/01-cloud-flow/image32.png)  
+    ![The order with all fields completed and Order Status set to New](01-cloud-flow/image32.png)  
     Figure: The completed order, ready to submit.
 
 52. Select **Save**.
@@ -402,24 +402,24 @@ Figure: The flow organized into a solution.
 
     💡 **Tip:** If the email hasn't arrived, check the junk folder. You can also respond from the **Approvals** app in Microsoft Teams or from **Action items** > **Approvals** in the Power Automate portal.
 
-    ![The manager approval email with all details populated and the Approve and Reject buttons](images/01-cloud-flow/image33.png)  
+    ![The manager approval email with all details populated and the Approve and Reject buttons](01-cloud-flow/image33.png)  
     Figure: The approval request as the manager receives it.
 
 55. Since the order is above 10,000 USD, open the Executive mailbox and **Approve** > **Submit** there as well.
 
 ✅ **Checkpoint:** The run completes successfully. To confirm the invoice, open your order in the **Northwind Orders (Model-driven)** app and use its **Related** tab to view the linked **invoice** directly — check the amount and dates match. Then open the flow's run history from its details page, open the run, and inspect each action's inputs and outputs — this is how you diagnose flows when something goes wrong.
 
-![The flow run with every action succeeded](images/01-cloud-flow/image34.png)  
+![The flow run with every action succeeded](01-cloud-flow/image34.png)  
 Figure: The successful end-to-end run.
 
-![The new invoice row in the Invoice table, linked to the order with the correct amount and dates](images/01-cloud-flow/image35.png)  
+![The new invoice row in the Invoice table, linked to the order with the correct amount and dates](01-cloud-flow/image35.png)  
 Figure: The approved order produced an invoice.
 
 56. **Test the rejection path (required):** create one more order following actions 4–7, with a total above 1,000 USD. When the manager approval email arrives, select **Reject**, then **Submit**.
 
 ✅ **Checkpoint:** In the run history, the run ends at **End Flow - Manager Rejected** with status **Cancelled**. No executive email was sent, and no new invoice was created.
 
-![Run history showing the rejected order's run ending at the terminate action with status Cancelled](images/01-cloud-flow/image36.png)  
+![Run history showing the rejected order's run ending at the terminate action with status Cancelled](01-cloud-flow/image36.png)  
 Figure: A rejection cancels the run before any invoice is created.
 
 🥳 Congratulations — you built, organized, published, and tested a complete two-tier order approval automation, including its failure path.

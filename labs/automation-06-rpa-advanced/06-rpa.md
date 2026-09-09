@@ -165,37 +165,37 @@ The lab uses a consistent naming convention: the `f` prefix marks variables the 
 
 1. Open **Power Automate for desktop**.
 
-  ![Opening Power Automate for desktop](images/06-rpa/image1.png)
+  ![Opening Power Automate for desktop](06-rpa/image1.png)
   Figure: Opening Power Automate for desktop.
 
 2. Sign in with your organizational account.
 
-![Signing in with your organizational account](images/06-rpa/image2.png)
+![Signing in with your organizational account](06-rpa/image2.png)
 Figure: Signing in with your organizational account.
 
 3. Confirm that the environment picker in the upper-right corner shows the developer environment you want to use.
 
-![Confirming the target environment in the environment picker](images/06-rpa/image3.png)
+![Confirming the target environment in the environment picker](06-rpa/image3.png)
 Figure: Confirming the target environment in the environment picker.
 
 4. Select **New**, and then select **Flow**.
 
-![Creating a new flow](images/06-rpa/image4.png)
+![Creating a new flow](06-rpa/image4.png)
 Figure: Creating a new flow.
 
 5. Enter **Provision Partner Users** as the flow name, and then select **Create**.
 
-![Naming the desktop flow Provision Partner Users](images/06-rpa/image5.png)
+![Naming the desktop flow Provision Partner Users](06-rpa/image5.png)
 Figure: Naming the desktop flow Provision Partner Users.
 
 6. Create an **input variable** for the website URL so it can be changed without editing the flow. Select **Variables** located next to the workspace.
 
-![The desktop flow designer](images/06-rpa/image6.png)
+![The desktop flow designer](06-rpa/image6.png)
 Figure: The desktop flow designer.
 
 7. In the **Variables** pane, select **Variables** and select the **plus icon**, and then select **Input**.
 
-![Adding an input variable from the Variables pane](images/06-rpa/image7.png)
+![Adding an input variable from the Variables pane](06-rpa/image7.png)
 Figure: Adding an input variable from the Variables pane.
 
 8. Configure the **URL input variable** with the values below and click **Save**. 
@@ -205,7 +205,7 @@ Figure: Adding an input variable from the Variables pane.
  - **External name:** ci\_NWUA\_URL. This is the name displayed in Power Automate and in the flow's run details.  
  - **Description:** Northwind User Admin Portal URL.  
 
-![Configuring the ci_NWUA_URL input variable](images/06-rpa/image8.png)
+![Configuring the ci_NWUA_URL input variable](06-rpa/image8.png)
 Figure: Configuring the ci_NWUA_URL input variable.
 
 9. Create the remaining portal and browser input variables using the values in the following table. Mark both the **username** and **password** variables as **sensitive** so their values are masked in the designer and run details.
@@ -218,18 +218,18 @@ Figure: Configuring the ci_NWUA_URL input variable.
 
 > ⚠️ **Production note — do not ship hard-coded credentials:** This lab stores the username (`master`) and password (`iAmReady`) as default values so it runs self-contained. Marking a variable as **sensitive** masks its value in the designer and run details, but it does **not** remove the value from a flow export. In production, never store credentials in variable defaults. Use a secure credential store instead — see [Appendix E](#appendix-e-credentials-and-secrets-in-desktop-flows-mechanisms-explained). The same credentials reappear in Steps 2, 4, and 5; treat every one of those as a placeholder for a securely retrieved secret.
 
-![The configured portal and browser input variables](images/06-rpa/image9.png)
+![The configured portal and browser input variables](06-rpa/image9.png)
 Figure: The configured portal and browser input variables.
 
 10. Select the **Subflows** dropdown menu in the upper left part of the screen. Then, select **+ New** subflow to create a subflow named **1\_Prechecks**. Numbered prefixes make the intended execution order easier to understand.
 
-![Creating a new subflow](images/06-rpa/image10.png)
+![Creating a new subflow](06-rpa/image10.png)
 Figure: Creating a new subflow.
 
-![Adding a subflow](images/06-rpa/image11.png)
+![Adding a subflow](06-rpa/image11.png)
 Figure: Adding a subflow.
 
-![The 1_Prechecks subflow](images/06-rpa/image12.png)
+![The 1_Prechecks subflow](06-rpa/image12.png)
 Figure: The 1_Prechecks subflow.
 
 11. In the **actions pane** on the left side of the flow designer, search for the **On block error** action and add it to the flow by double-clicking it or dragging and dropping it into the 1\_Prechecks Subflow.
@@ -251,12 +251,12 @@ Figure: The 1_Prechecks subflow.
     - **Log level:** - Info
 
     Once the configuration is complete, the subflow should look like this:
-    ![The completed 1_Prechecks browser-existence check](images/06-rpa/image13.png)
+    ![The completed 1_Prechecks browser-existence check](06-rpa/image13.png)
     Figure: The completed 1_Prechecks browser-existence check.
 
 12. Save the desktop flow by selecting **Save draft**.
 
-![Saving the desktop flow as a draft](images/06-rpa/image14.png)
+![Saving the desktop flow as a draft](06-rpa/image14.png)
 Figure: Saving the desktop flow as a draft.
 
 > ✅ **Expected result — checkpoint**
@@ -272,48 +272,48 @@ Figure: Saving the desktop flow as a draft.
 
 1. Create a Subflow named **2\_Login**.
 
-![The 2_Login subflow tab](images/06-rpa/image15.png)
+![The 2_Login subflow tab](06-rpa/image15.png)
 Figure: The 2_Login subflow tab.
 
 2. Open <https://nwtua.z13.web.core.windows.net/> in Microsoft Edge so you can capture its UI elements.
 
-![The Northwind User Admin Portal sign-in screen](images/06-rpa/image16.png)
+![The Northwind User Admin Portal sign-in screen](06-rpa/image16.png)
 Figure: The Northwind User Admin Portal sign-in screen.
 
 3. In the designer, open the **UI elements pane**, select **UI elements** and **Add UI element**.
 
-![Adding a UI element from the UI elements pane](images/06-rpa/image17.png)
+![Adding a UI element from the UI elements pane](06-rpa/image17.png)
 Figure: Adding a UI element from the UI elements pane.
 
 4. Point to the required control in the browser, and use **Ctrl+left** click to capture it.
 - Capture **Codename** and click **Done**.
 
-![Capturing the Codename field](images/06-rpa/image18.png)
+![Capturing the Codename field](06-rpa/image18.png)
 Figure: Capturing the Codename field.
 
 - Capture **Password** and click **Done**.
 
-![Capturing the Password field](images/06-rpa/image19.png)
+![Capturing the Password field](06-rpa/image19.png)
 Figure: Capturing the Password field.
 
 - Capture **Login** button and click **Done**.
 
-![Capturing the Login button](images/06-rpa/image20.png)
+![Capturing the Login button](06-rpa/image20.png)
 Figure: Capturing the Login button.
 
 - Capture **Div 'loginErr'** directly below the login button and click **Done**.
 
-![Capturing the Div 'loginErr' element](images/06-rpa/image21.png)
+![Capturing the Div 'loginErr' element](06-rpa/image21.png)
 Figure: Capturing the Div 'loginErr' element.
 
 - Log in with **Codename** set to **master** and **Secret passphrase** set to **iAmReady**. A **new user record** form will appear — capture the **New User Record** header.
 
-![Capturing the New User Record header](images/06-rpa/image22.png)
+![Capturing the New User Record header](06-rpa/image22.png)
 Figure: Capturing the New User Record header.
 
 5. Confirm that the captured UI elements controls appear in the **UI elements pane**, as shown below.
 
-![The captured login UI elements](images/06-rpa/image23.png)
+![The captured login UI elements](06-rpa/image23.png)
 Figure: The captured login UI elements.
 
 6. Search for and add the actions shown below to the **2\_Login Subflow**. The subflow wraps its actions in an **On block error** block named `Login`, split into two regions — `LoginSteps` and `LoginHandler`. Add the actions in order; you configure the error-handling behaviour (retry policy and go-to-label) later in Step 5.
@@ -338,15 +338,15 @@ Figure: The captured login UI elements.
 
 > **💡 Tip** - Variables produced by actions are flow-scoped. Prefix their names with f so they are easy to distinguish from configurable inputs.
 
-![The 2_Login subflow actions](images/06-rpa/image24.png)
+![The 2_Login subflow actions](06-rpa/image24.png)
 Figure: The 2_Login subflow actions.
 
-![The 2_Login subflow actions, continued](images/06-rpa/image25.png)
+![The 2_Login subflow actions, continued](06-rpa/image25.png)
 Figure: The 2_Login subflow actions, continued.
 
 7. Run the **2\_Login Subflow** and confirm that Microsoft Edge opens and the portal sign-in completes successfully.
 
-![Running the 2_Login subflow with default values](images/06-rpa/image26.png)
+![Running the 2_Login subflow with default values](06-rpa/image26.png)
 Figure: Running the 2_Login subflow with default values.
 
 > ✅ **Expected result — checkpoint**  
@@ -373,7 +373,7 @@ Use the [Users CSV file](resources/users.csv) as the source for user entry. It i
 
 1. Create a **Subflow** named **3\_User\_Entry**.
 
-![Creating the 3_User_Entry subflow](images/06-rpa/image27.png)
+![Creating the 3_User_Entry subflow](06-rpa/image27.png)
 Figure: Creating the 3_User_Entry subflow.
 
 2. Before you add the Read action, get the source file onto the machine:
@@ -384,12 +384,12 @@ Figure: Creating the 3_User_Entry subflow.
 
 3. Add the **Read from CSV file** action. Set **File path** to the local path of `users.csv` from the previous step. Under **Advanced**, enable **Trim** fields and **First line** contains column names. Then rename the variable to **fCSVTable**.
 
-![The configured Read from CSV file action](images/06-rpa/image28.png)
+![The configured Read from CSV file action](06-rpa/image28.png)
 Figure: The configured Read from CSV file action.
 
 4. Add a **For each** action where **Value to Iterate** is %fCSVTable% and **Store into** is **fCurrentItem**.
 
-![Adding the For each action over fCSVTable](images/06-rpa/image29.png)
+![Adding the For each action over fCSVTable](06-rpa/image29.png)
 Figure: Adding the For each action over fCSVTable.
 
 
@@ -403,7 +403,7 @@ Figure: Adding the For each action over fCSVTable.
 | fPhone | %fCurrentItem['Phone']%
 | fAddress | %fCurrentItem['Address']%
 
-![Mapping each field to the current CSV row](images/06-rpa/image30.png)
+![Mapping each field to the current CSV row](06-rpa/image30.png)
 Figure: Mapping each field to the current CSV row.
 
 6. To validate whether the email value **%fEmail%** has a valid structure, add a **Parse text** action and apply the regular expression below:
@@ -412,7 +412,7 @@ Figure: Mapping each field to the current CSV row.
 \b[\w\.-]+@[\w\.-]+\.\w{2,4}\b
 ```
 
-![Validating the email with a Parse text action](images/06-rpa/image31.png)
+![Validating the email with a Parse text action](06-rpa/image31.png)
 Figure: Validating the email with a Parse text action.
 
 7. Add a **Set variable** action, then configure a condition to check that all required values are present, the phone number is exactly 10 characters long, and the email validation returns a match.
@@ -421,12 +421,12 @@ Figure: Validating the email with a Parse text action.
 %IsNotEmpty(fFirstName) AND IsNotEmpty(fLastName) AND IsNotEmpty(fEmail) AND IsNotEmpty(fPhone) AND IsNotEmpty(fAddress) AND (fPhone.Length = 10) AND (fPosition = 0)%
 ```
 
-![Setting the fValidation condition](images/06-rpa/image32.png)
+![Setting the fValidation condition](06-rpa/image32.png)
 Figure: Setting the fValidation condition.
 
 8. Compare your completed **3\_User\_Entry** Subflow with the example below.
 
-![The completed 3_User_Entry subflow](images/06-rpa/image33.png)
+![The completed 3_User_Entry subflow](06-rpa/image33.png)
 Figure: The completed 3_User_Entry subflow.
 
 9. Run the **Subflow** with the workshop CSV file and confirm that valid and invalid records follow the expected branches.
@@ -444,81 +444,81 @@ Figure: The completed 3_User_Entry subflow.
 
 1. Open <https://nwtua.z13.web.core.windows.net/> in Microsoft Edge so you can capture its UI elements. Log in with **Codename** set to **master** and **Secret passphrase** set to **iAmReady**. A **new user record** form will appear.
 
-![The Northwind portal sign-in screen](images/06-rpa/image34.png)
+![The Northwind portal sign-in screen](06-rpa/image34.png)
 Figure: The Northwind portal sign-in screen.
 
 2. In the designer, open the **UI elements pane**, select **UI elements** and **Add UI element**.
 
-![The New User Record form](images/06-rpa/image35.png)
+![The New User Record form](06-rpa/image35.png)
 Figure: The New User Record form.
 
 3. Point to the required control in the browser, and use **Ctrl+left** click to capture it.
 - Capture **First Name** and click Done. 
 
-![Capturing the First Name field](images/06-rpa/image36.png)
+![Capturing the First Name field](06-rpa/image36.png)
 Figure: Capturing the First Name field.
 
 - Capture **Last Name** and click Done. 
 
-![Capturing the Last Name field](images/06-rpa/image37.png)
+![Capturing the Last Name field](06-rpa/image37.png)
 Figure: Capturing the Last Name field.
 
 - Capture **Email** and click Done. 
 
-![Capturing the Email field](images/06-rpa/image38.png)
+![Capturing the Email field](06-rpa/image38.png)
 Figure: Capturing the Email field.
 
 - Capture **Phone** and click Done. 
 
-![Capturing the Phone field](images/06-rpa/image39.png)
+![Capturing the Phone field](06-rpa/image39.png)
 Figure: Capturing the Phone field.
 
 - Capture **Address** and click Done. 
 
-![Capturing the Address field](images/06-rpa/image40.png)
+![Capturing the Address field](06-rpa/image40.png)
 Figure: Capturing the Address field.
 
 - Capture **Submit** and click Done. 
 
-![Capturing the Submit button](images/06-rpa/image41.png)
+![Capturing the Submit button](06-rpa/image41.png)
 Figure: Capturing the Submit button.
 
 4. Capture the UI elements for the **First Name**, **Last Name**, **Email**, **Phone**, **Address**, and **Submit** controls.
 
-![The captured form UI elements](images/06-rpa/image42.png)
+![The captured form UI elements](06-rpa/image42.png)
 Figure: The captured form UI elements.
 
 5. Enter any values for **First Name**, **Last Name**, **Email**, **Phone**, and **Address**, then click **Submit**. When the confirmation popup appears:
 - Capture the paragraph **Are you sure you want to submit the dataset?** and click Done. 
 
-![Capturing the submission confirmation popup](images/06-rpa/image43.png)
+![Capturing the submission confirmation popup](06-rpa/image43.png)
 Figure: Capturing the submission confirmation popup.
 
 - Capture the button **OK** and click Done. 
 
-![The confirmation popup OK and Cancel buttons](images/06-rpa/image44.png)
+![The confirmation popup OK and Cancel buttons](06-rpa/image44.png)
 Figure: The confirmation popup OK and Cancel buttons.
 
 6. Confirm that the captured UI elements controls appear in the **UI elements pane**, as shown below:
    
-![The captured form and confirmation UI elements](images/06-rpa/image45.png)
+![The captured form and confirmation UI elements](06-rpa/image45.png)
 Figure: The captured form and confirmation UI elements.
 
 7. Insert the actions below into the **3_User_Entry** subflow, right after the **Set variable** action: **fValidation**.
 
   - Add the conditional action **If** where the **fValidation** variable is equal to **True**.
 
-![The full list of captured UI elements](images/06-rpa/image46.png)
+![The full list of captured UI elements](06-rpa/image46.png)
 Figure: The full list of captured UI elements.
 
    - Within the **If** block, add the **Populate text field in web page** action, then for each field (first name, last name, email, phone, address), choose the saved UI element and map it to the matching validated variable as shown below.
 
-![Configuring a Populate text field action](images/06-rpa/image47.png)
+![Configuring a Populate text field action](06-rpa/image47.png)
 Figure: Configuring a Populate text field action.
 
 8. Compare your completed **3\_User\_Entry** Subflow condition **If** with the example below.
 
-![The If fValidation block that populates and submits the form](images/06-rpa/image48.png)
+![The If fValidation block that populates and submits the form](06-rpa/image48.png)
 Figure: The If fValidation block that populates and submits the form.
 
 9. Add the actions shown below to handle the submission confirmation popup:
@@ -530,7 +530,7 @@ Figure: The If fValidation block that populates and submits the form.
 
 	Use the screenshot below to confirm the completed sequence.
 
-![Handling the submission confirmation](images/06-rpa/image49.png)
+![Handling the submission confirmation](06-rpa/image49.png)
 Figure: Handling the submission confirmation.
 
 > ✅ **Expected result — checkpoint**  
@@ -546,23 +546,23 @@ Figure: Handling the submission confirmation.
 
 1. Open <https://nwtua.z13.web.core.windows.net/> in Microsoft Edge so you can capture its UI elements. Log in with **Codename** set to **master** and **Secret passphrase** set to **iAmReady**. A **new user record** form will appear.
 
-![The Northwind portal sign-in screen](images/06-rpa/image50.png)
+![The Northwind portal sign-in screen](06-rpa/image50.png)
 Figure: The Northwind portal sign-in screen.
 
 2. In the designer, open the **UI elements pane**, select **UI elements** and **Add UI element**.
 
-![The New User Record form](images/06-rpa/image51.png)
+![The New User Record form](06-rpa/image51.png)
 Figure: The New User Record form.
 
 3. Select **Add UI element**, point to the required control in the browser, and use **Ctrl+left** click to capture it.    
 - Enter any values for **First Name**, **Last Name**, **Email**, **Phone**, and **Address**, then click **Submit**. When the confirmation popup appears, capture the paragraph **"Are you sure you want to submit the dataset?"** and the **OK** button. A toast message appears after a successful submission — capture it so the flow can record the correct outcome.
 
-![Capturing the New User Record element](images/06-rpa/image52.png)
+![Capturing the New User Record element](06-rpa/image52.png)
 Figure: Capturing the New User Record element.
 
 4. The **Status** UI element is now in place.
 
-![Capturing the Div 'User record' element](images/06-rpa/image53.png)
+![Capturing the Div 'User record' element](06-rpa/image53.png)
 Figure: Capturing the Div 'User record' element.
 
 5. Add the actions shown below to process each record and write useful log messages:
@@ -574,7 +574,7 @@ Figure: Capturing the Div 'User record' element.
 
 	Use the screenshot below to confirm the completed logging branch.
 
-![Logging successful and invalid entries](images/06-rpa/image54.png)
+![Logging successful and invalid entries](06-rpa/image54.png)
 Figure: Logging successful and invalid entries.
 
 6. Each action has **On error settings**. In the **2_Login** subflow, open the **Wait for web page content** action (the one that waits for **Input text 'u'**) and configure its retry policy with these values:
@@ -585,7 +585,7 @@ Figure: Logging successful and invalid entries.
 
 	The same retry values (Fixed, 2 times, 10-second interval) apply wherever this lab configures a retry policy.
 
-![Configuring the retry policy in On error settings](images/06-rpa/image55.png)
+![Configuring the retry policy in On error settings](06-rpa/image55.png)
 Figure: Configuring the retry policy in On error settings.
 
 7. In the **2\_Login** subflow, use labels and flow-control actions to direct execution when an action fails. Edit the **If web page contains** action in the **LoginHandler** region and set its **On error** settings:
@@ -595,7 +595,7 @@ Figure: Configuring the retry policy in On error settings.
 	- **Exception handling mode:** Go to label.
 	- **Select label:** `Login Error` (the label added earlier in the LoginHandler region).
 
-![Directing execution to the Login Error label on failure](images/06-rpa/image56.png)
+![Directing execution to the Login Error label on failure](06-rpa/image56.png)
 Figure: Directing execution to the Login Error label on failure.
 
 8. Configure the **On block error** action named `Login` in the **2\_Login** subflow:
@@ -604,25 +604,25 @@ Figure: Directing execution to the Login Error label on failure.
 	- Under **All errors (default)**, select **Throw error**.
 	- Turn **Handle flow terminating errors** on.
 
-![Configuring the On block error action](images/06-rpa/image57.png)
+![Configuring the On block error action](06-rpa/image57.png)
 Figure: Configuring the On block error action.
 
 9. For web UI actions, enable self-healing preview where appropriate to improve resilience when selectors change.  In **2\_Login** and **3_User_Entry** subflows, edit **Populate text field on web page** action as shown below.
 
-![Enabling self-healing on a Populate text field action](images/06-rpa/image58.png)
+![Enabling self-healing on a Populate text field action](06-rpa/image58.png)
 Figure: Enabling self-healing on a Populate text field action.
 
 10. If execution fails on the **phone-number field**, inspect the captured UI element. Its generated ID changes dynamically and should not be the primary selector.
     Retain the stable name attribute, and remove or relax the changing ID attribute, as shown below.
 
-![Relaxing the dynamic ID on the phone-number selector](images/06-rpa/image59.png)
+![Relaxing the dynamic ID on the phone-number selector](06-rpa/image59.png)
 Figure: Relaxing the dynamic ID on the phone-number selector.
 
 Where appropriate, configure an image as a fallback when selector-based UI-element lookup fails.
 
 11. In Main, call the subflows in the sequence shown below.
 
-![Calling the subflows in order from Main](images/06-rpa/image60.png)
+![Calling the subflows in order from Main](06-rpa/image60.png)
 Figure: Calling the subflows in order from Main.
 
 12. Save the flow, run **Main**, and confirm that the end-to-end flow runs successfully from start to finish.
@@ -643,24 +643,24 @@ Figure: Calling the subflows in order from Main.
    
 2. Rename UI elements so their purpose is clear before publishing the collection.
 
-![Renaming UI elements before publishing](images/06-rpa/image61.png)
+![Renaming UI elements before publishing](06-rpa/image61.png)
 Figure: Renaming UI elements before publishing.
 
 3. Select the required UI elements by choosing their top-level web page container and click **Publish as new collection**.
 
-![Selecting the UI elements to publish](images/06-rpa/image62.png)
+![Selecting the UI elements to publish](06-rpa/image62.png)
 Figure: Selecting the UI elements to publish.
 
 4. Provide a name for the new collection. If you associated any or all of the selected UI elements with UI or web automation actions in your desktop flow, you can also check the 'Auto-update' option below the collection name field. This automatically updates the related actions, ensuring they reference the newly established counterparts in the collection, rather than the UI elements previously accessible only within this flow.
    
    To make any required adjustments to a collection, that collection needs to be imported to a desktop flow, so that you can access the collection's contents in the flow designer. In addition, you need to be an Owner or have at least Co-owner rights on that collection to be able to modify it.
 
-![Publishing the UI elements as a new collection](images/06-rpa/image63.png)
+![Publishing the UI elements as a new collection](06-rpa/image63.png)
 Figure: Publishing the UI elements as a new collection.
 
 5. Confirm that the published UI collection appears as shown below.
 
-![The published UI collection](images/06-rpa/image64.png)
+![The published UI collection](06-rpa/image64.png)
 Figure: The published UI collection.
 
 
@@ -679,19 +679,19 @@ This optional step shows how a cloud flow can trigger the automation you built. 
 
 1. Go to the [Power Automate portal](https://make.powerautomate.com), select **Create**, and then select **Instant cloud flow**.
 
-  ![Creating an instant cloud flow](images/06-rpa/image72.png)
+  ![Creating an instant cloud flow](06-rpa/image72.png)
   Figure: Creating an instant cloud flow.
 
 2. After the trigger, select the **+** button to add an action, and then search for **desktop flow**.
 
-  ![Searching for the desktop flow action](images/06-rpa/image73.png)
+  ![Searching for the desktop flow action](06-rpa/image73.png)
   Figure: Searching for the desktop flow action.
 
 3. Select **Run a flow built with Power Automate for desktop**.
 4. In **Desktop flow**, select **Provision Partner Users**.
 5. Select the connection that defines the machine or machine group where the flow runs and the credentials used to sign in. If no connection exists, create one.
 
-  ![Configuring the desktop flow action](images/06-rpa/image74.png)
+  ![Configuring the desktop flow action](06-rpa/image74.png)
   Figure: Configuring the desktop flow action.
 
 6. In **Run mode**, select **Attended**.
@@ -738,37 +738,37 @@ If no machines appear in the **Machines** list, register one. Machine registrati
 
 1. On the target machine, download and install Power Automate for desktop from the [Power Automate portal](https://make.powerautomate.com) or [Download Power Automate for desktop](https://aka.ms/download-pad). Run the installer and complete the setup. The installer also installs the Power Automate machine runtime.
 
-    ![Installing Power Automate for desktop from the portal](images/06-rpa/image65.png)
+    ![Installing Power Automate for desktop from the portal](06-rpa/image65.png)
     Figure: Installing Power Automate for desktop from the portal.
 
 2. Launch Power Automate for desktop and sign in with your work or school account.
 
-  ![Signing in to Power Automate for desktop](images/06-rpa/image66.png)
+  ![Signing in to Power Automate for desktop](06-rpa/image66.png)
   Figure: Signing in to Power Automate for desktop.
 
 3. From the Windows Start menu, search for and open **Power Automate machine runtime**.
 
-  ![Opening the Power Automate machine runtime](images/06-rpa/image67.png)
+  ![Opening the Power Automate machine runtime](06-rpa/image67.png)
   Figure: Opening the Power Automate machine runtime.
 
 4. In the machine runtime app, select **Machine settings**, and then select **Register a new machine**.
 
-  ![Registering a new machine from the machine runtime](images/06-rpa/image68.png)
+  ![Registering a new machine from the machine runtime](06-rpa/image68.png)
   Figure: Registering a new machine from the machine runtime.
 
 5. Select the target environment from the dropdown. Use the same environment where you created the desktop flow. Registration starts automatically.
 
-  ![Selecting the environment during machine registration](images/06-rpa/image69.png)
+  ![Selecting the environment during machine registration](06-rpa/image69.png)
   Figure: Selecting the environment during machine registration.
 
 6. Wait for registration to finish. Confirm that the runtime app shows the machine name, its environment, and a **Connected** status.
 
-  ![The registered machine showing Connected status](images/06-rpa/image70.png)
+  ![The registered machine showing Connected status](06-rpa/image70.png)
   Figure: The registered machine showing Connected status.
 
 7. In the [Power Automate portal](https://make.powerautomate.com), confirm that the correct environment is selected. Then go to **Monitor** > **Machines**.
 
-  ![The Machines page in the Power Automate portal](images/06-rpa/image71.png)
+  ![The Machines page in the Power Automate portal](06-rpa/image71.png)
   Figure: The Machines page in the Power Automate portal.
 
 8. Confirm that the newly registered machine appears in the list. You can now use it to run the desktop flow in this lab.
@@ -817,26 +817,26 @@ Learn more: [Run a desktop flow in picture-in-picture](https://learn.microsoft.c
 
 1. Go to the [Power Automate portal](https://make.powerautomate.com), select **More** > **Discover all**, scroll to the **Monitor** section, and then select **Desktop flow runs**.
 
-  ![Opening Desktop flow runs in Monitor](images/06-rpa/image75.png)
+  ![Opening Desktop flow runs in Monitor](06-rpa/image75.png)
   Figure: Opening Desktop flow runs in Monitor.
 
 2. Review the runs from the local attended, cloud attended, and cloud unattended execution modes.
 
-  ![The Desktop Flow Runs page](images/06-rpa/image76.png)
+  ![The Desktop Flow Runs page](06-rpa/image76.png)
   Figure: The Desktop Flow Runs page.
 
 3. Select a run to open its execution details.
 
   The details show the status, start time, duration, run mode, and trigger. They also show each action, captured screenshots, and error messages for troubleshooting. Use the filters to narrow the list by status or date.
 
-  ![Desktop flow run details](images/06-rpa/image77.png)
+  ![Desktop flow run details](06-rpa/image77.png)
   Figure: Desktop flow run details.
 
 ## Appendix D: Monitor runs with Automation Center
 
 1. Go to the [Power Automate portal](https://make.powerautomate.com), select **Automation Center**, and then select **Runs**, and then select **Current Desktop flow runs**. Explore all the options inside the runs.
 
-  ![The Automation Center Runs page](images/06-rpa/image78.png)
+  ![The Automation Center Runs page](06-rpa/image78.png)
   Figure: The Automation Center Runs page.
 
 2. Explore the other Automation Center views.

@@ -95,7 +95,7 @@ The workflow starts when an order-desk email arrives. You scope it to order emai
 
 2. In the left navigation, select **Workflows**, then **New workflow**. The designer opens directly.
 
-    ![The workflow page in the new Copilot Studio authoring experience](images/07-workflow/image1.png)     
+    ![The workflow page in the new Copilot Studio authoring experience](07-workflow/image1.png)     
     Figure: The **Workflows** section in the new authoring experience of Copilot Studio.
 
 3. Rename the workflow. Select the title **Untitled workflow** and enter:
@@ -103,24 +103,24 @@ The workflow starts when an order-desk email arrives. You scope it to order emai
     ```
     Order Management Workflow
     ```
-    ![Renaming the new Workflow](images/07-workflow/image2.png)    
+    ![Renaming the new Workflow](07-workflow/image2.png)    
     Figure: Selecting the workflow **Untitled workflow**.
 
-    ![Renaming the new Workflow](images/07-workflow/image3.png)     
+    ![Renaming the new Workflow](07-workflow/image3.png)     
     Figure: Replacing the workflow default name from **Untitled workflow** to **Order Management Workflow**.
 
 4. Select the **⚡Start** node in the workflow editing canvas, and choose **Connector** in the right pane as **Trigger type**. Select trigger **When a new email arrives** (Office 365 Outlook, not Outlook.com), create the connection with your lab account if prompted, and complete the sign-in process.
 
-    ![The workflow designer with the Start node selected](images/07-workflow/image4.png)    
+    ![The workflow designer with the Start node selected](07-workflow/image4.png)    
     Figure: Changing the workflow start node type from **Manual** to **Connector**.  
 
-    ![Selecting the new trigger "When a new email arrives"](images/07-workflow/image5.png)     
+    ![Selecting the new trigger "When a new email arrives"](07-workflow/image5.png)     
     Figure: Selecting trigger **When a new email arrives**.  
 
-    ![Configuring the connection for trigger "When a new email arrives"](images/07-workflow/image6.png)    
+    ![Configuring the connection for trigger "When a new email arrives"](07-workflow/image6.png)    
     Figure: Creating a connection for the workflow trigger.  
 
-    ![Sign in with the lab account for the "When a new email arrives" trigger](images/07-workflow/image7.png)       
+    ![Sign in with the lab account for the "When a new email arrives" trigger](07-workflow/image7.png)       
     Figure: Connecting with the lab user.
 
 5. On the trigger, add the **Subject Filter** to the parameters by selecting it from the **Advanced parameters** menu, and then set the subject filter value so the workflow only fires for order-desk mail. Select the expression symbol **</>** (**Switch to expression mode**) and enter:
@@ -131,13 +131,13 @@ The workflow starts when an order-desk email arrives. You scope it to order emai
 
     ⚠️ **Warning:** Every test email in this lab **must include "Order Management" in the subject line**, or the trigger will not fire. This is the most common reason a test "does nothing."
 
-    ![The workflow trigger with the initial set of **Advanced parameters**](images/07-workflow/image8.png)     
+    ![The workflow trigger with the initial set of **Advanced parameters**](07-workflow/image8.png)     
     Figure: Adding the **Subject Filter** to the **Advanced parameters** of the workflow trigger.     
 
-    ![The workflow trigger with the **Subject Filter** parameter](images/07-workflow/image9.png)       
+    ![The workflow trigger with the **Subject Filter** parameter](07-workflow/image9.png)       
     Figure: Selecting the **</>** icon to switch the filter to expression mode.
 
-    ![The workflow trigger with the value of **Subject Filter** parameter](images/07-workflow/image10.png)      
+    ![The workflow trigger with the value of **Subject Filter** parameter](07-workflow/image10.png)      
     Figure: Entering the filter value `Order Management` as a **Subject Filter**.
 
 6. Select the **💾Save** button at the upper ribbon to the left of the Publish button.
@@ -150,18 +150,18 @@ Rather than write brittle keyword rules, you let the **Classify** action read ea
 
 1. Hover with your mouse over the right end of the trigger node, select the appearing **+** button to add a step, add a **Classify** action, and establish a connection. Leave the model as the default and create the connection if prompted.
 
-    ![The Classify action is added to the authoring canvas](images/07-workflow/image11.png)     
+    ![The Classify action is added to the authoring canvas](07-workflow/image11.png)     
     Figure: Adding **Classify** to the workflow as the next action step.     
 
-    ![The Classify action's connection is established](images/07-workflow/image12.png)      
+    ![The Classify action's connection is established](07-workflow/image12.png)      
     Figure: Establishing a connection for the **Classify** step.
     
-    ![The Classify action's connection user is selected](images/07-workflow/image13.png)        
+    ![The Classify action's connection user is selected](07-workflow/image13.png)        
     Figure: Connecting with the lab user.
 
 2. For the value to classify, insert the trigger's **Body** dynamic content (the body of the incoming message).
 
-    ![The Classify action is added to the workflow](images/07-workflow/image14.png)       
+    ![The Classify action is added to the workflow](07-workflow/image14.png)       
     Figure: The Classify action added to the workflow, and a connection is established.
 
     💡 **Tip:** If the LLM model visible in the screenshot above (i.e. `Claude Sonnet 4.6`) is not available in your development environment, use one of the models available to you from the dropdown menu.
@@ -173,7 +173,7 @@ Rather than write brittle keyword rules, you let the **Classify** action read ea
     - **Customer Inquiry** — a general question about orders, products, or shipping.
     - **Other** (built in).
 
-    ![The Classify action configured with four named categories](images/07-workflow/image15.png)         
+    ![The Classify action configured with four named categories](07-workflow/image15.png)         
     Figure: The Classify action configured with the four order-desk categories.
 
     💡 **Tip:** Add two or three example phrasings per category to improve accuracy — for example, a Quote Request as both *"Can you send pricing for 500 units?"* and *"We'd like a formal quotation for the attached spec."* Use the Classify action's **Test** tab to try edge cases and refine the descriptions.
@@ -188,10 +188,10 @@ You wire up the simplest branch first — junk goes to Archive — then publish 
 
 1. On the **Other** branch, add action **Move email** from the **Office 365 Outlook** connector. For the **Message Id** parameter, select the field and choose the trigger's **Message Id** from the dynamic content list (the value under the **When a new email arrives** trigger) — not a literal value. Set the destination to **Archive**: double-click the folder name **Archive** so that it gets set as destination. A single click expands/collapses mailbox subfolders.
 
-    ![Selecting the trigger's Message Id from dynamic content and the Archive folder in the Move email action](images/07-workflow/image16.png)
+    ![Selecting the trigger's Message Id from dynamic content and the Archive folder in the Move email action](07-workflow/image16.png)
     Figure: Pick **Message Id** from the dynamic content list (not a typed value), then set the destination folder to **Archive**.
 
-    ![The Other branch moving the message to the Archive folder](images/07-workflow/image17.png)    
+    ![The Other branch moving the message to the Archive folder](07-workflow/image17.png)    
     Figure: The "Other" branch moving the incoming message to the Archive folder.
 
 2. Select **💾Save**, then **Publish** from the upper ribbon.
@@ -225,7 +225,7 @@ You wire up the simplest branch first — junk goes to Archive — then publish 
 
 4. Wait a few seconds, then check your **Archive** folder — the test email should have been moved there automatically.
 
-    ![The test email moved to the Archive folder by the workflow](images/07-workflow/image18.png)   
+    ![The test email moved to the Archive folder by the workflow](07-workflow/image18.png)   
     Figure: The test email moved to the Archive folder, confirming the "Other" path.
 
     💡 **Tip:** If nothing happens, open the workflow's **Activity** panel to see whether a run started. No run usually means the workflow is still Draft, or the subject was missing "Order Management."
@@ -249,13 +249,13 @@ For customer questions, an AI draft is a starting point, not the final word. You
 
     Replace the bracketed text with the trigger's **Body** dynamic content.
 
-    ![The step M365 Copilot is added](images/07-workflow/image19.png)   
+    ![The step M365 Copilot is added](07-workflow/image19.png)   
     Figure: Adding step **M365 Copilot** as the next action step for classification **Customer Inquiry**.
 
-    ![The connection of step M365 Copilot is configured](images/07-workflow/image20.png)    
+    ![The connection of step M365 Copilot is configured](07-workflow/image20.png)    
     Figure: Establishing a connection for step **M365 Copilot**.
 
-    ![The parameters of step M365 Copilot are set](images/07-workflow/image21.png)      
+    ![The parameters of step M365 Copilot are set](07-workflow/image21.png)      
     Figure: Connecting as the lab user.
 
     |  |
@@ -263,7 +263,7 @@ For customer questions, an AI draft is a starting point, not the final word. You
     | **Note** The **M365 Copilot** node is **read-only** — it can search and retrieve from your mail, chats, and files, but it cannot send messages. Sending happens in a separate action (Step 4.4). It also grounds on the connection owner's own history: a freshly provisioned lab account has none, so expect a generic holding reply. In a real mailbox it would ground on genuine prior threads. |
 
 2. After the M365 Copilot action, add a **Human review** action and configure its connection.
-    ![Adding a Human Review step](images/07-workflow/image22.png)   
+    ![Adding a Human Review step](07-workflow/image22.png)   
     Figure: The step **Human review** is added so that a human can review the generated email response and approve it.
 
     For the **Title** parameter of the **Human review** step, select button **</>** in the header to switch to expression mode, and enter the following expression:
@@ -287,12 +287,12 @@ For customer questions, an AI draft is a starting point, not the final word. You
 
     The step configuration should look similar to the following screenshot:
 
-    ![The Human review action configured entirely](images/07-workflow/image23.png)      
+    ![The Human review action configured entirely](07-workflow/image23.png)      
     Figure: The **Human review** action with all configurations and presenting the proposed reply for a Yes/No approval.
 
 3. Add an **If/Else** (condition) after Human review, testing the reviewer's answer.
 
-    ![The If/Else action](images/07-workflow/image24.png)       
+    ![The If/Else action](07-workflow/image24.png)       
     Figure: The **If/Else** action presenting its condition.
 
 4. On the **If** branch, add an **Office 365 Outlook — Reply to email** action that sends the M365 Copilot draft back to the sender. If you are using the same email account in this lab for sending and receiving emails, consider removing the word sequence `Order Management` from the original subject before using it as a response subject to avoid an endless loop of classifying emails and responding to them. Select button **</>** in the header row of the **Subject** field to switch to expression mode, and enter the following expression:
@@ -301,7 +301,7 @@ For customer questions, an AI draft is a starting point, not the final word. You
     ```
 
     The **Reply to email** step configuration should look similar to the following screenshot:
-    ![The step to send the response to the customer](images/07-workflow/image25.png)    
+    ![The step to send the response to the customer](07-workflow/image25.png)    
     Figure: The **Reply to email** step to send the **M365 Copilot** response to the customer after it has been approved.
 
     On the **No** branch, leave the email in the inbox flagged for manual follow-up (for example, add an **Update email** action that flags it).
@@ -336,7 +336,7 @@ For customer questions, an AI draft is a starting point, not the final word. You
 
 7. Approve the request when it reaches you (sample in the screenshot below), then confirm the approved reply lands in the sender's inbox (your own, since you emailed yourself).
 
-    ![Approval request for the generated response](images/07-workflow/image26.png)      
+    ![Approval request for the generated response](07-workflow/image26.png)      
     Figure: The response proposed by **M365 Copilot**, ready for human sign-off.
 
 ✅ **Checkpoint:** The Customer Inquiry branch drafts a grounded reply, pauses for your approval, and — only on **Yes** — sends the response automatically.
@@ -365,12 +365,12 @@ You add no columns — each product is already seeded with a **Reorder Level**, 
     | --- |
     | **Tip** You can choose a **different model per node**. A light model is enough for the Classify step; this inline agent can run a stronger reasoning model. Matching the model to the work keeps a workflow both capable and economical. |
 
-    ![The Supplier Delay branch with a new inline agent named Inventory Task Agent](images/07-workflow/image27.png)     
+    ![The Supplier Delay branch with a new inline agent named Inventory Task Agent](07-workflow/image27.png)     
     Figure: The new inline agent added to the Supplier Delay branch.
 
 4. Under **Tools**, add the **Microsoft Dataverse MCP Server** and establish an **OAuth** connection. This gives the agent the ability to read tables and create rows.
 
-    ![The agent tools panel with the Microsoft Dataverse MCP Server](images/07-workflow/image28.png)    
+    ![The agent tools panel with the Microsoft Dataverse MCP Server](07-workflow/image28.png)    
     Figure: The agent equipped with the Microsoft Dataverse MCP Server.
 
 5. In the **Instructions** box of the **Inventory Task Agent**, paste:
@@ -415,7 +415,7 @@ You add no columns — each product is already seeded with a **Reorder Level**, 
         addDays(triggerOutputs()?['body/receivedDateTime'], 3)
         ```
 
-    ![The agent instructions with Body and due-date dynamic content inserted](images/07-workflow/image29.png)   
+    ![The agent instructions with Body and due-date dynamic content inserted](07-workflow/image29.png)   
     Figure: The instructions with the email body and a due-date expression inserted.
 
 7. Scroll to **Output**, switch to **Structured output**, and add three properties:
@@ -424,7 +424,7 @@ You add no columns — each product is already seeded with a **Reorder Level**, 
     - `reorderLevel` (**Number**) — the product's reorder level from Dataverse.
     - `urgent` (**Text**) — `High` when the reorder level is at or above the cut-off (10), otherwise `Normal`.
 
-    ![The structured output with productCode, reorderLevel, and urgent properties](images/07-workflow/image30.png)      
+    ![The structured output with productCode, reorderLevel, and urgent properties](07-workflow/image30.png)      
     Figure: The agent's structured output definition.
 
 8. Select **Save**, then **Publish**. From **Outlook**, send a test email **to your lab account**:
@@ -450,12 +450,12 @@ You add no columns — each product is already seeded with a **Reorder Level**, 
 
 9. In the workflow's **Activity** panel, open the run and follow **Classify → Supplier Delay → Inventory Task Agent**. Select the agent node and review its tool calls: a Dataverse read of the product, then a Dataverse **create** of the Task row. Review the **structured output** — `reorderLevel` is the value the agent read and `urgent` reflects whether it meets the cut-off.
 
-    ![The Activity panel showing the successful run flowing through Classify, Supplier Delay, and the Inventory Task Agent, with the agent's tool calls and structured output](images/07-workflow/image31.png)
+    ![The Activity panel showing the successful run flowing through Classify, Supplier Delay, and the Inventory Task Agent, with the agent's tool calls and structured output](07-workflow/image31.png)
     Figure: The run in the **Activity** panel — the **Inventory Task Agent** node with its Dataverse tool calls and the structured output (`productCode`, `reorderLevel`, `urgent`).
 
 10. Open **Tables → Task** outside of your solution in Power Apps and find the row **Restock delay - Northwind Traders Clam Chowder (NWTSO-41)** with **Priority = High** (Clam Chowder's reorder level is 10) and a **Due Date** three days out.
 
-    ![The Dataverse Task row created for the delayed Clam Chowder shipment](images/07-workflow/image32.png)     
+    ![The Dataverse Task row created for the delayed Clam Chowder shipment](07-workflow/image32.png)     
     Figure: The Task the agent created for the delayed shipment.
 
 ✅ **Checkpoint:** The agent turned an unstructured delay email into a concrete, prioritized Task — reading the product's reorder level, judging urgency, and writing the result back to Dataverse.
@@ -484,7 +484,7 @@ Some work is worth packaging into a reusable agent you can call from more than o
 
 3. Give the agent the **Microsoft Dataverse MCP Server** tool (to read product prices) and a mail-sending tool (**Work IQ MCP server** (preview), or the Office 365 Outlook **Send an email (V2)** action) so it can send the quote. Create a connection for both tools if prompted.
 
-    ![Price Quote Agent configured and ready to publish](images/07-workflow/image33.png)    
+    ![Price Quote Agent configured and ready to publish](07-workflow/image33.png)    
     Figure: The Price Quote Agent with **Instructions** and **Tools**.
     
 4. Select **Publish** — an agent must be **published** before a workflow can call it.
@@ -503,7 +503,7 @@ Some work is worth packaging into a reusable agent you can call from more than o
     Customer request: [insert the body preview of the request email]
     ```
 
-    ![The Quote Request branch calling the published Price Quote Agent](images/07-workflow/image34.png)     
+    ![The Quote Request branch calling the published Price Quote Agent](07-workflow/image34.png)     
     Figure: The Quote Request branch wired to the published Price Quote Agent.
 
 7. Select **Save**, then **Publish** the workflow and wait for the publishing to complete.
@@ -533,7 +533,7 @@ Some work is worth packaging into a reusable agent you can call from more than o
 
 9. In the **Activity** panel, confirm the route **Classify → Quote Request → Agent completed**, then check **Outlook** for the generated quote email.
 
-    ![The completed quote email received in Outlook](images/07-workflow/image35.png)    
+    ![The completed quote email received in Outlook](07-workflow/image35.png)    
     Figure: The itemized quote the Price Quote Agent produced and sent.
 
 ✅ **Checkpoint:** A quote request is handed to a reusable published agent that prices it from real Dataverse data and emails the customer — logic you can now reuse from any other automation.

@@ -1,5 +1,5 @@
 ---
-title: "Automation: Computer Use Agent (Foundations)"
+title: "Automation: Computer Use Agent (Advanced)"
 lab: true
 level: 300
 persona: "Maker"
@@ -35,7 +35,7 @@ You will build the **Order Processing Agent**, a Copilot Studio agent that finds
 
 Computer Use supports the **Computer-Using Agent (CUA)** model and, when an administrator enables external models, supported Anthropic models.
 
-![Computer Use model options in Copilot Studio](images/08-cua/image01.jpg)
+![Computer Use model options in Copilot Studio](08-cua/image01.jpg)
 Figure: Available model choices for a Computer Use tool.
 
 ## Where Computer Use runs
@@ -122,30 +122,30 @@ Complete this preflight setup **before Step 1**. The agent cannot run until the 
 
 1. Open [Microsoft Copilot Studio](https://copilotstudio.microsoft.com/) and confirm that the environment picker shows the environment where you want to build.
 
-	![Copilot Studio environment picker](images/08-cua/image1.png)
+	![Copilot Studio environment picker](08-cua/image1.png)
 	Figure: Confirming the target environment in Copilot Studio.
 
 	> ℹ️ **Important:** If Copilot Studio opens the new creation experience with a **What would you like to build?** prompt and **Agent** and **Workflow** options, switch to the classic experience. This lab uses the classic creation flow. Do not create the agent by entering a request in the prompt box.
 
-	![Classic Copilot Studio creation experience](images/08-cua/image2.png)
+	![Classic Copilot Studio creation experience](08-cua/image2.png)
 	Figure: The classic Copilot Studio experience used in this lab.
 
 2. In the left navigation, select the three-dot menu, and then select **Solutions**.
 
-	![Solutions option in the Copilot Studio navigation](images/08-cua/image3.png)
+	![Solutions option in the Copilot Studio navigation](08-cua/image3.png)
 	Figure: Opening Solutions from the Copilot Studio navigation.
 
 3. Select **New solution**, enter `Order Automation` as the display name, enable **Set as preferred solution**, and select **Create**.
 
 	Setting the preferred solution ensures that new components, including agents and workflows, are added to the solution automatically.
 
-	![New solution form for Order Automation](images/08-cua/image4.png)
+	![New solution form for Order Automation](08-cua/image4.png)
 	Figure: Creating the Order Automation solution.
 
-	![Set as preferred solution option](images/08-cua/image5.png)
+	![Set as preferred solution option](08-cua/image5.png)
 	Figure: Setting Order Automation as the preferred solution.
 
-	![Order Automation shown as the preferred solution](images/08-cua/image6.png)
+	![Order Automation shown as the preferred solution](08-cua/image6.png)
 	Figure: The completed preferred solution.
 
 4. In the classic experience, select **Agent**. In the creation dialog, configure the following values, and then select **Create**:
@@ -156,15 +156,15 @@ Complete this preflight setup **before Step 1**. The agent cannot run until the 
 	| Language | Your preferred lab language |
 	| Solution | Order Automation |
 
-	![Create an agent dialog](images/08-cua/image7.png)
+	![Create an agent dialog](08-cua/image7.png)
 	Figure: Creating the Order Processing Agent in the preferred solution.
 
 	Wait for agent setup to finish before continuing.
 
-	![Agent setup progress message](images/08-cua/image8.png)
+	![Agent setup progress message](08-cua/image8.png)
 	Figure: Copilot Studio setting up the new agent.
 
-	![Agent setup completion message](images/08-cua/image9.png)
+	![Agent setup completion message](08-cua/image9.png)
 	Figure: Confirmation that agent setup is complete.
 
 5. Open the agent's **Overview** page, edit the description, enter the following text, and save the change:
@@ -173,15 +173,15 @@ Complete this preflight setup **before Step 1**. The agent cannot run until the 
 	Handles the order details extraction process.
 	```
 
-	![Agent description on the Overview page](images/08-cua/image10.png)
+	![Agent description on the Overview page](08-cua/image10.png)
 	Figure: Setting the agent description on the Overview page.
 
 6. Open **Settings** and confirm that orchestration is set to **Generative**. It is enabled by default for new agents. If it is off, select **Generative**, and then save.
 
-	![Agent Settings button](images/08-cua/image11.png)
+	![Agent Settings button](08-cua/image11.png)
 	Figure: Opening the agent settings.
 
-	![Generative orchestration setting](images/08-cua/image12.png)
+	![Generative orchestration setting](08-cua/image12.png)
 	Figure: Verifying that generative orchestration is enabled.
 
 ✅ **Checkpoint:** The **Order Processing Agent** exists in the **Order Automation** solution, its description is saved, and generative orchestration is enabled.
@@ -194,10 +194,10 @@ The order management application does not expose reliable selectors. You will gi
 
 1. On the agent, select **Tools**, and then select **Add a tool** > **New tool** > **Computer use**.
 
-	![Computer use option in the New tool menu](images/08-cua/image13.png)
+	![Computer use option in the New tool menu](08-cua/image13.png)
 	Figure: Adding a new Computer Use tool to the agent.
 
-	![Computer Use instruction editor](images/08-cua/image14.png)
+	![Computer Use instruction editor](08-cua/image14.png)
 	Figure: The instruction editor for the new Computer Use tool.
 
 2. In the instructions box, enter the following instructions. Replace `<machine-user>` with the Windows profile folder used on your machine if the application is installed at a different path.
@@ -212,7 +212,7 @@ The order management application does not expose reliable selectors. You will gi
 	7. Confirm that the returned order matches the requested order value and that each listed field has a value. Report any fields that are empty.
 	```
 
-	![Computer Use instructions for order extraction](images/08-cua/image15.png)
+	![Computer Use instructions for order extraction](08-cua/image15.png)
 	Figure: Plain-language instructions for launching the application and extracting order details.
 
 3. Select **Add and configure**.
@@ -226,7 +226,7 @@ The order management application does not expose reliable selectors. You will gi
 	| Model | Computer-Using Agent (CUA) model *(default; use another supported model only if an administrator has enabled external models)* |
 	| Instructions | The instructions entered in the previous action |
 
-	![Configured Computer Use tool fields](images/08-cua/image16.png)
+	![Configured Computer Use tool fields](08-cua/image16.png)
 	Figure: Configuring the name, description, model, and instructions.
 
 5. In **Inputs**, add an input for the order value, configure the following, and leave **Fill using** set to **Dynamically fill with AI**. The agent collects the value from the user in chat at run time.
@@ -237,7 +237,7 @@ The order management application does not expose reliable selectors. You will gi
 	| Description | The order number to find. The agent uses this value to search the order application. |
 	| Fill using | Dynamically fill with AI |
 
-	![Dynamic order value input](images/08-cua/image17.png)
+	![Dynamic order value input](08-cua/image17.png)
 	Figure: Adding the order value input and allowing AI to fill it dynamically.
 
 6. Confirm that the instructions refer to the provided input rather than a hardcoded order number.
@@ -246,7 +246,7 @@ The order management application does not expose reliable selectors. You will gi
 	Search orders using the order value provided in the input.
 	```
 
-	![Instructions referring to the dynamic input](images/08-cua/image18.png)
+	![Instructions referring to the dynamic input](08-cua/image18.png)
 	Figure: Updating the instructions to use the dynamic order input.
 
 ✅ **Checkpoint:** The **Order details processing** tool is created and saved, the order value input exists and is set to **Dynamically fill with AI**, and the instructions reference the input rather than a hardcoded order number.
@@ -258,35 +258,35 @@ A machine can be used for either Computer Use or RPA desktop flows at one time, 
 1. Open a new browser tab, go to [Power Automate](https://make.powerautomate.com/), and select the same environment used in Copilot Studio.
 2. In the left navigation, select **More**, and then select **Machines**.
 
-	![Machines option in Power Automate navigation](images/08-cua/image19.png)
+	![Machines option in Power Automate navigation](08-cua/image19.png)
 	Figure: Opening the Machines page in Power Automate.
 
 3. Confirm that the intended machine appears in the list. If no machine appears, complete [Appendix B](#appendix-b-register-a-machine-with-power-automate), and then return here.
 
-	![Registered machines list](images/08-cua/image20.png)
+	![Registered machines list](08-cua/image20.png)
 	Figure: Available registered machines in the selected environment.
 
 4. Select the machine, open its context menu, and select **Settings**.
 
-	![Machine context menu with Settings](images/08-cua/image21.png)
+	![Machine context menu with Settings](08-cua/image21.png)
 	Figure: Opening Settings for the selected machine.
 
-	![Machine settings before Computer Use is enabled](images/08-cua/image22.png)
+	![Machine settings before Computer Use is enabled](08-cua/image22.png)
 	Figure: The machine settings before Computer Use is enabled.
 
 5. Turn on **Enable for computer use**. In the confirmation dialog, select **Activate**.
 
-	![Activate Computer Use confirmation](images/08-cua/image23.png)
+	![Activate Computer Use confirmation](08-cua/image23.png)
 	Figure: Confirming that the machine will be activated for Computer Use.
 
 6. Confirm that **Enable for computer use** is on, and then select **Save**.
 
-	![Computer Use enabled in machine settings](images/08-cua/image24.png)
+	![Computer Use enabled in machine settings](08-cua/image24.png)
 	Figure: Saving the enabled Computer Use setting.
 
 7. Confirm that the Machines list now identifies the machine as enabled for Computer Use.
 
-	![Machine enabled for Computer Use](images/08-cua/image25.png)
+	![Machine enabled for Computer Use](08-cua/image25.png)
 	Figure: Verifying the machine's updated Computer Use status.
 
 ✅ **Checkpoint:** The intended machine is online, registered in the correct environment, and enabled for Computer Use.
@@ -296,36 +296,36 @@ A machine can be used for either Computer Use or RPA desktop flows at one time, 
 1. Return to the Copilot Studio tab and the **Order details processing** tool.
 2. In the **Machines** section, select **Bring your own machine**, and then select the machine enabled in Step 3.
 
-	![Bring your own machine selection](images/08-cua/image26.png)
+	![Bring your own machine selection](08-cua/image26.png)
 	Figure: Selecting the Computer Use machine in Copilot Studio.
 
 3. If this is the first use of the machine, create a connection. Enter `BYOM-CUA-MCS` as the display name, keep the default settings, and provide the Windows sign-in credentials for the machine.
 
-	![New machine connection form](images/08-cua/image27.png)
+	![New machine connection form](08-cua/image27.png)
 	Figure: Creating the BYOM-CUA-MCS machine connection.
 
 4. For stronger credential management, select **Saved credential** instead of entering credentials manually whenever that option is available in your environment.
 
-	![Saved credential option for a machine connection](images/08-cua/image28.png)
+	![Saved credential option for a machine connection](08-cua/image28.png)
 	Figure: Selecting a reusable saved credential for machine access.
 
 5. For **Credentials to use**, select **Maker-provided credentials**. Leave the tool's application credential vault empty because `UIAutomationDemo.exe` does not require sign-in.
 
 	The machine connection credentials allow access to Windows. The **Credentials to use** setting controls whether the tool runs with maker-provided or end-user credentials.
 
-	![Maker-provided credentials setting](images/08-cua/image29.png)
+	![Maker-provided credentials setting](08-cua/image29.png)
 	Figure: Configuring the Computer Use runtime identity.
 
 	> ⚠️ **Shared-agent access:** With **Maker-provided credentials**, anyone you share the published agent with can act with your access on the configured machine. Use a dedicated, least-privilege account for the machine connection and restrict who can run the agent.
 
 	> ⚠️ **Troubleshooting:** The machine must be powered on and connected. If the connection appears invalid, bring the machine online, wait for the machine runtime to connect, and refresh Copilot Studio.
 
-	![Unavailable machine connection warning](images/08-cua/image30.png)
+	![Unavailable machine connection warning](08-cua/image30.png)
 	Figure: Connection status when the selected machine is unavailable.
 
 6. Review the **Credentials** section. Application credentials would be added here if the target desktop or web application required a login. No action is required for this lab.
 
-	![Computer Use application credential vault](images/08-cua/image31.png)
+	![Computer Use application credential vault](08-cua/image31.png)
 	Figure: The optional application credential vault.
 
 	> ℹ️ **Human supervision (recommended):** In the tool's **Human supervision** section, set a reviewer who is contacted by email if computer use detects potentially harmful instructions. Requests expire after the configured response time limit. Human supervision reviews suspicious instructions — it is **not** a guaranteed fail-safe or an error-retry mechanism. See [Human supervision](https://learn.microsoft.com/microsoft-copilot-studio/human-supervision-computer-use).
@@ -335,10 +335,10 @@ A machine can be used for either Computer Use or RPA desktop flows at one time, 
 
 	> ℹ️ **Name the process, not the file:** Enter the application's **process name without the `.exe` extension** here (`UIAutomationDemo`). The `.exe` extension is only used in the launch instruction path in Step 2 (`...\UIAutomationDemo.exe`). Adding `.exe` to this allowlist entry can cause the app to be blocked.
 
-	![Allowed websites and desktop apps section](images/08-cua/image32.png)
+	![Allowed websites and desktop apps section](08-cua/image32.png)
 	Figure: Enabling the application allowlist.
 
-	![UIAutomationDemo desktop application allowlist entry](images/08-cua/image33.png)
+	![UIAutomationDemo desktop application allowlist entry](08-cua/image33.png)
 	Figure: Restricting the tool to UIAutomationDemo.
 
 	> ⚠️ **Important:** The process name must match exactly. If a different application is allowed or the name is misspelled, execution stops with an access-control error.
@@ -353,7 +353,7 @@ A machine can be used for either Computer Use or RPA desktop flows at one time, 
 
 1. Open the **Test** pane.
 
-	![Test button in the agent toolbar](images/08-cua/image34.png)
+	![Test button in the agent toolbar](08-cua/image34.png)
 	Figure: Opening the agent Test pane.
 
 2. Ask the agent:
@@ -364,15 +364,15 @@ A machine can be used for either Computer Use or RPA desktop flows at one time, 
 
 	> ℹ️ **Note:** The order value `13` resolves to the exact order **`SO-2024-001013`** in the demo application. The agent passes `13` to the search, and the application returns that single matching order.
 
-	![Agent starting the Computer Use tool](images/08-cua/image35.png)
+	![Agent starting the Computer Use tool](08-cua/image35.png)
 	Figure: The agent collecting the input and starting the Computer Use session.
 
 3. Watch the side-by-side view. The agent's reasoning appears on one side as a step-by-step log of its planned and completed actions, and a recording of the mouse and keyboard actions appears on the other. Notice that the agent locates fields by label rather than by position.
 
-	![Computer Use session replay during execution](images/08-cua/image36.png)
+	![Computer Use session replay during execution](08-cua/image36.png)
 	Figure: Observing the Computer Use session while it runs.
 
-	![Completed Computer Use order extraction](images/08-cua/image37.png)
+	![Completed Computer Use order extraction](08-cua/image37.png)
 	Figure: The completed run and extracted order values.
 
 4. If a step is ambiguous, edit the tool's plain-language instructions to name the exact UI label, and then run the test again.
@@ -437,36 +437,36 @@ If no machine appears in the Machines list, register one. Registration connects 
 
 1. On the target machine, install Power Automate for desktop, which also installs the Power Automate machine runtime. Follow the steps in [Install Power Automate by using the MSI installer](https://learn.microsoft.com/en-us/power-automate/desktop-flows/install#install-power-automate-by-using-the-msi-installer) to download the installer and complete setup.
 
-	![Power Automate for desktop installer](images/08-cua/image38.png)
+	![Power Automate for desktop installer](08-cua/image38.png)
 	Figure: Installing Power Automate for desktop and the machine runtime.
 
 2. Launch Power Automate for desktop and sign in with your work or school account.
 3. From the Windows Start menu, open **Power Automate machine runtime**.
 
-	![Power Automate machine runtime in the Start menu](images/08-cua/image39.png)
+	![Power Automate machine runtime in the Start menu](08-cua/image39.png)
 	Figure: Opening the Power Automate machine runtime.
 
-	![Power Automate machine runtime application](images/08-cua/image40.png)
+	![Power Automate machine runtime application](08-cua/image40.png)
 	Figure: The machine runtime before registration.
 
 4. In the machine runtime, select **Machine settings**, and then select **Register a new machine**.
 
-	![Register a new machine option](images/08-cua/image41.png)
+	![Register a new machine option](08-cua/image41.png)
 	Figure: Starting machine registration from the runtime settings.
 
 5. Select the same environment used in Copilot Studio. Registration starts automatically.
 
-	![Environment selection for machine registration](images/08-cua/image42.png)
+	![Environment selection for machine registration](08-cua/image42.png)
 	Figure: Selecting the target Power Platform environment.
 
 6. Wait for registration to finish. Confirm that the runtime displays the machine name, environment, and **Connected** status.
 
-	![Connected registered machine](images/08-cua/image43.png)
+	![Connected registered machine](08-cua/image43.png)
 	Figure: Confirming that machine registration succeeded.
 
 7. In [Power Automate](https://make.powerautomate.com/), confirm the environment, and then go to **Monitor** > **Machines**.
 
-	![Registered machine in the Power Automate portal](images/08-cua/image44.png)
+	![Registered machine in the Power Automate portal](08-cua/image44.png)
 	Figure: Verifying the registered machine in Power Automate.
 
 8. Confirm that the machine appears in the list, and then return to Step 3 to enable it for Computer Use.
