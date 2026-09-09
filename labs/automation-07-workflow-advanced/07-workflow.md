@@ -95,7 +95,7 @@ The workflow starts when an order-desk email arrives. You scope it to order emai
 
 2. In the left navigation, select **Workflows**, then **New workflow**. The designer opens directly.
 
-    ![The workflow page in the new Copilot Studio authoring experience](07-workflow/image1.png)     
+    ![The workflow page in the new Copilot Studio authoring experience](07-workflow/image1.png)
     Figure: The **Workflows** section in the new authoring experience of Copilot Studio.
 
 3. Rename the workflow. Select the title **Untitled workflow** and enter:
