@@ -281,12 +281,14 @@
       object-position: 0 center;
       pointer-events: none;
     }
-    html[data-theme="dark"] .toolbox-visual {
-      width: 58%;
-      object-fit: cover;
-      object-position: 42% center;
-      transform: scale(1.08);
-      transform-origin: left center;
+    @media (min-width: 761px) {
+      html[data-theme="dark"] .toolbox-visual {
+        width: 58%;
+        object-fit: cover;
+        object-position: 42% center;
+        transform: scale(1.08);
+        transform-origin: left center;
+      }
     }
     .toolbox-copy {
       position: relative;
