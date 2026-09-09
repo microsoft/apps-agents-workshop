@@ -1,5 +1,5 @@
 ---
-title: "Automation: Workflows (Foundation)"
+title: "Automation: Workflows (Foundations)"
 lab: true
 level: 200
 persona: "Maker"
@@ -64,19 +64,19 @@ As you build, you'll rename the workflow and each action to the names this modul
 
     🔧 **Setup check:** Copilot Studio opens in whichever experience you used last, so you may land in the **classic** portal — you can tell because its left navigation shows **Flows** rather than **Workflows**. Switch to the new experience with the **Try now** button on the **New Copilot Studio experience** banner across the top of the home page — it's easy to overlook.
 
-    ![The classic Copilot Studio home page with the New Copilot Studio experience banner and its Try now button highlighted](images/03-workflow/image1.png)  
+    ![The classic Copilot Studio home page with the New Copilot Studio experience banner and its Try now button highlighted](03-workflow/image1.png)  
     Figure: The Try now button on the classic home page banner — the switch into the new experience.
 
     🔧 **Setup check:** Once you're in the new experience, select the environment picker in the **bottom-left corner** and confirm you're in the environment where you built the earlier modules, with the Northwind Traders solution installed.
 
 2. In the left navigation, select **Workflows**, then choose **New workflow**. This opens the workflow designer directly — there is no create dialog and no solution picker in the new experience.
 
-    ![The Copilot Studio home page where you start a new workflow](images/03-workflow/image2.png)  
+    ![The Copilot Studio home page where you start a new workflow](03-workflow/image2.png)  
     Figure: The Copilot Studio home page where you start a new workflow.
 
 3. In the designer, open the **Trigger type** and change it to **When an agent calls the workflow**. This is what makes the workflow available to agents as a tool.
 
-    ![The workflow designer with the Trigger type control highlighted on the trigger node](images/03-workflow/image3.png)  
+    ![The workflow designer with the Trigger type control highlighted on the trigger node](03-workflow/image3.png)  
     Figure: Where to change the Trigger type in the designer.
 
 4. Rename the workflow: select the title **Untitled workflow** and enter:
@@ -87,7 +87,7 @@ As you build, you'll rename the workflow and each action to the names this modul
 
 5. Notice that adding the **When an agent calls the workflow** trigger automatically adds a **Respond to the agent** action at the end of the flow — the paired action that returns a result into the conversation.
 
-    ![The renamed Validate Returns workflow with the trigger set to When an agent calls the workflow and the Respond to the agent action added automatically](images/03-workflow/image4.png)  
+    ![The renamed Validate Returns workflow with the trigger set to When an agent calls the workflow and the Respond to the agent action added automatically](03-workflow/image4.png)  
     Figure: The trigger set to "When an agent calls the workflow", the Respond to the agent action added automatically — and the workflow already renamed to Validate Returns.
 
 ✅ **Checkpoint:** Your draft workflow is named **Validate Returns** and shows two nodes: **When an agent calls the workflow** → **Respond to the agent**.
@@ -102,20 +102,20 @@ The agent passes an order number; the flow reads the matching order from Dataver
     Order Number
     ```
 
-    ![Adding the Order Number input the agent passes to the flow](images/03-workflow/image5.png)  
+    ![Adding the Order Number input the agent passes to the flow](03-workflow/image5.png)  
     Figure: Adding the Order Number input the agent will pass to the flow.
 
 2. Add a new action after the trigger — the new designer lays the flow out horizontally, so it appears to the **right** of the trigger, not beneath it. Search for `Dataverse List rows` and select the **List rows** action.
 
-    ![The Add action dialog with "list rows" searched, showing the Microsoft Dataverse List rows action](images/03-workflow/image6.png)  
+    ![The Add action dialog with "list rows" searched, showing the Microsoft Dataverse List rows action](03-workflow/image6.png)  
     Figure: Adding the Microsoft Dataverse **List rows** action from the Add dialog.
 
 3. Confirm the **Connection** is set correctly, then set **Table name** to **Orders**. If prompted, create the Microsoft Dataverse connection first.
 
-    ![Creating a Microsoft Dataverse connection with a display name and OAuth authentication](images/03-workflow/image7.png)  
+    ![Creating a Microsoft Dataverse connection with a display name and OAuth authentication](03-workflow/image7.png)  
     Figure: Creating the Microsoft Dataverse connection the List rows action uses.
 
-    ![The List rows Configure panel with Table name set to Orders](images/03-workflow/image8.png)  
+    ![The List rows Configure panel with Table name set to Orders](03-workflow/image8.png)  
     Figure: Setting the List rows **Table name** to **Orders**.
 
 4. You now need the logical name of the **Order Number** column to filter on. In a new tab, go to <https://make.powerapps.com> and open the **Orders** table, then open its **Columns** page and locate the **Order Number** column. Select it, choose **Edit**, expand **Advanced options**, and copy the **Logical name**.
@@ -140,7 +140,7 @@ The agent passes an order number; the flow reads the matching order from Dataver
 
 8. Select **Save** so none of your progress is lost.
 
-    ![The List rows action filtered on the Order Number column with a row count of 1](images/03-workflow/image9.png)  
+    ![The List rows action filtered on the Order Number column with a row count of 1](03-workflow/image9.png)  
     Figure: The List rows action filtered on the **Order Number** column with a row count of 1.
 
 ✅ **Checkpoint:** The flow reads a single **Order** that matches the **Order Number** passed by the agent.
@@ -159,7 +159,7 @@ A return is only allowed when the order is closed. You capture the reply in a va
 
     💡 **Tip:** The same panel can hold more than one variable operation — the **+ Initialize Variable** and **+ Update Variable** buttons at the bottom add more operations to that panel. This lab needs only the single `response` variable here.
 
-    ![The Variable action panel initializing a String variable named response](images/03-workflow/image10.png)  
+    ![The Variable action panel initializing a String variable named response](03-workflow/image10.png)  
     Figure: Initializing the String variable named response, with the action renamed to Initialize Response.
 
 3. Add an **If/Else** (condition) action to check whether the order status is closed.
@@ -170,7 +170,7 @@ A return is only allowed when the order is closed. You capture the reply in a va
     Get the first row of List Order Rows action and get the order status ID value
     ```
 
-    ![The condition's left value with the Insert expression control highlighted, opening the Copilot expression builder](images/03-workflow/image11.png)  
+    ![The condition's left value with the Insert expression control highlighted, opening the Copilot expression builder](03-workflow/image11.png)  
     Figure: Where to find Insert expression on the condition's left value — the way into the Copilot expression builder.
 
 5. Insert the generated expression. It resolves the order-status value from the **first** returned row of **List Order Rows** — conceptually, `first(<List Order Rows output>)['nwind_orderstatusid']`. The expression builder references the List rows action by an internal connector ID rather than its display name, so the exact text on your screen will differ from anyone else's — that's expected. Don't edit or tidy the generated reference: confirm only that it takes the **first row** and reads the **`nwind_orderstatusid`** value, then accept it as generated.
@@ -179,7 +179,7 @@ A return is only allowed when the order is closed. You capture the reply in a va
 
     💡 **Empty status:** An order whose status is **empty** also takes the **Order is not closed** branch, because an empty value is "not equal to 3" — an order that hasn't reached **Closed** yet isn't returnable, which is exactly the behavior you want.
 
-    ![The If/Else condition comparing the order status against the closed value 3](images/03-workflow/image12.png)  
+    ![The If/Else condition comparing the order status against the closed value 3](03-workflow/image12.png)  
     Figure: The **Order is not closed** condition comparing order status against the closed value (3).
 
     💡 **Harden it later:** This build assumes the order number matches a real order. To also handle an order number that matches *no* rows — so a later expression that reads "the first row" can't fail on an empty result — add the optional guard in [Step 10 (Optional): Handle an order that doesn't exist](#step-10-optional-handle-an-order-that-doesnt-exist).
@@ -208,7 +208,7 @@ For an order that isn't closed, the flow explains — in customer-ready language
 
 3. Under **Advanced parameters**, leave **Prefer Async** set to **false** so the action returns an immediate, synchronous result. You can leave **Time Zone** unset — this message doesn't use any dates or times.
 
-    ![Configuring the M365 Copilot action to draft the not eligible message](images/03-workflow/image13.png)  
+    ![Configuring the M365 Copilot action to draft the not eligible message](03-workflow/image13.png)  
     Figure: Configuring the M365 Copilot action to draft the "not eligible" message.
 
 4. Now wire this branch to return its message. This rewires the default connection, so it helps to know how the designer handles connections: to **insert** an action between two nodes, hover the connector arrow and select **+**; to **remove** a connection, select it and delete it; to **reconnect**, drag from a node's output dot to the target node. With that in mind:
@@ -217,19 +217,19 @@ For an order that isn't closed, the flow explains — in customer-ready language
 
     b. **Add the update action.** On the branch, add a **Variable** action with **Update Variable**, rename it `Update Not Eligible Response`, and set `response` to the **Response** dynamic value of **Draft Not Eligible Message** — the generated message itself, not **Body** (the whole result object) or the citation fields.
 
-    ![The Update Not Eligible Response action set to Set variable on response, with the Draft Not Eligible Message Response as its value](images/03-workflow/image14.png)  
+    ![The Update Not Eligible Response action set to Set variable on response, with the Draft Not Eligible Message Response as its value](03-workflow/image14.png)  
     Figure: The Update Variable action writing **Draft Not Eligible Message**'s **Response** into the `response` variable.
 
     c. **Reconnect the path.** Wire **Draft Not Eligible Message** → **Update Not Eligible Response** → **Respond to the agent**.
 
     d. **Bind the output once.** In the **Respond to the agent** action, add a **Text** output named `response` and set its value to the **response variable** — take it from the **Variables** group in the picker, not from the M365 action. This binding is set once and never changes: every branch you build from here ends by writing its message into that one variable, which is what lets a single respond action serve the whole flow.
 
-    ![The Respond to the agent action with a response output bound to the response variable from the Variables group in the dynamic content picker](images/03-workflow/image15.png)  
+    ![The Respond to the agent action with a response output bound to the response variable from the Variables group in the dynamic content picker](03-workflow/image15.png)  
     Figure: Binding the **Respond to the agent** output to the `response` **variable** (from the **Variables** group, not the M365 action).
 
     e. **Save and publish.** Select **Save**, then **Publish** — publishing is required before you can run the flow, even for a *local test* (running the flow yourself from the designer with the **Run** node, before it's connected to an agent).
 
-    ![The finished branch with Draft Not Eligible Message connected to Respond to the agent, and the Save and Publish buttons highlighted](images/03-workflow/image16.png)  
+    ![The finished branch with Draft Not Eligible Message connected to Respond to the agent, and the Save and Publish buttons highlighted](03-workflow/image16.png)  
     Figure: The finished branch, saved and published — publishing is what makes the flow runnable.
 
 5. Test this path from the designer with the **Run** node (or the **play** button on a step): provide an **Order Number** for an order that isn't closed, and run it to validate the schema and see the returned JSON.
@@ -238,12 +238,12 @@ For an order that isn't closed, the flow explains — in customer-ready language
 
     ⚠️ **You may see `AgentTriggerTest.notTestable` (Bad Gateway).** Because this workflow's trigger is **When an agent calls the workflow**, the designer can't always invoke it directly from the **Run**/play button — it's built to run when an *agent* calls it. If you hit this error, it isn't a mistake in your build; you'll fully exercise the flow through an agent in Step 9.
 
-    ![The Bad Gateway error dialog reading error: AgentTriggerTest.notTestable when running the agent-triggered workflow directly](images/03-workflow/image17.png)  
+    ![The Bad Gateway error dialog reading error: AgentTriggerTest.notTestable when running the agent-triggered workflow directly](03-workflow/image17.png)  
     Figure: The failure case — running an agent-triggered workflow directly can return `AgentTriggerTest.notTestable`; it's fully testable through an agent in Step 9.
 
     When the direct run *does* proceed, the Activity view completes down the not-eligible path:
 
-    ![The Activity view after a successful test run, with every node on the not-eligible path completed](images/03-workflow/image18.png)  
+    ![The Activity view after a successful test run, with every node on the not-eligible path completed](03-workflow/image18.png)  
     Figure: A successful direct run — the whole not-eligible path completed in the Activity view.
 
 ✅ **Checkpoint:** For an order that isn't closed, the flow generates a customer-ready "not eligible" message and returns it to the agent.
@@ -256,7 +256,7 @@ For closed orders, the approval path depends on the shipping fee — and because
 
 1. Testing switched the designer to the **Activity** tab — switch back to the **Build** tab so you can edit the flow again. Then, from the **Else** (order is not closed) branch, add an **If/Else** (condition) action and rename as **Senior Manager Approval Validation**.
 
-    ![A new If/Else condition added on the Else branch of Order is not closed, showing Needs setup](images/03-workflow/image19.png)  
+    ![A new If/Else condition added on the Else branch of Order is not closed, showing Needs setup](03-workflow/image19.png)  
     Figure: Adding the first condition on the **Else** (closed order) branch.
 
 2. In the Senior Manager Approval condition's left value, choose **Insert expression** — the same control you used in Step 3 — and use the Copilot expression builder to generate the shipping-fee value. Enter a prompt such as:
@@ -267,7 +267,7 @@ For closed orders, the approval path depends on the shipping fee — and because
 
     Using the first row avoids creating a loop over the returned records. As in Step 3, accept the generated expression as-is rather than editing its internal reference.
 
-    ![The Expression assistant with the shipping-fee prompt, Generate, and Insert highlighted](images/03-workflow/image20.png)  
+    ![The Expression assistant with the shipping-fee prompt, Generate, and Insert highlighted](03-workflow/image20.png)  
     Figure: Generating the shipping-fee expression with the Copilot Expression assistant.
 
 3. Set the operator to **is greater than** and the value to **50**. This first split separates the senior-manager tier from everything else:
@@ -275,7 +275,7 @@ For closed orders, the approval path depends on the shipping fee — and because
     - The **If (true)** branch is the **above $50** tier — it needs **senior-manager** approval. Rename the if branch as **Greater than 50**.
     - The **Else (false)** branch continues to a second check.
 
-    ![The Senior Manager Approval Validation condition with the Greater than 50 branch set to first > 50](images/03-workflow/image21.png)  
+    ![The Senior Manager Approval Validation condition with the Greater than 50 branch set to first > 50](03-workflow/image21.png)  
     Figure: The senior-manager split — shipping fee **Greater** than **50**.
 
 4. On the Senior Manager Approval **Else (false)** branch, add a **second If/Else** and rename as **Manager Approval Validation**. For its left value, insert the **same** shipping-fee expression, set the operator to **is greater than or equal to**, and set the value to **10**:
@@ -283,7 +283,7 @@ For closed orders, the approval path depends on the shipping fee — and because
     - The Manager Approval **If (true)** branch is the **$10–$50** tier — it needs **manager** approval. Rename the if branch as **Less than 50, Greater than 10**.
     - The Manager Approval **Else (false)** branch is the **below $10** tier — it's **approved automatically**, with no review.
 
-    ![The Manager Approval Validation condition on the Else branch with Greater/equal 10, and its Less than 50, Greater than 10 branch](images/03-workflow/image22.png)  
+    ![The Manager Approval Validation condition on the Else branch with Greater/equal 10, and its Less than 50, Greater than 10 branch](03-workflow/image22.png)  
     Figure: The manager split on the Else branch — shipping fee **Greater or equal** to **10**.
 
 5. Note how the boundaries resolve, so there's no ambiguity at exactly $10 or $50:
@@ -296,7 +296,7 @@ For closed orders, the approval path depends on the shipping fee — and because
 
     The completed shipping-fee decision — the two nested conditions and their three resulting branches:
 
-    ![The nested Senior Manager and Manager Approval Validation conditions producing three branches: Greater than 50, Less than 50 Greater than 10, and Else](images/03-workflow/image23.png)  
+    ![The nested Senior Manager and Manager Approval Validation conditions producing three branches: Greater than 50, Less than 50 Greater than 10, and Else](03-workflow/image23.png)  
     Figure: The deterministic shipping-fee decision — **Greater than 50** (senior), **Less than 50, Greater than 10** (manager), and the **Else** below-$10 approved branch.
 
 ✅ **Checkpoint:** The flow now has three shipping-fee outcomes, each on a named branch you created in this step:
@@ -321,7 +321,7 @@ Each tier gets its own generated message, and the two higher-value tiers pause f
 
     As in Step 4, replace `[Order Number]` with the **Order Number** value from the **trigger group** in the picker — an approver should read which order they're approving, not a fill-in-the-blank template. Notice these prompts *prescribe* the greeting ("begins with \"Hello,\"") rather than listing what to avoid: telling the model what to write is more reliable than prohibiting what not to, because vague prohibitions invite it to reason about them inside the output.
 
-    ![The Draft Manager Approval Message action configured with the manager approval prompt](images/03-workflow/image24.png)  
+    ![The Draft Manager Approval Message action configured with the manager approval prompt](03-workflow/image24.png)  
     Figure: The first of the three message actions — Draft Manager Approval Message, configured like Step 4's.
 
 2. For the **senior-manager** branch (**Greater than 50**), rename the action `Draft Senior Manager Approval Message` and set the message to:
@@ -330,7 +330,7 @@ Each tier gets its own generated message, and the two higher-value tiers pause f
     A customer wants to return order [Order Number]. Its shipping fee exceeds $50, which requires senior-manager approval. Write a short approval request that begins with "Hello," and states the order number and why approval is needed. Output only the final message, ready to send.
     ```
 
-    ![The Draft Senior Manager Approval Message action configured on the senior-manager branch](images/03-workflow/image25.png)  
+    ![The Draft Senior Manager Approval Message action configured on the senior-manager branch](03-workflow/image25.png)  
     Figure: **Draft Senior Manager Approval Message** on the **Greater than 50** branch, configured like the manager message.
 
 3. For the **approved** branch (the **Else** of *Manager Approval Validation*, fee below $10, no approval needed), rename the action `Draft Approved Message` and set the message to:
@@ -339,7 +339,7 @@ Each tier gets its own generated message, and the two higher-value tiers pause f
     Create a short customer-ready message that the return for order [Order Number] is approved. Write a single ready-to-send message with no placeholders.
     ```
 
-    ![The Draft Approved Message action configured on the Else (below $10) branch](images/03-workflow/image26.png)  
+    ![The Draft Approved Message action configured on the Else (below $10) branch](03-workflow/image26.png)  
     Figure: **Draft Approved Message** on the **Else** (below $10) branch — an approved message with no review.
 
 4. Add a **Human review** action to the **manager** branch (**Less than 50, Greater than 10**). If this is the first time you're using **Human review**, create its connection with the default option when prompted (the same way you created the Dataverse connection in Step 2). Rename the action `Manager Review`, and set the **Title** to:
@@ -352,12 +352,12 @@ Each tier gets its own generated message, and the two higher-value tiers pause f
 
     Then, under **Inputs**, choose **Yes/No** — inputs are the fields the reviewer fills in when responding, and the action requires at least one, so the panel flags a validation error until you add it. The input shows a default prompt; replace it with a clear question so the reviewer knows exactly what **Yes** and **No** mean — for example **Approve this return? (Yes = approve, No = decline)**. Set the question on the input itself, not in the message above it.
 
-    ![The Manager Review panel with the message, assignee, Outlook channel, and the Yes/No input added](images/03-workflow/image27.png)  
+    ![The Manager Review panel with the message, assignee, Outlook channel, and the Yes/No input added](03-workflow/image27.png)  
     Figure: The Manager Review panel filled top to bottom — message, assignee, channel, and the required Yes/No input.
 
 6. Repeat for the **senior-manager** branch (**Greater than 50**): add a second **Human review** renamed `Senior Manager Review`, with the title `Return Review Needed`, the **Response** dynamic value of **Draft Senior Manager Approval Message** as the message, yourself under **Assigned to (first to respond)**, the **Outlook** channel, and a **Yes/No** input with the same clear question.
 
-    ![Designer overview of the whole step: the three shipping-fee branches with their message actions and the two Human review approvals](images/03-workflow/image28.png)  
+    ![Designer overview of the whole step: the three shipping-fee branches with their message actions and the two Human review approvals](03-workflow/image28.png)  
     Figure: The whole step at a glance — three drafted messages on the shipping-fee branches, with **Manager Review** and **Senior Manager Review** on the two approval branches.
 
 ✅ **Checkpoint:** The two higher-value branches each generate an approver message and request a **Yes/No** approval over email; the **approved** branch generates an approved message.
@@ -368,22 +368,22 @@ A review collects a **Yes/No** decision — but collecting it isn't the same as 
 
 1. On the **manager** branch (**Less than 50, Greater than 10**), after **Manager Review**, add an **If/Else** condition and rename it **Act on manager review**. In its left value, use the review's **Yes/No** response (the output of **Manager Review**), and set the condition to check whether it equals **Yes**.
 
-    ![The Act on manager review condition set to check whether the Manager Review response equals Yes](images/03-workflow/image29.png)  
+    ![The Act on manager review condition set to check whether the Manager Review response equals Yes](03-workflow/image29.png)  
     Figure: The **Act on manager review** condition — testing the Manager Review response for **Yes**.
 
     - **If (true — approved):** add a **Variable → Update Variable** action named `Update Manager Approved`, and set `response` to a customer-ready approval, for example: `Good news — your return for order [Order Number] has been approved. Please use the enclosed instructions to send the item back.`
 
-    ![The Update Manager Approved action on the If (true) branch writing an approval message into response](images/03-workflow/image30.png)  
+    ![The Update Manager Approved action on the If (true) branch writing an approval message into response](03-workflow/image30.png)  
     Figure: The **If (true)** branch — `Update Manager Approved` writes an approval message into `response`.
 
     - **Else (false — declined):** add a **Variable → Update Variable** action named `Update Manager Declined`, and set `response` to a customer-ready decline, for example: `After review, we're unable to approve the return for order [Order Number] at this time.`
 
-    ![The Act on manager review condition with Update Manager Approved on the true branch and Update Manager Declined on the false branch](images/03-workflow/image31.png)  
+    ![The Act on manager review condition with Update Manager Approved on the true branch and Update Manager Declined on the false branch](03-workflow/image31.png)  
     Figure: Both outcomes wired — approved on **If (true)**, declined on **Else (false)** — each writing a customer-ready message into `response`.
 
 2. On the **senior-manager** branch (**Greater than 50**), repeat the same pattern after **Senior Manager Review**: add an **If/Else** on its **Yes/No** response and rename it **Act on senior manager review**, with `Update Senior Manager Approved` on the approved branch and `Update Senior Manager Declined` on the declined branch, each writing a customer-ready message into `response`.
 
-    ![The Act on senior manager review condition with approved and declined update actions on its branches](images/03-workflow/image32.png)  
+    ![The Act on senior manager review condition with approved and declined update actions on its branches](03-workflow/image32.png)  
     Figure: **Act on senior manager review** — the same approved/declined outcome pattern on the senior-manager branch.
 
     💡 **Production note:** This lab handles the two decisions a reviewer makes — approve and decline. A production build would also catch a review that returns **no** decision (unanswered, cancelled, or expired) and set `response` to a pending message rather than leaving it empty — see the asynchronous approval pattern in Step 8.
@@ -392,12 +392,12 @@ A review collects a **Yes/No** decision — but collecting it isn't the same as 
 
 4. Drag the **Respond to the agent** action to the end and connect **every** branch to it. Along the way the designer may have spawned extra copies of the respond action — they appear numbered, like **Respond to the agent 2** — delete any you find, and reconnect their branch to the original. This flow deliberately ends in a single respond action: the `response` variable exists precisely so one exit can serve every branch.
 
-    ![Every branch converging on a single Respond to the agent action](images/03-workflow/image33.png)  
+    ![Every branch converging on a single Respond to the agent action](03-workflow/image33.png)  
     Figure: Every branch converges on the single **Respond to the agent** action.
 
 5. Select **Save** and review the flow checker. It may warn that **multiple nodes lead into a single action** — that happens whenever several branches converge on one downstream action, as all your branches do on **Respond to the agent**. Here it's expected and safe, because every branch first writes its own message into the single `response` variable, so the shared exit always returns a defined value. Treat the same warning with more caution elsewhere: when converging branches *don't* all set the shared state, it can signal fragile or unsupported control flow. Confirm each converging branch updates `response` before you move on.
 
-    ![The flow checker warnings about multiple nodes leading into a single action, safe to ignore for this lab](images/03-workflow/image34.png)  
+    ![The flow checker warnings about multiple nodes leading into a single action, safe to ignore for this lab](03-workflow/image34.png)  
     Figure: The flow checker's convergence warnings — expected here because every branch sets response before the shared exit.
 
 ✅ **Checkpoint:** Every branch converges on **Respond to the agent**, and every branch — not-found, not-eligible, both approval tiers (approved *and* declined outcomes), and the approved (below-$10) branch — writes a customer-ready message into the `response` variable that the respond action returns.
@@ -423,14 +423,14 @@ Local testing lets you validate the whole flow — including the human-review ap
 
     ⚠️ **Why the caller can time out — and what production does instead.** A **Human review** can take minutes or hours, but the agent-facing **Respond to the agent** action holds its connection open only briefly. If the reviewer doesn't answer within that short window, the run fails at **Respond to the agent** with `ActionResponseTimedOut` (HTTP 504 to the caller) even though the review itself is still valid. This isn't something to work around by "answering quickly" — it's a sign that a **synchronous** tool call is the wrong shape for a long-running human approval. A production design **doesn't block on the approval**: it returns an immediate *pending-review* response to the agent, completes the approval out of band, and notifies the requester through a supported follow-up channel once the decision is made. This lab keeps the synchronous shape only so you can watch the whole loop end-to-end in one sitting; for testing, have Outlook open and answer as soon as the email arrives.
 
-    ![The Request information approval email with the generated message naming the order, Yes/No options, and a Submit button](images/03-workflow/image35.png)  
+    ![The Request information approval email with the generated message naming the order, Yes/No options, and a Submit button](03-workflow/image35.png)  
     Figure: The approval email the reviewer receives — a single generated message naming the order, a Yes/No decision, and Submit.
 
 5. Repeat with your **closed, high-fee** order (above **$50**) — the **senior-manager** tier works the same way: the approval email arrives from **Senior Manager Review**, and your prompt **Yes** closes the run.
 
 6. Finally, run your **closed, low-fee** order — it takes the **approved** branch (**Else**, fee below $10) and returns an approved message with no review needed.
 
-![The complete Validate Returns workflow after the full test pass](images/03-workflow/image36.png)  
+![The complete Validate Returns workflow after the full test pass](03-workflow/image36.png)  
 Figure: The complete Validate Returns workflow.
 
 ✅ **Checkpoint:** Each order type traverses the expected path, the **Activity** tab highlights the route taken, and every run completes with a message returned to the agent.
@@ -441,7 +441,7 @@ Finally, you add the published workflow to a Copilot Studio agent as a tool — 
 
 1. You're done with the flow designer — in the left-hand pane, select **Agents**, then select **New agent**.
 
-    ![The Agents page reached from the left-hand pane, with the New agent button highlighted](images/03-workflow/image37.png)  
+    ![The Agents page reached from the left-hand pane, with the New agent button highlighted](03-workflow/image37.png)  
     Figure: From the flow designer to Agents in the left-hand pane — where the agent is created.
 
 2. Configure the agent: set **Name** to the value below and select **Create**.
@@ -452,7 +452,7 @@ Finally, you add the published workflow to a Copilot Studio agent as a tool — 
 
 3. Open the agent's **Tools** section and select **Add a tool**. Switch to the **Workflows** tab, select **Validate Returns**, and add it.
 
-    ![Adding the Validate Returns workflow as a tool on the Northwind Returns Agent](images/03-workflow/image38.png)  
+    ![Adding the Validate Returns workflow as a tool on the Northwind Returns Agent](03-workflow/image38.png)  
     Figure: Adding the Validate Returns workflow as a tool on the Northwind Returns Agent.
 
     Then open the agent's **Instructions** and add guidance that keeps it grounded when the tool doesn't return a usable result — this is what stops the agent from guessing:
@@ -473,7 +473,7 @@ Finally, you add the published workflow to a Copilot Studio agent as a tool — 
 
 6. Now try an approval path: ask about your **closed, mid-fee** order, and answer the approval email as soon as it arrives. Because the tool call is synchronous (Step 8), a slow answer makes the tool return without a decision — and this is exactly where the agent instructions earn their keep. A properly-instructed agent reports a **transparent pending or failure** message and the next step; it does **not** infer that the order doesn't exist or improvise an eligibility answer from missing output. If you ever see the agent guess, tighten its instructions — a grounded agent must fail safely, treating "no tool output" as *unknown*, never as *ineligible* or *absent*. (In production, the asynchronous pattern described in the closing section removes this race entirely.)
 
-    ![The agent test chat showing both exchanges: the not-eligible answer for one order, and a completed approval — eligible, a senior manager has approved — for another](images/03-workflow/image39.png)  
+    ![The agent test chat showing both exchanges: the not-eligible answer for one order, and a completed approval — eligible, a senior manager has approved — for another](03-workflow/image39.png)  
     Figure: The full loop in the agent's chat — an instant not-eligible answer, then an approval completed mid-conversation and relayed as a decision.
 
 ✅ **Checkpoint:** The agent automatically calls the flow, interprets its response, and replies with a human-readable answer — sending an approval to your inbox when required, and failing safely (pending or unable-to-complete) when the tool returns nothing.

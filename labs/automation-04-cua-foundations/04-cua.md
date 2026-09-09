@@ -20,7 +20,7 @@ In [Module 1](01-cloud-flow.md), you built **Order Automation** — a cloud flow
 Computer use — the capability behind computer-using agents (CUA) — is AI operating software through its screen: it looks at the UI, reasons about what it sees, and acts with a virtual mouse and keyboard. In Copilot Studio it isn't a standalone product: it runs only as a tool inside an agent, which is why you build the agent first. It's also a different tool from what you've used so far, with a simple decision rule: if a connector or API exists, use it (Module 1); if the UI is predictable enough to script step by step, use RPA (Module 2); when the task lives on a screen you don't control and no supported API or connector is available, computer use becomes the right fit — chosen after you've weighed reliability, security, and governance. That's this module's territory.
 
 <p align="center">
-    <img src="images/04-cua/image1.png" alt="Copilot Studio tools with Computer Using Agents highlighted as a capability invoked through an agent" width="720">
+    <img src="04-cua/image1.png" alt="Copilot Studio tools with Computer Using Agents highlighted as a capability invoked through an agent" width="720">
 </p>
 
 Figure: Computer Using Agents in relation to other tools available in Copilot Studio.
@@ -97,7 +97,7 @@ This lab uses the public **User Details Entry System** site (<https://green-wave
 
     ⚠️ **Important:** Module 3 was authored in the **new** Copilot Studio experience — this lab is written for the **classic** one, and typing a request into a home-page prompt box generates a different, auto-built agent. You can tell the two apart at a glance: classic may show a **New Copilot Studio experience** banner across the top of the home page, while the new experience has a **New experience** toggle in the upper-right. Still in the new experience? Turn that toggle **off** to return to classic before continuing.
 
-    ![The Copilot Studio home page with the environment picker highlighted in the upper-right corner](images/04-cua/image2.png)  
+    ![The Copilot Studio home page with the environment picker highlighted in the upper-right corner](04-cua/image2.png)  
     Figure: Classic experience with the new experience banner dismissed.
 
 2. Create a new agent. In the creation dialog, set **Name** to:
@@ -110,7 +110,7 @@ This lab uses the public **User Details Entry System** site (<https://green-wave
 
     💡 **Tip:** Creating the agent inside the Order Automation solution keeps all of the series' components together in one place.
 
-    ![The agent creation dialog with the name entered and the Order Automation solution selected](images/04-cua/image3.png)  
+    ![The agent creation dialog with the name entered and the Order Automation solution selected](04-cua/image3.png)  
     Figure: Naming the agent and placing it in the Module 1 solution.
 
 3. Wait for the agent to finish setting up — a green banner confirms it's provisioned. Then, on the agent's **Overview** page, edit the **Description**:
@@ -121,17 +121,17 @@ This lab uses the public **User Details Entry System** site (<https://green-wave
 
     The description is set here on the Overview page, not in the creation dialog. Make sure to **Save** your edit.
 
-    ![The agent's Overview page with the description filled in](images/04-cua/image4.png)  
+    ![The agent's Overview page with the description filled in](04-cua/image4.png)  
     Figure: The agent's description, set on the Overview page.
 
 4. Open the agent's **Settings**.
 
-    ![The agent's page with the Settings button highlighted](images/04-cua/image5.png)  
+    ![The agent's page with the Settings button highlighted](04-cua/image5.png)  
     Figure: Finding the Settings button.
 
     Confirm orchestration is set to **Generative**. It's the default for new agents — but verify it, because the Computer use tool stays hidden without it. If it's off, switch it to Generative and save.
 
-    ![The settings page with Generative orchestration enabled](images/04-cua/image6.png)  
+    ![The settings page with Generative orchestration enabled](04-cua/image6.png)  
     Figure: Generative orchestration — the setting computer use depends on.
 
 ✅ **Checkpoint:** The **Northwind Operations Agent** exists in the Order Automation solution, created in the classic experience, with its description set and generative orchestration confirmed on.
@@ -142,7 +142,7 @@ What you're adding here is a tool — a capability the agent can reason about an
 
 1. On the agent, select the **Tools** tab, then **Add a tool** > **New tool** > **Computer use**.
 
-    ![The Add a tool menu with New tool expanded and Computer use selected](images/04-cua/image7.png)  
+    ![The Add a tool menu with New tool expanded and Computer use selected](04-cua/image7.png)  
     Figure: Adding a computer use tool to the agent.
 
 2. In the instructions box, describe the task in plain language:
@@ -159,7 +159,7 @@ What you're adding here is a tool — a capability the agent can reason about an
 
     The instructions do three jobs: they name the exact URL, they forbid relying on position, and they end with a verification step — so the agent checks its own work instead of assuming success.
 
-    ![The computer use instructions box with the task described in plain language](images/04-cua/image8.png)  
+    ![The computer use instructions box with the task described in plain language](04-cua/image8.png)  
     Figure: The task, described the way you'd brief a person.
 
 3. Select **Add and configure**.
@@ -209,14 +209,14 @@ What you're adding here is a tool — a capability the agent can reason about an
 
     💡 **Tip:** Anthropic's **Claude Sonnet 4.5** is also available as the tool's model if your admin has enabled external models for the environment — either works for this lab.
 
-    ![The tool configuration with the name, description, and model set](images/04-cua/image9.png)  
+    ![The tool configuration with the name, description, and model set](04-cua/image9.png)  
     Figure: The tool's name, description, and model.
 
 2. In **Machine**, select **Hosted browser** — the **Connection** beneath it is created for you and shows a green check. The hosted browser is a Microsoft-managed browser that needs zero setup and works with public websites — exactly what this lab needs. For production access to tenant resources, private or internal sites, desktop apps, or a specific machine, you'd choose a governed runtime instead; see [Appendix B: Runtime options for computer use](#appendix-b-runtime-options-for-computer-use) and the official [Configure where computer use runs](https://learn.microsoft.com/microsoft-copilot-studio/configure-where-computer-use-runs) documentation.
 
 3. For **Credentials to use**, choose **Maker-provided credentials** — the required identity setting you read about in [Identity and access boundaries](#identity-and-access-boundaries), which makes the tool run the same way regardless of who chats with the agent. This portal has no sign-in, so the tool's **Credentials** section stays empty.
 
-    ![The Machine set to Hosted browser with its connection created and maker-provided credentials selected](images/04-cua/image10.png)  
+    ![The Machine set to Hosted browser with its connection created and maker-provided credentials selected](04-cua/image10.png)  
     Figure: Hosted browser selected, with maker-provided credentials.
 
 ## Step 4: Define the inputs
@@ -225,7 +225,7 @@ Inputs are the values the tool needs at run time — defined as a name and a des
 
 1. Still on the tool's configuration page, select **Inputs** in the left navigation, then **Add input**.
 
-    ![The Add input dialog with its Name and Description fields](images/04-cua/image11.png)  
+    ![The Add input dialog with its Name and Description fields](04-cua/image11.png)  
     Figure: Adding an input — a name and a description only.
 
 2. In the **Add input** dialog, enter the **Name** and **Description** and select **Done**. Repeat until all seven inputs exist:
@@ -240,7 +240,7 @@ Inputs are the values the tool needs at run time — defined as a name and a des
     | Email | Email address. Ask the user if not provided. |
     | Phone Number | Phone number. Ask the user if not provided. |
 
-    ![The tool's Inputs section listing all seven inputs](images/04-cua/image12.png)  
+    ![The tool's Inputs section listing all seven inputs](04-cua/image12.png)  
     Figure: The seven inputs the agent gathers in chat.
 
     💡 **Tip:** Notice that no actual value appears anywhere in the tool — the instructions name the fields, and each input only describes what it holds. That's deliberate: anything typed into the instructions box is hard-coded into every run, so values that change belong in inputs — and sign-in secrets belong in neither place, only in the tool's **Credentials** section.
@@ -267,7 +267,7 @@ An agent with a browser can go anywhere — so before testing, you pin it to the
 
 1. Under **Access control**, switch on **Only allow specific websites and desktop apps**, and leave **Enforce HTTPS** switched on — it limits computer use to secure websites, whose address starts with `https://`.
 
-    ![The Access control section with Only allow specific websites and desktop apps switched on and Enforce HTTPS on](images/04-cua/image13.png)  
+    ![The Access control section with Only allow specific websites and desktop apps switched on and Enforce HTTPS on](04-cua/image13.png)  
     Figure: Access control on — nothing allowed yet.
 
 2. Select **Add**, keep **Type** as **Website**, and enter the domain:
@@ -278,14 +278,14 @@ An agent with a browser can go anywhere — so before testing, you pin it to the
 
     The dialog explains how the entry is matched; follow its guidance for this single site.
 
-    ![The New website or desktop app dialog with Website selected and green-wave-0ce125203.7.azurestaticapps.net entered](images/04-cua/image14.png)
+    ![The New website or desktop app dialog with Website selected and green-wave-0ce125203.7.azurestaticapps.net entered](04-cua/image14.png)
     Figure: Allowing the one website the tool needs.
 
     After you add the website, **Microsoft Edge** typically appears in the list as an allowed desktop app — that's expected, since the browser itself must be allowed to run; leave it in place.
 
 3. Select **Save** in the upper-right corner of the tool page — this saves the whole tool, not just this section.
 
-    ![The final access control configuration with green-wave-0ce125203.7.azurestaticapps.net and Microsoft Edge listed and the Save button highlighted](images/04-cua/image15.png)
+    ![The final access control configuration with green-wave-0ce125203.7.azurestaticapps.net and Microsoft Edge listed and the Save button highlighted](04-cua/image15.png)
     Figure: The finished access control, saved with the rest of the tool.
 
 ✅ **Checkpoint:** The **Register Shipping Contact** tool is saved on the agent, set to run on the hosted browser with maker-provided credentials, showing all seven inputs, with access control on — the allowed site and the automatically added **Microsoft Edge** as the only entries — and HTTPS enforced. As a quick confirmation of least privilege, note that with access control on, the tool can only *act* on the allowed site: if you (or a test) point it at any unrelated domain, it won't be able to complete actions there.
@@ -312,14 +312,14 @@ Use this option to test the computer use tool in isolation. It runs the tool's i
 
 1. On the tool's configuration page, go to the **Instructions** section and select **Test directly**. If the button is unavailable, save your latest changes first.
 
-    ![The Instructions section with Test directly and Test in agent chat available](images/04-cua/image16.png)
+    ![The Instructions section with Test directly and Test in agent chat available](04-cua/image16.png)
     Figure: Starting a direct test from the tool's Instructions section.
 
 2. When prompted for the tool inputs, enter the seven sample values from the table, then start the test.
 
 3. The standalone **Test** view opens. Wait while the hosted browser becomes available. The tool opens the User Details Entry System, identifies each field from its visible label, and begins entering the matching values. The activity feed on the left explains each action while the browser preview shows the tool working on the form.
 
-    ![The direct test view showing the activity feed and the User Details Entry System in the hosted browser](images/04-cua/image17.png)
+    ![The direct test view showing the activity feed and the User Details Entry System in the hosted browser](04-cua/image17.png)
     Figure: A direct test running the tool's instructions without agent chat.
 
 4. Let the run finish and confirm that all seven fields are filled, the form is submitted, and the tool reports a successful outcome.
@@ -338,17 +338,17 @@ Use this option to test the complete experience, including generative orchestrat
 
     After you send the values, expect a short wait while the hosted browser spins up — messages like "Computer use will begin as soon as a computer is available" and "Computer is ready" are normal.
 
-    ![The test pane with the agent asking for the shipping contact values in chat](images/04-cua/image18.png)  
+    ![The test pane with the agent asking for the shipping contact values in chat](04-cua/image18.png)  
     Figure: The agent collecting the seven values before it runs.
 
 2. Watch the run and note the **observable outputs**: the tool's action status, screenshots captured as it works, tool activity in the pane, and the final result. As it works, the tool determines the intermediate UI actions needed to reach the stated goal — locating each field by its visible label on a form whose layout has shuffled since the last visit. (What's shown, and how much detail appears, can vary from run to run.)
 
-    ![The agent narrating each action with screenshots as it fills the shuffled form](images/04-cua/image19.png)  
+    ![The agent narrating each action with screenshots as it fills the shuffled form](04-cua/image19.png)  
     Figure: Step-by-step reasoning, with a screenshot at every action.
 
 3. When the agent selects **Submit**, the **Submissions** count increases to confirm that the form was submitted. The agent also reports success in chat with a summary of everything it entered: the verification step you wrote into the instructions. The run closes with "Computer use task is finished."
 
-    ![The submission recorded by the website, with the agent's success summary in the test pane](images/04-cua/image20.png)
+    ![The submission recorded by the website, with the agent's success summary in the test pane](04-cua/image20.png)
     Figure: The completed submission, confirmed on the website and in chat.
 
     💡 **Tip:** If a run stumbles on an ambiguous field, you debug by editing the plain-language instructions — name the exact label text — and running again. No code, no selectors.
@@ -363,7 +363,7 @@ Everything the agent just did is recorded — worth a look before you finish, be
 2. Scroll the panel for the rest of the record: an activity list of the steps taken, a summary of the instructions and the input values used, the outcome, and run details such as the model, duration, number of actions and screenshots, and the machine it ran on. Labels and available metrics can vary by version, so match the closest equivalent on your screen.
 3. Select **Export session logs** to download the record as JSON — handy for audits, or for sharing a run with a colleague.
 
-    ![The ExecuteCUA panel with the session replay scrubber, activity list, and run details](images/04-cua/image21.png)  
+    ![The ExecuteCUA panel with the session replay scrubber, activity list, and run details](04-cua/image21.png)  
     Figure: The whole run on record — replayable screenshot by screenshot, exportable as JSON.
 
 This lab keeps the run deliberately interactive. In production, the pieces would harden: the contact details would come from the invoiced order itself — handed to the agent by a flow or connector, not typed in chat; the hosted browser would give way to a Cloud PC pool or a registered machine under your tenant's governance; and computer use would stay the last resort it's meant to be — wherever an API or connector exists, use it instead. Each computer use step also consumes Copilot Credits — **5 per step** on the standard model — so keep instructions tight and watch usage on the agent's **Analytics** page; the panel's step/screenshot count × 5 is the run's cost in Copilot Credits. What wouldn't change is the part you built: plain-language instructions, label-matching over positions, inputs over hard-coded values, and one allowed website.
