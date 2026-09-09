@@ -698,26 +698,26 @@
     ];
 
     const fallbackLabSources = [
-      { path: "automation-01-cloud-flow/01-cloud-flow.md" },
-      { path: "automation-02-rpa-foundations/02-rpa.md" },
-      { path: "automation-03-workflow-foundations/03-workflow.md" },
-      { path: "automation-04-cua-foundations/04-cua.md" },
+      { path: "automation-01-cloud-flow/01-cloud-flow.md", deck: "automation-01-cloud-flow/01-Power Series - Automation Foundation_Cloud Flows.pptx" },
+      { path: "automation-02-rpa-foundations/02-rpa.md", deck: "automation-02-rpa-foundations/02-Power Series - Automation Foundation_RPA.pptx" },
+      { path: "automation-03-workflow-foundations/03-workflow.md", deck: "automation-03-workflow-foundations/03-Power Series - Automation Foundation_Workflows.pptx" },
+      { path: "automation-04-cua-foundations/04-cua.md", deck: "automation-04-cua-foundations/04-Power Series - Automation Foundation_CUA.pptx" },
       { path: "automation-05a-work-queues-foundation/05-a-work-queues.md" },
       { path: "automation-05b-work-queues-advanced/05-b-work-queues.md" },
       { path: "automation-06-rpa-advanced/06-rpa.md" },
       { path: "automation-07-workflow-advanced/07-workflow.md" },
       { path: "automation-08-cua-advanced/08-cua.md" },
-      { path: "byoc-powerapps/byoc-powerapps.md" },
-      { path: "byoc-powerpages/byoc-powerpages.md" },
-      { path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md" },
+      { path: "byoc-powerapps/byoc-powerapps.md", deck: "byoc-powerapps/Power Series - Code apps.pptx" },
+      { path: "byoc-powerpages/byoc-powerpages.md", deck: "byoc-powerpages/Power Series - BYOC Power Pages.pptx" },
+      { path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md", deck: "canvas-apps-dataverse-mcp/Power Series - Canvas Apps & Dataverse MCP.pptx" },
       { path: "dataverse-business-skills/dataverse-business-skills.md" },
-      { path: "generative-pages/generative-pages-github-copilot.md" },
-      { path: "in-app-agents/in-app-agents.md" },
+      { path: "generative-pages/generative-pages-github-copilot.md", deck: "generative-pages/Power Series - Generative Pages.pptx" },
+      { path: "in-app-agents/in-app-agents.md", deck: "in-app-agents/Power Series - In-app agents.pptx" },
       { path: "managed-platform-governance/README.md" },
       { path: "managed-platform-operations/README.md" },
       { path: "managed-platform-security/README.md" },
-      { path: "mcp-apps/mcp-apps.md" },
-      { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md" }
+      { path: "mcp-apps/mcp-apps.md", deck: "mcp-apps/Power Series - MCP Apps in Power Apps.pptx" },
+      { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", deck: "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx" }
     ];
     const repo = "microsoft/apps-agents-workshop";
     const branch = new URLSearchParams(window.location.search).get("branch") || "main";
@@ -877,7 +877,7 @@
             metadata.level = "—";
             metadata.duration = "Self-paced";
             metadata.persona = "All learners";
-            metadata.tags = fallbackLabTags[source.path] || [];
+            metadata.tags = Array.isArray(metadata.tags) ? metadata.tags : [];
             metadata.description = description || "Explore this workshop resource.";
           }
           return {
