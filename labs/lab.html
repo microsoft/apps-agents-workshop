@@ -376,12 +376,12 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="./index.html" aria-label="Power Series Labs home">
+    <a class="brand" id="home-link" href="./index.html" aria-label="Power Series Labs home">
       <img class="brand-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
     </a>
     <nav aria-label="Primary navigation">
-      <a href="./index.html#needs">Business needs</a>
-      <a href="./index.html#labs">Labs</a>
+      <a id="needs-link" href="./index.html#needs">Business needs</a>
+      <a id="labs-link" href="./index.html#labs">Labs</a>
       <a href="../README.md">Repository</a>
       <div class="theme-switch" role="group" aria-label="Theme">
         <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
@@ -458,9 +458,15 @@
     }
 
     const branch = params.get("branch");
-    if (branch) {
-      catalogLink.href = `./index.html?branch=${encodeURIComponent(branch)}#labs`;
+    function catalogHref(fragment = "") {
+      if (branch) return `./index.html?branch=${encodeURIComponent(branch)}${fragment}`;
+      return fragment ? `./index.html${fragment}` : "./index.html";
     }
+
+    document.querySelector("#home-link").href = catalogHref();
+    document.querySelector("#needs-link").href = catalogHref("#needs");
+    document.querySelector("#labs-link").href = catalogHref("#labs");
+    catalogLink.href = catalogHref("#labs");
 
     function escapeHtml(value) {
       return value.replace(/[&<>"']/g, char => ({
