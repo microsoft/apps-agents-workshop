@@ -686,34 +686,27 @@
       { id: "skills-marketplace", title: "Explore Skills Marketplace", description: "Find Power CAT skills for assessment, design, migration, review, and documentation.", url: "https://microsoft.github.io/power-cat-skills/power-platform-migration-factory/index.html#tracks" }
     ];
 
-    const fallbackLabTags = {
-      "automations-foundation/README.md": ["automate-workflows-and-processes"],
-      "managed-platform/managed-security/ip-firewall/README.md": ["strengthen-governance-and-security"],
-      "managed-platform/managed-security/ip-cookie-binding/README.md": ["strengthen-governance-and-security"],
-      "managed-platform/managed-security/cmk/README.md": ["strengthen-governance-and-security"]
-    };
-
     const fallbackLabSources = [
-      { path: "prereqs.md" },
-      { path: "automations-foundation/README.md" },
-      { path: "automations-foundation/01-cloud-flow.md", deck: "automations-foundation/01-Power Series - Automation Foundation_Cloud Flows.pptx" },
-      { path: "automations-foundation/02-rpa.md", deck: "automations-foundation/02-Power Series - Automation Foundation_RPA.pptx" },
-      { path: "automations-foundation/03-workflow.md", deck: "automations-foundation/03-Power Series - Automation Foundation_Workflows.pptx" },
-      { path: "automations-foundation/04-cua.md", deck: "automations-foundation/04-Power Series - Automation Foundation_CUA.pptx" },
-      { path: "byoc-powerapps/byoc-powerapps.md", deck: "byoc-powerapps/Power Series - Code apps.pptx" },
-      { path: "byoc-powerpages/byoc-powerpages.md", deck: "byoc-powerpages/Power Series - BYOC Power Pages.pptx" },
-      { path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md", deck: "canvas-apps-dataverse-mcp/Power Series - Canvas Apps & Dataverse MCP.pptx" },
+      { path: "automation-01-cloud-flow/01-cloud-flow.md" },
+      { path: "automation-02-rpa-foundations/02-rpa.md" },
+      { path: "automation-03-workflow-foundations/03-workflow.md" },
+      { path: "automation-04-cua-foundations/04-cua.md" },
+      { path: "automation-05a-work-queues-foundation/05-a-work-queues.md" },
+      { path: "automation-05b-work-queues-advanced/05-b-work-queues.md" },
+      { path: "automation-06-rpa-advanced/06-rpa.md" },
+      { path: "automation-07-workflow-advanced/07-workflow.md" },
+      { path: "automation-08-cua-advanced/08-cua.md" },
+      { path: "byoc-powerapps/byoc-powerapps.md" },
+      { path: "byoc-powerpages/byoc-powerpages.md" },
+      { path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md" },
       { path: "dataverse-business-skills/dataverse-business-skills.md" },
-      { path: "generative-pages/generative-pages-github-copilot.md", deck: "generative-pages/Power Series - Generative Pages.pptx" },
-      { path: "in-app-agents/in-app-agents.md", deck: "in-app-agents/Power Series - In-app agents.pptx" },
-      { path: "managed-platform/managed-governance/environment-strategy-and-governance/README.md" },
-      { path: "managed-platform/managed-governance/inventory-and-monitoring/README.md" },
-      { path: "managed-platform/managed-security/README.md" },
-      { path: "managed-platform/managed-security/ip-firewall/README.md" },
-      { path: "managed-platform/managed-security/ip-cookie-binding/README.md" },
-      { path: "managed-platform/managed-security/cmk/README.md" },
-      { path: "mcp-apps/mcp-apps.md", deck: "mcp-apps/Power Series - MCP Apps in Power Apps.pptx" },
-      { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", deck: "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx" }
+      { path: "generative-pages/generative-pages-github-copilot.md" },
+      { path: "in-app-agents/in-app-agents.md" },
+      { path: "managed-platform-governance/README.md" },
+      { path: "managed-platform-operations/README.md" },
+      { path: "managed-platform-security/README.md" },
+      { path: "mcp-apps/mcp-apps.md" },
+      { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md" }
     ];
     const repo = "microsoft/apps-agents-workshop";
     const branch = new URLSearchParams(window.location.search).get("branch") || "main";
