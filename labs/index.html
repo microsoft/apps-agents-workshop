@@ -601,6 +601,7 @@
       <img class="brand-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
     </a>
     <nav aria-label="Primary navigation">
+      <a href="./index.html">Home</a>
       <a href="#needs">Business needs</a>
       <a href="#labs">Labs</a>
       <a href="../README.md">Repository</a>
@@ -765,6 +766,10 @@
       return ["title", "level", "description", "persona", "tags"].every(field => metadata?.[field]) && (metadata.estimated_duration || metadata.duration);
     }
 
+    function isPublishedLab(metadata) {
+      return String(metadata?.lab).toLowerCase() === "true";
+    }
+
     function deriveFallbackDescription(content) {
       return content
         .replace(/^---[\s\S]*?---\s*/, "")
@@ -836,12 +841,18 @@
 
     function buildNeedsFromLabs() {
       const knownById = new Map(knownNeeds.map(need => [need.id, need]));
-      const tagIds = [...new Set(labs.flatMap(lab => lab.tags))].sort((a, b) => labelFromTag(a).localeCompare(labelFromTag(b)));
-      needs = tagIds.map(id => knownById.get(id) || {
+      const knownCatalogNeeds = knownNeeds.filter(need => !need.url);
+      const customTagIds = [...new Set(labs.flatMap(lab => lab.tags))]
+        .filter(id => !knownById.has(id))
+        .sort((a, b) => labelFromTag(a).localeCompare(labelFromTag(b)));
+      needs = [
+        ...knownCatalogNeeds,
+        ...customTagIds.map(id => ({
         id,
         title: labelFromTag(id),
         description: `Explore labs tagged ${labelFromTag(id)}.`
-      });
+        })),
+      ];
       needs.push(...knownNeeds.filter(need => need.url));
     }
 
@@ -853,6 +864,7 @@
           if (!response.ok) return null;
           const content = await response.text();
           const metadata = parseFrontMatter(content) || {};
+          if (!isPublishedLab(metadata)) return null;
           const heading = content.match(/^#\s+(.+)$/m)?.[1]?.trim();
           const description = deriveFallbackDescription(content);
           if (!hasRequiredFrontMatter(metadata) && !heading) return null;
@@ -978,7 +990,7 @@
           <h3>${escapeHtml(String(lab.title))}</h3>
           <p>${escapeHtml(String(lab.description))}</p>
           <div class="lab-actions">
-            <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" target="_blank" rel="noopener" aria-label="Open lab details for ${escapeHtml(String(lab.title))} (opens in a new tab)">Lab</a>
+            <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" aria-label="Open lab details for ${escapeHtml(String(lab.title))}">Lab</a>
             ${lab.deck ? `<a class="deck-link" href="${escapeHtml(contentUrl(lab.deck))}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))} (opens in a new tab)">Presentation</a>` : ""}
           </div>
         </article>
