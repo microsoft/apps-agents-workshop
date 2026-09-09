@@ -7,7 +7,7 @@ estimated_duration: "60 minutes"
 tags: [automate-workflows-and-processes]
 author: "Power CAT"
 last_updated: "2026-08-24"
-description: "Build a desktop flow with **Power Automate for desktop** that operates the portal the way a person would."
+description: "Build a desktop flow with Power Automate for desktop that operates the portal the way a person would."
 ---
 
 
