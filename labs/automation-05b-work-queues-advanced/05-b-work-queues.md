@@ -3,7 +3,7 @@ title: "Automation: Work Queues (Advanced)"
 lab: true
 level: 300
 persona: "Maker"
-estimated_duration: "90 minutes"
+estimated_duration: "150 minutes"
 tags: [automate-workflows-and-processes]
 author: "Power CAT"
 last_updated: "2026-08-24"
