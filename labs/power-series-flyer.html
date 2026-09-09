@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Power Series Labs flyer with linked learning modules.">
   <link rel="icon" href="assets/power-platform-logo.png">
-  <title>Power Series Labs Flyer - Dense</title>
+  <title>Power Series Labs Flyer</title>
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("scoutTheme");
@@ -85,10 +85,10 @@
     .page {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 0 clamp(24px, 5vw, 64px) 40px;
+      padding: 0 clamp(24px, 5vw, 64px) 56px;
     }
     header {
-      min-height: 56px;
+      min-height: 72px;
       display: grid;
       grid-template-columns: auto 1fr auto;
       gap: 28px;
@@ -100,13 +100,13 @@
       box-shadow: 0 4px 18px rgba(42, 68, 111, 0.06);
     }
     .platform-logo {
-      width: 170px;
+      width: 220px;
       height: auto;
       display: block;
     }
     .power-cat {
-      width: 104px;
-      height: 38px;
+      width: 118px;
+      height: 46px;
       object-fit: contain;
       object-position: right center;
     }
@@ -120,7 +120,7 @@
       gap: 44px;
       align-items: center;
       margin: 0 calc(clamp(24px, 5vw, 64px) * -1) 0;
-      padding: 36px clamp(24px, 5vw, 64px) 42px;
+      padding: 42px clamp(24px, 5vw, 64px) 50px;
       overflow: hidden;
       background: radial-gradient(700px 260px at 78% 25%, var(--cp-highlight), transparent 68%), var(--cp-bg-elevated);
       border-bottom: 8px solid transparent;
@@ -145,7 +145,7 @@
       letter-spacing: -0.02em;
     }
     .catalog-line {
-      margin: 18px 0 0;
+      margin: 28px 0 0;
       color: var(--cp-text-muted);
       font-size: clamp(20px, 2.5vw, 32px);
       font-weight: 650;
@@ -197,8 +197,8 @@
     .catalog-line span:nth-child(3) { color: var(--cp-orange); }
     .toolbox-story {
       position: relative;
-      min-height: 200px;
-      margin: 0 0 22px;
+      min-height: 230px;
+      margin: 0 0 28px;
       overflow: hidden;
       padding: 0;
       background: var(--cp-bg);
@@ -207,11 +207,11 @@
     .toolbox-story-inner {
       position: relative;
       z-index: 1;
-      min-height: 200px;
+      min-height: 230px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 16px 0;
+      padding: 20px 0;
     }
     .toolbox-visual {
       position: absolute;
@@ -413,8 +413,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 24px;
-      margin-top: 24px;
-      padding-top: 16px;
+      margin-top: 40px;
+      padding-top: 24px;
       border-top: 1px solid var(--cp-border);
       color: var(--cp-text-muted);
       font-size: 13px;
@@ -447,16 +447,16 @@
     .microsoft-mark i:nth-child(4) { background: #ffb900; }
     @media print {
       body { background: var(--cp-bg); }
-      .page { max-width: none; padding: 12px 18px; }
+      .page { max-width: none; padding: 24px; }
       header,
       .hero,
       .table-wrap { break-inside: avoid; }
       a { text-decoration: none; }
     }
-    @media (max-width: 1080px) {
+    @media screen and (max-width: 1080px) {
       .table-wrap { margin-right: calc(clamp(24px, 5vw, 64px) * -1); }
     }
-    @media (max-width: 760px) {
+    @media screen and (max-width: 760px) {
       header,
       .hero,
       .toolbox-story-inner,
