@@ -1,5 +1,5 @@
 ---
-title: "Automation: Computer Use Agent (Foundations)"
+title: "Automation: Computer Use Agent (Advanced)"
 lab: true
 level: 300
 persona: "Maker"
