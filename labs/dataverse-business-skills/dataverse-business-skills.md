@@ -1,5 +1,6 @@
 ---
 title: "Centralize Business Rules & Policies in Dataverse Skills"
+lab: true
 level: 300
 persona: "pro code developers, Power Apps makers"
 estimated_duration: 75 minutes

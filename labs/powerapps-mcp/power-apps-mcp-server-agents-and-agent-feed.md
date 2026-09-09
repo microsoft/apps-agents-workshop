@@ -1,5 +1,6 @@
 ---
 title: "Automate Work in Power Apps with Supervised Agents"
+lab: true
 level: 100
 persona: "Information Workers"
 estimated_duration: "1 hour"
@@ -8,8 +9,7 @@ author: "Power CAT"
 last_updated: "2026-08-14"
 version: "v1.0"
 tags: [digitize-internal-operations, modernize-existing-applications]
-description: "Automate repetitive app tasks, with human review and approval through the new task-centric enhanced agent feed."
-
+description: "Automate repetitive app tasks, with human review and approval through the new task-centric enhanced agent feed"
 ---
 
 **Power CAT | The Intelligent Enterprise - Power Platform & AI for Frontier Firms**

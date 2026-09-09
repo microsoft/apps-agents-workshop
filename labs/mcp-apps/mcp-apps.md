@@ -1,5 +1,6 @@
 ---
 title: "Enable Power Apps (MDA) and custom tools in Microsoft 365 Copilot"
+lab: true
 level: 200
 persona: "information workers, Power Apps makers"
 estimated_duration: "40 mins"
@@ -9,6 +10,7 @@ last_updated: "2026-08-14"
 version: "v1.0"
 tags: [digitize-internal-operations, modernize-existing-applications]
 description: "Build an interactive MCP app that lets your users browse, update, and visualize Dataverse records in conversation."
+
 ---
 
 

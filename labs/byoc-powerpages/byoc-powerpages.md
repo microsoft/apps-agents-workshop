@@ -1,5 +1,6 @@
 ---
 title: "Building code first website with Power Pages"
+lab: true
 level: 200
 persona: "pro code developers, Power Apps makers"
 estimated_duration: 40 minutes
