@@ -311,7 +311,7 @@
     }
     .lab-table {
       width: 100%;
-      min-width: 0;
+      min-width: 960px;
       border-collapse: collapse;
       table-layout: fixed;
     }
@@ -466,9 +466,22 @@
       }
       .toolbox-story-inner {
         grid-template-columns: 1fr;
+        min-height: 0;
+        gap: 20px;
       }
       .toolbox-visual {
-        width: 520px;
+        position: relative;
+        width: min(100%, 520px);
+        height: auto;
+      }
+      html[data-theme="dark"] .toolbox-visual {
+        width: min(100%, 520px);
+        transform: none;
+      }
+      .toolbox-copy {
+        width: 100%;
+        max-width: none;
+        transform: none;
       }
     }
   </style>
@@ -549,8 +562,8 @@
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-07-workflow-advanced%2F07-workflow.md"><span class="lab-title">Automation: Workflows (Advanced)</span><span class="lab-meta">Level 300 · 60 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-04-cua-foundations%2F04-cua.md"><span class="lab-title">Automation: Computer Use Agent (Foundations)</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-08-cua-advanced%2F08-cua.md"><span class="lab-title">Automation: Computer Use Agent (Advanced)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
-                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05a-work-queues-foundation%2F05-a-work-queues.md"><span class="lab-title">Automation: Work Queues (Foundations)</span><span class="lab-meta">Level 300 · 150 minutes</span></a></li>
-                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05b-work-queues-advanced%2F05-b-work-queues.md"><span class="lab-title">Automation: Work Queues (Advanced)</span><span class="lab-meta">Level 300 · 150 minutes</span></a></li>
+                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05a-work-queues-foundation%2F05-a-work-queues.md"><span class="lab-title">Automation: Work Queues (Foundations)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
+                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05b-work-queues-advanced%2F05-b-work-queues.md"><span class="lab-title">Automation: Work Queues (Advanced)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
                 </ul>
               </td>
               <td>
