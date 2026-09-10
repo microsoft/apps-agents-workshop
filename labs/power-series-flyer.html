@@ -8,9 +8,11 @@
   <title>Power Series Labs Flyer</title>
   <script>
     (() => {
-      const param = new URLSearchParams(window.location.search).get("scoutTheme");
-      const theme =
-        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const param = new URLSearchParams(window.location.search).get("theme");
+      const stored = localStorage.getItem("powerSeriesTheme");
+      const theme = ["light", "dark"].includes(param)
+        ? param
+        : (["light", "dark"].includes(stored) ? stored : "light");
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
@@ -568,8 +570,8 @@
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-07-workflow-advanced%2F07-workflow.md"><span class="lab-title">Automation: Workflows (Advanced)</span><span class="lab-meta">Level 300 · 60 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-04-cua-foundations%2F04-cua.md"><span class="lab-title">Automation: Computer Use Agent (Foundations)</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-08-cua-advanced%2F08-cua.md"><span class="lab-title">Automation: Computer Use Agent (Advanced)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
-                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05a-work-queues-foundation%2F05-a-work-queues.md"><span class="lab-title">Automation: Work Queues (Foundations)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
-                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05b-work-queues-advanced%2F05-b-work-queues.md"><span class="lab-title">Automation: Work Queues (Advanced)</span><span class="lab-meta">Level 300 · 90 minutes</span></a></li>
+                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05a-work-queues-foundation%2F05-a-work-queues.md"><span class="lab-title">Automation: Work Queues (Foundations)</span><span class="lab-meta">Level 300 · 150 minutes</span></a></li>
+                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-05b-work-queues-advanced%2F05-b-work-queues.md"><span class="lab-title">Automation: Work Queues (Advanced)</span><span class="lab-meta">Level 300 · 150 minutes</span></a></li>
                 </ul>
               </td>
               <td>
