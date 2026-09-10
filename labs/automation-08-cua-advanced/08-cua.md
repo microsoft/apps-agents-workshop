@@ -545,7 +545,7 @@ A computer-using agent has **two separate cost meters**: the **Copilot Credits**
 
 Computer use bills Copilot Credits per step through the standard harness, at the same rate on every runtime. Rates are set by Microsoft and change over time, so this lab does not restate a fixed number — confirm the current rate in the [Copilot Studio Licensing Guide](https://go.microsoft.com/fwlink/?linkid=2320995). The full model — step counting, per-exercise estimates, drivers, monitoring, optimisation — is documented once here:
 
-👉 **[Module 4 · Appendix A: Credit consumption & cost transparency](../automations-foundation/04-cua.md#appendix-a-credit-consumption--cost-transparency)**
+👉 **[Module 4 · Appendix A: Credit consumption & cost transparency](../automation-04-cua-foundations/04-cua.md#appendix-a-credit-consumption--cost-transparency)**
 
 This lab runs the agent interactively from the **Test** pane rather than from an unattended trigger, so the credit driver is **steps per run**. In production, computer use is designed for autonomous (unattended) agents, where the driver becomes **run frequency × steps per run** — forecast on throughput with the [agent usage estimator](https://microsoft.github.io/copilot-studio-estimator/); confirm the latest rate in the [Copilot Studio Licensing Guide](https://go.microsoft.com/fwlink/?linkid=2320995).
 

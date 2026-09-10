@@ -7,7 +7,7 @@ estimated_duration: "60 minutes"
 tags: [automate-workflows-and-processes]
 author: "Power CAT"
 last_updated: "2026-08-24"
-description: "Build a desktop flow with **Power Automate for desktop** that operates the portal the way a person would."
+description: "Build a desktop flow with Power Automate for desktop that operates the portal the way a person would."
 ---
 
 
@@ -17,9 +17,9 @@ description: "Build a desktop flow with **Power Automate for desktop** that oper
 
 The **Northwind User Admin Portal** — the legacy web application where Northwind Traders' partner user accounts are created — predates the company's move to Dataverse: no API, no connector, just a sign-in form and a data-entry screen. In this module, you build a desktop flow with **Power Automate for desktop** that operates the portal the way a person would — signing in, reading partner contacts from a CSV file, validating every record, and typing the valid ones into the form — and you build it the way production automations are built: configurable inputs, reusable subflows, error handling, resilient selectors, and UI elements published for reuse.
 
-This module also completes a decision rule the series has been building. If a connector or API exists, use it — that's Modules 1 and 2, where even the desktop flow talked to Dataverse through connector actions. If no API exists but the interface is predictable, script the UI step by step — that's this module: classic screen-level RPA, with saved references to each control. And when even the UI isn't predictable, describe the task instead of scripting it — that's [Module 4](../automations-foundation/04-cua.md)'s computer use. The portal you automate here is stable and predictable, which makes it exactly RPA's territory.
+This module also completes a decision rule the series has been building. If a connector or API exists, use it — that's Modules 1 and 2, where even the desktop flow talked to Dataverse through connector actions. If no API exists but the interface is predictable, script the UI step by step — that's this module: classic screen-level RPA, with saved references to each control. And when even the UI isn't predictable, describe the task instead of scripting it — that's [Module 4](../automation-04-cua-foundations/04-cua.md)'s computer use. The portal you automate here is stable and predictable, which makes it exactly RPA's territory.
 
-If desktop flows are new to you — or you'd like a refresher on the designer, `%variable%` expressions, and the console before adding this module's structure on top — [Module 2](../automations-foundation/02-rpa.md) builds one from scratch.
+If desktop flows are new to you — or you'd like a refresher on the designer, `%variable%` expressions, and the console before adding this module's structure on top — [Module 2](../automation-02-rpa-foundations/02-rpa.md) builds one from scratch.
 
 By the end, you will have hands-on experience with the key building blocks of production-grade RPA: configurable inputs, subflows, data validation, error handling, retry logic, and UI collections.
 
@@ -721,7 +721,7 @@ This optional step shows how a cloud flow can trigger the automation you built. 
 
 ## Recommended next step
 
-Continue to [Module 7: Workflow](07-workflow.md) to create an agent flow that a Copilot Studio agent calls as a tool, mid-conversation, to get a grounded answer back.
+Continue to [Module 7: Workflow](../automation-07-workflow-advanced/07-workflow.md) to create an agent flow that a Copilot Studio agent calls as a tool, mid-conversation, to get a grounded answer back.
 
 ## Appendix A: Register a machine with Power Automate
 
@@ -847,7 +847,7 @@ Learn more: [Run a desktop flow in picture-in-picture](https://learn.microsoft.c
 
 Desktop flows deal with two credential contexts: signing into the machine (the connection) and secrets used inside the flow (app/website logins and service/API calls). The mechanisms below cover both, plus the vaults that back them. They are layered — not interchangeable — and Azure Key Vault is the secure foundation the strongest options build on.
 
-> 🔗 The **machine connection** below is also a **cloud-flow** concept: a cloud flow authenticates to the target machine through a desktop-flow connection when it calls *Run a flow built with Power Automate for desktop*. For the cloud-flow side (connections, environment-variable secrets, Key Vault connector, and Secure inputs/outputs), see [Module 1 · Appendix C: Secret handling in cloud flows](../automations-foundation/01-cloud-flow.md#appendix-c-secret-handling-in-cloud-flows--mechanisms-explained).
+> 🔗 The **machine connection** below is also a **cloud-flow** concept: a cloud flow authenticates to the target machine through a desktop-flow connection when it calls *Run a flow built with Power Automate for desktop*. For the cloud-flow side (connections, environment-variable secrets, Key Vault connector, and Secure inputs/outputs), see [Module 1 · Appendix C: Secret handling in cloud flows](../automation-01-cloud-flow/01-cloud-flow.md#appendix-c-secret-handling-in-cloud-flows--mechanisms-explained).
 
 | **#** | **Mechanism** | **Used for** | **Secure storage** | **Rotation-friendly** | **Shareable?** | **Scope** | **Best for** |
 |------:|---------------|--------------|--------------------|-----------------------|----------------|-----------|--------------|

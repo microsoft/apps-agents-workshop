@@ -507,7 +507,7 @@ Cloud flows deal with secrets in three ways: **authenticating to services** (the
 
 ### 🔗 The cloud–desktop bridge
 
-Row 5 is where the two products meet: a **desktop-flow (machine) connection isn't only a desktop-flow concept — it's also a cloud-flow connection**, because a cloud flow authenticates to the target machine through it when it calls **Run a flow built with Power Automate for desktop**. For the full machine-credential model — **Saved credential**, **Manual entry**, and **Connect-with-sign-in (passwordless)** — see the desktop-flow secret matrix: **[Module 6 · Appendix E: Credentials and secrets in desktop flows](../automations-advanced/06-rpa.md#appendix-e-credentials-and-secrets-in-desktop-flows--mechanisms-explained)**.
+Row 5 is where the two products meet: a **desktop-flow (machine) connection isn't only a desktop-flow concept — it's also a cloud-flow connection**, because a cloud flow authenticates to the target machine through it when it calls **Run a flow built with Power Automate for desktop**. For the full machine-credential model — **Saved credential**, **Manual entry**, and **Connect-with-sign-in (passwordless)** — see the desktop-flow secret matrix: **[Module 6 · Appendix E: Credentials and secrets in desktop flows](../automation-06-rpa-advanced/06-rpa.md#appendix-e-credentials-and-secrets-in-desktop-flows--mechanisms-explained)**.
 
 ### Recommended pattern
 
@@ -589,4 +589,4 @@ When they do apply, record the extra detail in a **central Dataverse table** —
 
 ## Recommended next step
 
-Continue to [Module 2: RPA](02-rpa.md) to extend this automation with Power Automate Desktop.
+Continue to [Module 2: RPA](../automation-02-rpa-foundations/02-rpa.md) to extend this automation with Power Automate Desktop.
