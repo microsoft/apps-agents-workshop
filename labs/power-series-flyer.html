@@ -42,7 +42,7 @@
       --cp-highlight: rgba(107, 58, 143, 0.16);
       --cp-blue: #0878d1;
       --cp-purple: #8746d8;
-      --cp-orange: #ed9846;
+      --cp-orange: #a8590a;
     }
     html[data-theme="dark"] {
       color-scheme: dark;
@@ -452,6 +452,8 @@
       .hero,
       .table-wrap { break-inside: avoid; }
       a { text-decoration: none; }
+      .table-wrap { overflow: visible; }
+      .lab-table { min-width: 0; width: 100%; }
     }
     @media screen and (max-width: 1080px) {
       .table-wrap { margin-right: calc(clamp(24px, 5vw, 64px) * -1); }
@@ -463,6 +465,9 @@
       .section-heading {
         grid-template-columns: 1fr;
         display: grid;
+      }
+      .header-spacer {
+        display: none;
       }
       .toolbox-story-inner {
         grid-template-columns: 1fr;
@@ -490,11 +495,11 @@
   <div class="page">
     <header>
       <img class="platform-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
-      <span></span>
-      <picture>
+      <span class="header-spacer"></span>
+      <div class="power-cat-wrap">
         <img class="power-cat logo-on-light" src="assets/power-cat-dark.png" alt="Power CAT">
         <img class="power-cat logo-on-dark" src="assets/power-cat-light.png" alt="Power CAT">
-      </picture>
+      </div>
     </header>
 
     <main>
@@ -556,7 +561,7 @@
               </td>
               <td>
                 <ul class="lab-cell-list">
-                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-01-cloud-flow%2F01-cloud-flow.md"><span class="lab-title">Automation: Cloud Flow (Foundation)</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
+                  <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-01-cloud-flow%2F01-cloud-flow.md"><span class="lab-title">Automation: Cloud Flow (Foundations)</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-02-rpa-foundations%2F02-rpa.md"><span class="lab-title">Automation: Desktop Flow (Foundation)</span><span class="lab-meta">Level 200 · 60 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-06-rpa-advanced%2F06-rpa.md"><span class="lab-title">Automation: Desktop Flow (Advanced)</span><span class="lab-meta">Level 300 · 60 minutes</span></a></li>
                   <li><a href="https://microsoft.github.io/apps-agents-workshop/labs/lab.html?path=automation-03-workflow-foundations%2F03-workflow.md"><span class="lab-title">Automation: Workflows (Foundation)</span><span class="lab-meta">Level 200 · 45 minutes</span></a></li>
