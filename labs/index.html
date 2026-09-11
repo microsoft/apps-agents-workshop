@@ -1248,6 +1248,7 @@
         console.warn("Using embedded lab catalog because dynamic metadata refresh failed.", error);
         return;
       }
+      skillResultsCount.textContent = "0 labs";
       labGrid.innerHTML = `
         <div class="empty-catalog-message" role="alert">
           <p>Failed to load catalog: ${escapeHtml((error && error.message) ? String(error.message) : "Unable to fetch lab catalog metadata.")}</p>
