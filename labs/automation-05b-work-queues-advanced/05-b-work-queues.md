@@ -23,7 +23,7 @@ These modules are optional and independent. Each one extends the flows you built
 
 ## B1: Enforce a data contract — input schema validation
 
-![Malformed work is stopped at the door — validated at enqueue time](images/05b-work-queues/image1.png)  
+![Malformed work is stopped at the door — validated at enqueue time](05b-work-queues/image1.png)  
 Figure: Malformed work is stopped at the door — validated at enqueue time.
 
 **Builds on:** A1, A3. **Time:** 20–30 min.
@@ -33,30 +33,30 @@ Figure: Malformed work is stopped at the door — validated at enqueue time.
 You added a JSON schema to the queue in A1. This module proves it works — that the platform validates every item's **Input** at enqueue time and refuses anything that breaks the contract, before malformed work can consume a dequeue, a retry, and an operator's attention.
 
 1. Go to <https://make.powerautomate.com> > **Discover all** > **Monitor** > **Work queues**  
-   ![Go to https://make.powerautomate.com > Discover all > Monitor > Work queues](images/05b-work-queues/image2.png)  
+   ![Go to https://make.powerautomate.com > Discover all > Monitor > Work queues](05b-work-queues/image2.png)  
 2. Open **Northwind Order Processing**, and select **See all** in the work queue items section.  
-   ![Open Northwind Order Processing, and select See all in the work queue items section](images/05b-work-queues/image3.png)  
-   ![Open Northwind Order Processing, and select See all in the work queue items section](images/05b-work-queues/image4.png)  
+   ![Open Northwind Order Processing, and select See all in the work queue items section](05b-work-queues/image3.png)  
+   ![Open Northwind Order Processing, and select See all in the work queue items section](05b-work-queues/image4.png)  
 3. Select **+ New work queue item** on the toolbar, enter a **Name** of `NW-SCHEMA-TEST`, and in **Input** enter a payload that violates the schema — `OrderValue` sent as text:  
    ```
    { "OrderId": "test", "OrderNumber": "NW-TEST", "OrderValue": "12000" }
    ```
    Leave **Priority** and **Status** unchanged.  
-   ![Leave Priority and Status unchanged](images/05b-work-queues/image5.png)  
+   ![Leave Priority and Status unchanged](05b-work-queues/image5.png)  
 4. Select **Create**.  
    ✅ **Checkpoint:** The item is **rejected** with a schema validation error and never enters the queue. Input validation happens at enqueue time, so malformed work is stopped at the boundary instead of failing deep inside the processor.  
-   ![The item is rejected with a schema validation error and never enters the queue](images/05b-work-queues/image6.png)  
+   ![The item is rejected with a schema validation error and never enters the queue](05b-work-queues/image6.png)  
 5. Correct the payload — send `12000` as a number, without quotation marks — and select **Create** again. This time the item is accepted.
 
-![Correct the payload — send as a number, without quotation marks — and select Create again](images/05b-work-queues/image7.png)  
+![Correct the payload — send as a number, without quotation marks — and select Create again](05b-work-queues/image7.png)  
 
 💡 **Tip:** This is exactly why A3 warned you not to quote `OrderValue` in the producer's payload. The contract protects the processor from data it can't process.
 
-![This is exactly why A3 warned you not to quote in the producer's payload](images/05b-work-queues/image8.png)  
+![This is exactly why A3 warned you not to quote in the producer's payload](05b-work-queues/image8.png)  
 
 ## B2: Honor the deadline — processing timeout
 
-![An item past its deadline is diverted to Processing Timeout, not invoiced late](images/05b-work-queues/image9.png)  
+![An item past its deadline is diverted to Processing Timeout, not invoiced late](05b-work-queues/image9.png)  
 Figure: An item past its deadline is diverted to Processing Timeout, not invoiced late.
 
 **Builds on:** A5, A6. **Time:** 25–35 min.
@@ -66,15 +66,15 @@ Figure: An item past its deadline is diverted to Processing Timeout, not invoice
 Because A5's FetchXML took over the dequeue order, the orchestrator no longer enforces expiry for you — an item already past its deadline can still be handed to the processor. This module makes the processor check, and diverts a late item to **Processing Timeout** instead of invoicing it late.
 
 1. Open workflow **Process Order Queue** for editing.  
-   ![Open workflow Process Order Queue for editing](images/05b-work-queues/image10.png)  
+   ![Open workflow Process Order Queue for editing](05b-work-queues/image10.png)  
 2. Between **Parse Order Item** and **Manager Approval Required**, add a **Condition** and rename it to `Item Still Within Deadline`. In the left value, enter:  
    ```
    greater(ticks(outputs('Dequeue_Order_Item')?['body/expirydate']), ticks(utcNow()))
    ```
 3. Set the operator to **is equal to** and the right value to `true`.  
-   ![Set the operator to is equal to and the right value](images/05b-work-queues/image11.png)  
+   ![Set the operator to is equal to and the right value](05b-work-queues/image11.png)  
 4. Move the approval, invoice, and **Mark Item Processed** actions from A7 into its **True** container.  
-   ![Move the approval, invoice, and Mark Item Processed actions from A7 into its True container](images/05b-work-queues/image12.png)  
+   ![Move the approval, invoice, and Mark Item Processed actions from A7 into its True container](05b-work-queues/image12.png)  
 5. In the **False** container, add a **Microsoft Dataverse Update a row** action and rename it to `Mark Processing Timeout`. Configure it:  
    - **Table name**: `Work Queue Items`  
    - **Row ID**: `@{outputs('Dequeue_Order_Item')?['body/workqueueitemid']}`  
@@ -83,20 +83,20 @@ Because A5's FetchXML took over the dequeue order, the orchestrator no longer en
    - **Status Reason**: `Processing Timeout`  
    - **Processing Result**: `Item passed its expiry date before processing started. Not invoiced.`  
    If certain parameters are not visible they can be seen under the advanced section parameters. Example: Status, Status Reason, Processing Result in the above case.  
-   ![If certain parameters are not visible they can be seen under the advanced section parameters](images/05b-work-queues/image13.png)  
+   ![If certain parameters are not visible they can be seen under the advanced section parameters](05b-work-queues/image13.png)  
    **Processing timeout** is the status for work that failed to complete within its allocated time — a different signal from a business rule violation or a technical fault. Separating it is what lets operations see *lateness* as its own problem with its own fix, such as adding processing capacity rather than correcting data.  
 6. Select **Save** and **Publish**.  
 7. **To test:** Create a new item like earlier in B1 to test, once the item's expiry passes before processing starts, it's marked Processing Timeout.
 
 To learn more about SLA management in work queues, see [Create a work queue](https://learn.microsoft.com/en-us/power-automate/desktop-flows/work-queues-manage) and [Work queues SLA](https://learn.microsoft.com/en-us/power-automate/desktop-flows/work-queues-manage).
 
-![To learn more about SLA management in work queues, see Create a work queue and Work](images/05b-work-queues/image14.png)  
+![To learn more about SLA management in work queues, see Create a work queue and Work](05b-work-queues/image14.png)  
 
 ✅ **Checkpoint:** Items already past their deadline are diverted to **Processing Timeout** instead of being invoiced late; on-time items flow through to the approval unchanged.
 
 ## B3: Business exceptions — validation and rejection
 
-![A rule (or a person) says no — recorded on the item as a Business Exception](images/05b-work-queues/image15.png)  
+![A rule (or a person) says no — recorded on the item as a Business Exception](05b-work-queues/image15.png)  
 Figure: A rule (or a person) says no — recorded on the item as a Business Exception.
 
 **Builds on:** A7. **Time:** 30–45 min.
@@ -122,9 +122,9 @@ A business exception is work the automation understood perfectly and still canno
 1. In **Process Order Queue**, add a **Condition** at the location from your path above, and rename it to `Order Value Valid` . Configure it with two rows joined by **And**:  
    - **OrderValue** from **Parse Order Item is greater than** `0`  
    - Expression `empty(body('Parse_Order_Item')?['ShipCountry'])` **is equal to** `false`  
-   ![Expression is equal](images/05b-work-queues/image16.png)  
+   ![Expression is equal](05b-work-queues/image16.png)  
 2. Move the approval, invoice, and **Mark Item Processed** actions into its **True** container.  
-   ![Move the approval, invoice, and Mark Item Processed actions into its True container](images/05b-work-queues/image17.png)  
+   ![Move the approval, invoice, and Mark Item Processed actions into its True container](05b-work-queues/image17.png)  
 3. In the **False** container, add a **Microsoft Dataverse Update a row** action and rename it to `Mark Business Exception`. Configure it:  
    - **Table name**: `Work Queue Items`  
    - **Row ID**: `@{outputs('Dequeue_Order_Item')?['body/workqueueitemid']}`  
@@ -135,14 +135,14 @@ A business exception is work the automation understood perfectly and still canno
 
 If certain parameters are not visible they can be seen under the advanced section parameters. Ex: Status, Status Reason, Processing Result in the above case.
 
-![If certain parameters are not visible they can be seen under the advanced section parameters](images/05b-work-queues/image18.png)  
+![If certain parameters are not visible they can be seen under the advanced section parameters](05b-work-queues/image18.png)  
 
-![If certain parameters are not visible they can be seen under the advanced section parameters](images/05b-work-queues/image19.png)  
+![If certain parameters are not visible they can be seen under the advanced section parameters](05b-work-queues/image19.png)  
 
 ### Record an approver rejection
 
 1. In A7 you gave the manager rejection a plain **Terminate**.  
-   ![In A7 you gave the manager rejection a plain Terminate](images/05b-work-queues/image20.png)  
+   ![In A7 you gave the manager rejection a plain Terminate](05b-work-queues/image20.png)  
 2. In the **False** container of **Check Manager Outcome**, Before the terminate action of manager rejected  
    Add a **Microsoft Dataverse Update a row** action and rename it to `Mark Manager Rejection`. Configure it:  
    - **Table name**: `Work Queue Items`  
@@ -151,7 +151,7 @@ If certain parameters are not visible they can be seen under the advanced sectio
    Error is sometimes referred to as Exception. Refer to [Allowed Status Transitions](https://learn.microsoft.com/en-us/power-automate/desktop-flows/work-queues-manage) and [Status codes](https://learn.microsoft.com/en-us/power-automate/desktop-flows/actions-reference/workqueues) for more detail.  
    - **Status Reason**: `Business Exception`  
    **Processing Result**: `Business exception: rejected by the manager. No invoice created.`  
-   ![Screenshot for Record an approver rejection](images/05b-work-queues/image21.png)  
+   ![Screenshot for Record an approver rejection](05b-work-queues/image21.png)  
 3. Do the same for the executive tier: add `Mark Executive Rejection` before `End Flow - Executive Rejected`.
    In the **False** container of **Check Executive Outcome**, before the terminate action of executive rejected,
    add a **Microsoft Dataverse Update a row** action and rename it to `Mark Executive Rejection`. Configure it:
@@ -163,7 +163,7 @@ If certain parameters are not visible they can be seen under the advanced sectio
 
 **Processing Result**: `Business exception: rejected by the executive. No invoice created.`
 
-![Screenshot for Record an approver rejection](images/05b-work-queues/image22.png)  
+![Screenshot for Record an approver rejection](05b-work-queues/image22.png)  
 
 ⚠️ **Important:** A rejection is a **business exception**, not an IT exception — the automation worked exactly as designed and a person decided no. Classifying it correctly matters: IT exceptions are retried automatically, and retrying a rejection would send the same order back to the same approver forever. Marking the item **before** terminating is essential; a terminate alone would leave the item stuck in **Processing** with nothing recorded.
 
@@ -173,7 +173,7 @@ Notice what the processing result is for. It is the message the person who picks
 
 ## B4: Resilience — IT exceptions, requeue, and delay
 
-![A technical blip means try again later — requeue with delay, capped by a budget](images/05b-work-queues/image23.png)  
+![A technical blip means try again later — requeue with delay, capped by a budget](05b-work-queues/image23.png)  
 Figure: A technical blip means try again later — requeue with delay, capped by a budget.
 
 **Builds on:** A7 (and the approval/invoice logic). **Time:** 50–70 min. This is the largest optional module — it refactors the processor — so attempt it once the core loop is solid.
@@ -192,31 +192,31 @@ Select from **Parse Order Item** through **Mark Item Processed** — just the ap
 
 Everything in Track A assumes the platform cooperates. It will not always: Dataverse throttles, a connector times out, an approval service hiccups. That class of failure is an **IT exception** — nothing is wrong with the work, only with the moment it was attempted — and the right response is not to escalate to a person but to try again later.
 
-![Everything in Track A assumes the platform cooperates](images/05b-work-queues/image24.png)  
+![Everything in Track A assumes the platform cooperates](05b-work-queues/image24.png)  
 
 1. In the **False** container of **Item Dequeued**, add an action named **Scope**. Rename the scope to `Process Order`.  
 2. Move the **Parse Order Item** & **Item Still Within Deadline** condition inside the scope.  
-   ![Move the Parse Order Item and Item Still Within Deadline condition inside the scope](images/05b-work-queues/image25.png)  
+   ![Move the Parse Order Item and Item Still Within Deadline condition inside the scope](05b-work-queues/image25.png)  
    For classic designer -- Select every action from **Parse Order Item** through **Mark Item Processed**, and group them into a **Scope**. Rename the scope to `Process Order`.  
    💡 **Tip:** In the modern designer, add a **Scope** action first and drag the existing actions into it. A scope is a container whose own success or failure summarizes everything inside it — which is what makes a single catch branch possible.  
 3. Below the scope, add a **Compose** action and rename it to `Capture Failure`. In its input, enter:  
    ```
    @{result('Process_Order')}
    ```
-   ![Below the scope, add a Compose action and rename it to . In its input, enter](images/05b-work-queues/image26.png)  
+   ![Below the scope, add a Compose action and rename it to . In its input, enter](05b-work-queues/image26.png)  
 4. In the classic designer, open the **...** menu on **Capture Failure,** Select **Configure run after**,  
    In the modern designer, select **Settings** and expand **Process Order**  
 5. Select **has failed**, **is skipped**, and **has timed out**, clear **is successful**.  
    Modern designer shows the 4 coloured icons as visual cues.  
    `result()` returns the outcome of every action inside the scope, including each error message — so the catch branch can inspect *what* failed rather than only *that* something failed. That is what makes classification possible instead of guesswork.  
-   ![Returns the outcome of every action inside the scope, including each error message — so](images/05b-work-queues/image27.png)  
+   ![Returns the outcome of every action inside the scope, including each error message — so](05b-work-queues/image27.png)  
 6. Below **Capture Failure**, add a **Condition** and rename it to `Transient Failure`. In the left value, enter the below via fx :  
    ```
    or(contains(string(outputs('Capture_Failure')), '429'), contains(string(outputs('Capture_Failure')), 'ServiceUnavailable'), contains(string(outputs('Capture_Failure')), 'TimedOut'))
    ```
 7. Set the operator to **is equal to** and the right value to `true`.
 
-![Set the operator to is equal to and the right value](images/05b-work-queues/image28.png)  
+![Set the operator to is equal to and the right value](05b-work-queues/image28.png)  
 
 A `429` is Dataverse's service protection limit telling you to slow down; `ServiceUnavailable` and `TimedOut` are the platform saying *not now*. All three are worth another attempt. Anything else is not transient, and repeating it just burns the queue's retry budget.
 
@@ -227,7 +227,7 @@ A `429` is Dataverse's service protection limit telling you to slow down; `Servi
    int(outputs('Dequeue_Order_Item')?['body/requeuecount'])
    ```
 2. Set the operator to **is less than** and the right value to `3` — a deliberate requeue budget this lab enforces in the flow. (The queue's own Item maximum requeue count defaults to 1000); see A1, step 13, for where to view these defaults.  
-   ![Set the operator to is less than and the right value to — a deliberate requeue](images/05b-work-queues/image29.png)  
+   ![Set the operator to is less than and the right value to — a deliberate requeue](05b-work-queues/image29.png)  
 3. In its **True** container, add a **Microsoft Dataverse Update a row** action and rename it to `Requeue Order Item`. Configure it:  
 
 | **Field** | **Value** | **Why** |
@@ -243,7 +243,7 @@ A `429` is Dataverse's service protection limit telling you to slow down; `Servi
 
 **Delay until** is the field that makes a requeue a *back-off* rather than a hot loop. Without it, the item returns to **Queued**, the processor picks it up minutes later, hits the same throttle, and the queue spins. With it, the item is simply not offered for fifteen minutes.
 
-![Delay until is the field that makes a requeue a back-off rather than a hot loop](images/05b-work-queues/image30.png)  
+![Delay until is the field that makes a requeue a back-off rather than a hot loop](05b-work-queues/image30.png)  
 
 4. In the **False** container of **Requeue Budget Remaining** — the budget is exhausted  
    Add a **Microsoft Dataverse Update a row** action and rename it to `Mark IT Exception`. Configure it:  
@@ -255,7 +255,7 @@ A `429` is Dataverse's service protection limit telling you to slow down; `Servi
 
 **Processing Result**: `IT exception: transient failures persisted after 3 requeue attempts. Investigate connectivity or service limits.`
 
-![Screenshot for The transient path: requeue with a delay](images/05b-work-queues/image31.png)  
+![Screenshot for The transient path: requeue with a delay](05b-work-queues/image31.png)  
 
 ### The unknown path: generic exception
 
@@ -268,7 +268,7 @@ A `429` is Dataverse's service protection limit telling you to slow down; `Servi
    - **Status Reason**: `Generic Exception`  
    **Processing Result**: `Generic exception: @{substring(string(outputs('Capture_Failure')), 0, 1000)}.`  
    **Generic exception** is the honest answer for an unexpected error that fits none of the other categories. Recording the raw failure alongside it turns an unknown into something diagnosable.  
-   ![Generic exception is the honest answer for an unexpected error that fits none of the other](images/05b-work-queues/image32.png)  
+   ![Generic exception is the honest answer for an unexpected error that fits none of the other](05b-work-queues/image32.png)  
 2. Select **Save**, then **Publish**.
 
 💡 **Tip:** Requeue is your **second** line of defence, not your first. Each Dataverse action has its own retry policy under **Settings** — by default an exponential-interval retry — which absorbs a brief blip inside the same run. The queue's requeue budget is what handles a failure that outlives the run itself.
@@ -277,7 +277,7 @@ A `429` is Dataverse's service protection limit telling you to slow down; `Servi
 
 ## B5: Human in the loop — On hold and remediation
 
-![Exceptions get an owner: a reviewer requeues the item or parks it On hold](images/05b-work-queues/image33.png)  
+![Exceptions get an owner: a reviewer requeues the item or parks it On hold](05b-work-queues/image33.png)  
 Figure: Exceptions get an owner: a reviewer requeues the item or parks it On hold.
 
 **Builds on:** B3 or B4 (there must be exceptions to remediate). **Time:** 40–50 min.
@@ -308,18 +308,18 @@ Exceptions that a retry cannot fix need an owner. **On hold** is the state that 
 | Error | 4 | Item encountered an error |
 
 2. Back in <https://make.powerautomate.com>, Navigate to the Order Automation Solution  
-   ![Back in https://make.powerautomate.com, Navigate to the Order Automation Solution](images/05b-work-queues/image34.png)  
+   ![Back in https://make.powerautomate.com, Navigate to the Order Automation Solution](05b-work-queues/image34.png)  
 3. Select **New** > **Automation** > **Cloud flow** > **Scheduled cloud flow**, name it `Remediate Order Exceptions`, set it to repeat every **1 Hour**, and select **Create**.  
-   ![Select New > Automation > Cloud flow > Scheduled cloud flow, name it , set](images/05b-work-queues/image35.png)  
+   ![Select New > Automation > Cloud flow > Scheduled cloud flow, name it , set](05b-work-queues/image35.png)  
 4. Add a **Microsoft Dataverse List rows** action, rename it to `List Exception Items`, set **Table name** to **Work Queue Items**, and in **Filter rows** enter:  
    ```
    workqueueid eq <WORK-QUEUE-ID> and statecode eq 4
    ```
    Here `<WORK-QUEUE-ID>` can be found from the Work Queue table with the column name as Work queue, as you copied it in A1 — a value like d1a0a94d-f289-f111-8075-70a8a5af4c98  
    Here **statecode eq 4** is the Error state or Exception state — the one state shared by every exception reason (Business, IT, Generic, and Processing Timeout), so this filter returns all exception items for review.  
-   ![Here statecode eq 4 is the Error state or Exception state — the one state shared](images/05b-work-queues/image36.png)  
+   ![Here statecode eq 4 is the Error state or Exception state — the one state shared](05b-work-queues/image36.png)  
 5. Add an **Apply to each** loop over **value** from **List Exception Items**, and rename it to `Review Each Exception`.  
-   ![Add an Apply to each loop over value from List Exception Items, and rename it](images/05b-work-queues/image37.png)  
+   ![Add an Apply to each loop over value from List Exception Items, and rename it](05b-work-queues/image37.png)  
 6. Inside the loop, add **Start and wait for an approval**, rename it to `Exception Review`, and configure it:  
    - **Approval type**: **Approve/Reject - First to respond**  
    - **Title**: `Work queue exception needs a decision`  
@@ -332,9 +332,9 @@ Exceptions that a retry cannot fix need an owner. **On hold** is the state that 
    Payload: @{items('Review_Each_Exception')?['input']}
    Approve to requeue this item. Reject to park it on hold.
    ```
-   ![In Details, put everything the reviewer needs to decide without leaving the email](images/05b-work-queues/image38.png)  
+   ![In Details, put everything the reviewer needs to decide without leaving the email](05b-work-queues/image38.png)  
 8. Below the approval, add a **Condition** named `Reviewer Approved`: **Outcome is equal to** `Approve`.  
-   ![Below the approval, add a Condition named : Outcome is equal](images/05b-work-queues/image39.png)  
+   ![Below the approval, add a Condition named : Outcome is equal](05b-work-queues/image39.png)  
 9. In its **True** container, add a **Microsoft Dataverse Update a row** action named `Return Item To Queue`, targeting:
    - **Table name**: **Work Queue Items**
    - **Row ID**: `@{items('Review_Each_Exception')?['workqueueitemid']}`
@@ -343,14 +343,14 @@ Exceptions that a retry cannot fix need an owner. **On hold** is the state that 
    - **Delay until**: `utcNow()`
    - **Expiry Date**: `addHours(utcNow(), 4)`
    - **Processing Result**: `Reviewed and requeued by operations.`
-   ![Table Work Queue Items Row ID Status Queued, Status Reason Queued, Delay until Expiry Date Processing](images/05b-work-queues/image40.png)  
+   ![Table Work Queue Items Row ID Status Queued, Status Reason Queued, Delay until Expiry Date Processing](05b-work-queues/image40.png)  
 10. In its **False** container, add a **Microsoft Dataverse Update a row** action named `Park Item On Hold`, targeting:
    - **Table name**: **Work Queue Items**
    - **Row ID**: `@{items('Review_Each_Exception')?['workqueueitemid']}`
    - **Status**: **On hold**
    - **Status Reason**: **Paused (On hold)**
    - **Processing Result**: `Parked on hold by operations pending further information.`
-   ![Table Work Queue Items Row ID Status On Hold Status Reason Paused (On Hold) Processing Result](images/05b-work-queues/image41.png)  
+   ![Table Work Queue Items Row ID Status On Hold Status Reason Paused (On Hold) Processing Result](05b-work-queues/image41.png)  
 11. Select **Save**, then **Publish**.
 
 The transitions this flow performs are enforced by the platform: an item in **Exception** may go to **Queued** or **On hold**; an item **On hold** may go back to **Queued**; and **Queued** is the only state that can be dequeued. Appendix B lists every allowed transition.
@@ -363,7 +363,7 @@ The transitions this flow performs are enforced by the platform: an item in **Ex
 
 ## B6: Monitor the SLA
 
-![At-risk and violated are different signals — the flow makes both visible before and at breach](images/05b-work-queues/image42.png)  
+![At-risk and violated are different signals — the flow makes both visible before and at breach](05b-work-queues/image42.png)  
 Figure: At-risk and violated are different signals — the flow makes both visible before and at breach.
 
 **Builds on:** A1 (the SLA strategy). **Time:** 25–35 min.
@@ -383,9 +383,9 @@ Enable it first: **Monitor** > **Work queues** > **Northwind Order Processing** 
 The SLA strategy you configured in A1 continuously computes an **SLA status** on every item: **In**, **At risk**, or **Out**. Those transitions are Dataverse row changes, so a cloud flow can trigger on them and act *before* a breach rather than reporting it afterwards.
 
 1. Back in <https://make.powerautomate.com>, Navigate to the Order Automation Solution  
-   ![Back in https://make.powerautomate.com, Navigate to the Order Automation Solution](images/05b-work-queues/image43.png)  
+   ![Back in https://make.powerautomate.com, Navigate to the Order Automation Solution](05b-work-queues/image43.png)  
 2. Select **New** > **Automation** > **Cloud flow** > **Automated cloud flow**, name it `Monitor Order Queue SLA`, choose the **Microsoft Dataverse** trigger **When a row is added, modified or deleted**, and select **Create**.  
-   ![Select New > Automation > Cloud flow > Automated cloud flow, name it , choose](images/05b-work-queues/image44.png)  
+   ![Select New > Automation > Cloud flow > Automated cloud flow, name it , choose](05b-work-queues/image44.png)  
 3. Configure the trigger:
 **Change type Modified
 Table name Work Queue Items
@@ -396,7 +396,7 @@ Select columns** `slastatus`
    workqueueid eq <WORK-QUEUE-ID> and (slastatus eq 2 or slastatus eq 3)
    ```
    The SLA status values are fixed: `0` **NotSet**, `1` **In**, `2` **At risk**, `3` **Out**. Selecting only `slastatus` in **Select columns** means the flow runs when *that* column changes rather than on every edit to the item.  
-   ![The SLA status values are fixed: NotSet, In, At risk, Out](images/05b-work-queues/image45.png)  
+   ![The SLA status values are fixed: NotSet, In, At risk, Out](05b-work-queues/image45.png)  
 5. Add a **Condition** and rename it to `SLA Violated`: the **SLA Status** value **is equal to** `3`.  
 6. In the **False** container — at risk but not yet breached — add a **Send an email (V2)** action named `Notify SLA At Risk`,
 **to**: the operations account (or yourself)
@@ -405,7 +405,7 @@ Select columns** `slastatus`
    ```
    At risk: @{triggerOutputs()?['body/name']} in Northwind Order Processing
    ```
-   ![In the False container — at risk but not yet breached — add a Send](images/05b-work-queues/image46.png)  
+   ![In the False container — at risk but not yet breached — add a Send](05b-work-queues/image46.png)  
 7. In the **True** container, add a **Send an email (V2)** action named `Notify SLA Violated`,
 **to**: the operations account (or yourself)
 **body**: Kindly check
@@ -413,7 +413,7 @@ Select columns** `slastatus`
    ```
    SLA breached: @{triggerOutputs()?['body/name']} in Northwind Order Processing
    ```
-   ![In the True container, add a Send an email (V2) action named , to: the operations](images/05b-work-queues/image47.png)  
+   ![In the True container, add a Send an email (V2) action named , to: the operations](05b-work-queues/image47.png)  
 8. Select **Save**, then **Publish**.
 
 The two signals deserve different responses. **At risk** is a capacity question — the answer is to shorten the processor's recurrence or raise its concurrency (module **B7**). **Out** is an escalation — the deadline is gone and someone must decide whether to still process the item or handle it manually.
@@ -424,7 +424,7 @@ The two signals deserve different responses. **At risk** is a capacity question 
 
 ## B7: Scale the processor — concurrency and throughput
 
-![Several items processed at once — with parallelism capped to respect Dataverse limits](images/05b-work-queues/image48.png)  
+![Several items processed at once — with parallelism capped to respect Dataverse limits](05b-work-queues/image48.png)  
 Figure: Several items processed at once — with parallelism capped to respect Dataverse limits.
 
 **Builds on:** A5. **Time:** 20–30 min.
@@ -446,13 +446,13 @@ One item every five minutes is a teaching cadence, not a working one. Month end 
 1. Open **Process Order Queue** and change the recurrence to repeat every **1 Minute**.  
 2. To process several items per run, wrap the dequeue and its processing in an **Apply to each** over a small array and enable concurrency:  
    - Next to the trigger Add a **Compose** action named `Worker Slots` with the input `[1,2,3,4,5]`.  
-     ![Next to the trigger Add a Compose action named with the input](images/05b-work-queues/image49.png)  
+     ![Next to the trigger Add a Compose action named with the input](05b-work-queues/image49.png)  
    - Next to compose Add an **Apply to each** loop named `Process In Parallel` over **Outputs** from **Worker Slots**.  
-     ![Next to compose Add an Apply to each loop named over Outputs from Worker Slots](images/05b-work-queues/image50.png)  
+     ![Next to compose Add an Apply to each loop named over Outputs from Worker Slots](05b-work-queues/image50.png)  
    - Move **Dequeue Order Item** and everything after it inside the loop.  
-     ![Move Dequeue Order Item and everything after it inside the loop](images/05b-work-queues/image51.png)  
+     ![Move Dequeue Order Item and everything after it inside the loop](05b-work-queues/image51.png)  
    - On the loop, open **Settings**, turn on **Concurrency Control**, and set **Degree of Parallelism** to `5`.  
-     ![On the loop, open Settings, turn on Concurrency Control, and set Degree of Parallelism](images/05b-work-queues/image52.png)  
+     ![On the loop, open Settings, turn on Concurrency Control, and set Degree of Parallelism](05b-work-queues/image52.png)  
    Each iteration performs its own dequeue, so five iterations take five different items — the orchestrator guarantees an item is handed to one consumer only. Iterations that find the queue empty terminate harmlessly through the **Item Dequeued** condition you built in A5.  
    ⚠️ **Important:** Keep dequeue concurrency at **moderate** levels — **up to five parallel dequeue operations per work queue** is the recommendation. Work queues are built on Dataverse, so Dataverse [service protection API limits](https://learn.microsoft.com/power-apps/developer/data-platform/api-limits) apply to every dequeue and update. Push concurrency past what the platform will absorb and you generate the very `429` responses that module **B4**'s requeue logic then has to clean up.  
    ⚠️ **Important:** Work queues aren't suited to high-throughput, sub-second scenarios where hundreds or thousands of items must be processed in seconds. If that is your requirement, use a queuing technology built for it, such as Azure Service Bus queues, and keep work queues for governed, monitored business work.  
@@ -467,11 +467,11 @@ The power flow's logic app flow template was invalid. The template actions 'End_
 To address this
 merge the below conditions together with AND operation. So that it all falls into the nesting limit of 8
 
-![To address this merge the below conditions together with AND operation](images/05b-work-queues/image53.png)  
+![To address this merge the below conditions together with AND operation](05b-work-queues/image53.png)  
 
 ## B8: Deep operations, ALM, and the full test matrix
 
-![From working to operable — monitored, deployable, and tested on every path](images/05b-work-queues/image54.png)  
+![From working to operable — monitored, deployable, and tested on every path](05b-work-queues/image54.png)  
 Figure: From working to operable — monitored, deployable, and tested on every path.
 
 **Builds on:** all modules you have built. **Time:** 50–90 min.

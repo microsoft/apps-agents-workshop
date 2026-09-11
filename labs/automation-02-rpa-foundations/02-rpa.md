@@ -1,5 +1,5 @@
 ---
-title: "Automation: Desktop Flow (Foundation)"
+title: "Automation: Desktop Flow (Foundations)"
 lab: true
 level: 200
 persona: "Maker"
@@ -17,7 +17,7 @@ description: "Use Power Automate desktop flows (RPA) to automate legacy systems 
 
 ## Overview
 
-In [Module 1](01-cloud-flow.md), you built **Order Automation** — a cloud flow that routes new orders through a two-tier approval and creates an invoice. But orders don't only arrive through the Northwind Orders app: some come in as files from legacy systems that have no connection to Dataverse. In this module, you build a **desktop flow** with **Power Automate for desktop** that reads a local order file and creates the order and its line items in Dataverse — feeding the same approval process you built in Module 1, launched with a single keyboard shortcut.
+In [Module 1](../automation-01-cloud-flow/01-cloud-flow.md), you built **Order Automation** — a cloud flow that routes new orders through a two-tier approval and creates an invoice. But orders don't only arrive through the Northwind Orders app: some come in as files from legacy systems that have no connection to Dataverse. In this module, you build a **desktop flow** with **Power Automate for desktop** that reads a local order file and creates the order and its line items in Dataverse — feeding the same approval process you built in Module 1, launched with a single keyboard shortcut.
 
 ## Learning objectives
 
@@ -54,19 +54,19 @@ The order line-items file is a CSV with one row per line item — it holds the o
 
 2. In the left navigation, select **Tables**, search for `Order Product`, and open the **Order Product** table (logical name `nwind_products`).
 
-    ![The Tables page with Order Product found in the search results](images/02-rpa/image1.png)  
+    ![The Tables page with Order Product found in the search results](02-rpa/image1.png)  
     Figure: Finding the Order Product table.
 
 3. The data view opens showing the **Product Name** column. Each product's unique identifier lives in a column that is also called **Product** — it's the table's primary key, and it's hidden by default. Select the column options at the end of the header row (**+ more**), choose the **Product** column, and select **Save** to show it.
 
-    ![The column picker with the Product identifier column selected for display](images/02-rpa/image2.png)  
+    ![The column picker with the Product identifier column selected for display](02-rpa/image2.png)  
     Figure: Adding the Product identifier column to the view.
 
     Filter the **Product Name** column and search for **Northwind Traders Clam Chowder** and **Northwind Traders Almonds** — the two products the order file uses — then copy each one's value from the **Product** identifier column. If you don't see a product, select **+ additional rows** at the bottom of the grid to load more rows.
 
     💡 **Tip:** To copy an identifier, select its cell and press `Ctrl+C` — the grid has no right-click copy option.
 
-    ![The data view with the Product identifier column visible next to the product names](images/02-rpa/image3.png)  
+    ![The data view with the Product identifier column visible next to the product names](02-rpa/image3.png)  
     Figure: The identifiers shown next to the product names — copy both.
 
 4. Now create the order file. Open **Notepad**, paste the content below, and replace the two placeholder identifiers with the ones you copied:
@@ -79,7 +79,7 @@ The order line-items file is a CSV with one row per line item — it holds the o
 
     Select **File** > **Save as**, set **Save as type** to **All files**, name the file `Order.csv`, and save it to your desktop.
 
-    ![The finished Order.csv open in Notepad with the header row and two line items](images/02-rpa/image4.png)  
+    ![The finished Order.csv open in Notepad with the header row and two line items](02-rpa/image4.png)  
     Figure: The finished order file — plain text, one line item per row.
 
     ⚠️ **Important:** If you build the file in Excel instead, save it with **Save as** > **CSV (Comma delimited) (*.csv)** — the default `.xlsx` format can't be read by the **Read from CSV file** action.
@@ -94,7 +94,7 @@ The order line-items file is a CSV with one row per line item — it holds the o
 
 2. Select **New** > **Flow**.
 
-    ![The New menu in the Power Automate console with Flow selected](images/02-rpa/image5.png)  
+    ![The New menu in the Power Automate console with Flow selected](02-rpa/image5.png)  
     Figure: Creating a new desktop flow.
 
 3. In **Flow name**, enter:
@@ -107,12 +107,12 @@ The order line-items file is a CSV with one row per line item — it holds the o
 
     ⚠️ **Important:** Every expression in this lab uses the `%variable%` notation, which only works when **Power Fx enabled** is off. Enabling Power Fx replaces this notation with a different formula language — a per-flow choice made at creation — so if you switch it on, none of the expressions below will work.
 
-    ![The Create a flow dialog with the flow name entered and Power Fx enabled switched off](images/02-rpa/image6.png)  
+    ![The Create a flow dialog with the flow name entered and Power Fx enabled switched off](02-rpa/image6.png)  
     Figure: The flow creation dialog with Power Fx off.
 
 Selecting **Create** opens the flow designer **in a new window**: an **Actions** pane on the left to search for actions, a canvas in the middle where actions run top to bottom, and a **Copilot** pane on the right. The pane this lab uses on the right is **Variables** — it isn't shown by default, so select the **{x}** (Variables) icon on the right edge to open it. It lists every variable the flow produces. The console stays open in the background — you return to it in Step 8.
 
-![The flow designer window with the Actions pane, the empty canvas, and the Variables pane opened via the icon on the right edge](images/02-rpa/image7.png)  
+![The flow designer window with the Actions pane, the empty canvas, and the Variables pane opened via the icon on the right edge](02-rpa/image7.png)  
 Figure: The flow designer — open the Variables pane from the right edge.
 
 The flow you build next reads the file first, creates the order **without** a status, and sets the status to **New** as its final action. In the app, the approval flow fired when you *saved* the completed order with status New; in a desktop flow every action writes to Dataverse immediately, so that final status update plays the role of the save — it's the modification that fires the approval flow.
@@ -123,7 +123,7 @@ The flow you build next reads the file first, creates the order **without** a st
 
     The `f` prefix marks the variables this flow produces (such as `fOrdersCSV`), so they're easy to spot in expressions later.
 
-    ![The Read from CSV file action with the file path set and first-line-contains-column-names switched on](images/02-rpa/image8.png)  
+    ![The Read from CSV file action with the file path set and first-line-contains-column-names switched on](02-rpa/image8.png)  
     Figure: Reading the order file into a table.
 
     💡 **Tip:** Reading the file first means a missing or broken file stops the flow before anything is written to Dataverse.
@@ -134,7 +134,7 @@ The flow you build next reads the file first, creates the order **without** a st
 
 1. Add a **Get current date and time** action (under **Date time**), producing `CurrentDateTime`. The order should carry the date it was imported.
 
-    ![The Get current date and time action with its CurrentDateTime variable produced](images/02-rpa/image9.png)  
+    ![The Get current date and time action with its CurrentDateTime variable produced](02-rpa/image9.png)  
     Figure: Capturing the import date.
 2. Add an **Add a new row to selected environment** action (under **Microsoft Dataverse**). If you completed Module 1 with this account, a Dataverse connection already exists and the action opens straight to its parameters.
 
@@ -163,7 +163,7 @@ The flow you build next reads the file first, creates the order **without** a st
 
     ⚠️ **Important:** leave **Order Status** empty. The status is set at the very end of the flow, *after* the line items exist — that update is what triggers the approval flow, and by then the order's full value is in place for it to calculate.
 
-    ![The complete Add a new row action for Orders with the order date, payment type, shipping, and notes columns configured and the status empty](images/02-rpa/image10.png)  
+    ![The complete Add a new row action for Orders with the order date, payment type, shipping, and notes columns configured and the status empty](02-rpa/image10.png)  
     Figure: The order-creation action — status deliberately empty.
 
 4. Rename the produced variable to `fResponse` and select **Save**.
@@ -182,7 +182,7 @@ The flow you build next reads the file first, creates the order **without** a st
 
     Rename the produced variable to `fObject` and select **Save**.
 
-    ![The Convert JSON to custom object action converting fResponse into fObject](images/02-rpa/image11.png)  
+    ![The Convert JSON to custom object action converting fResponse into fObject](02-rpa/image11.png)  
     Figure: Parsing the create-order response.
 
 2. Add a **Set variable** action. Name the variable `fOrderId`, and in **Value**, enter:
@@ -193,12 +193,12 @@ The flow you build next reads the file first, creates the order **without** a st
 
     This is the created order's unique identifier — the same value Module 1's Step 5 used to link the invoice to its order.
 
-    ![The Set variable action assigning the order's unique identifier to fOrderId](images/02-rpa/image12.png)  
+    ![The Set variable action assigning the order's unique identifier to fOrderId](02-rpa/image12.png)  
     Figure: Extracting the order's identifier from the parsed response.
 
 3. Select **Save draft** in the designer toolbar to save the flow.
 
-    ![The desktop flow designer toolbar showing the Save draft and Publish buttons](images/02-rpa/image13.png)  
+    ![The desktop flow designer toolbar showing the Save draft and Publish buttons](02-rpa/image13.png)  
     Figure: The desktop flow designer toolbar with **Save draft** and **Publish** (alongside **Run**).
 
     💡 **Note:** Desktop flows are **stored in Dataverse by default**, so the **Save draft** and **Publish** buttons are available for **any** desktop flow — you don't need to add it to a solution first (unlike cloud flows, where these buttons appear only for solution-aware flows). **Save draft** keeps your changes without affecting runtime; **Publish** (used in Step 7) makes the current version the one that runs.
@@ -207,7 +207,7 @@ The flow you build next reads the file first, creates the order **without** a st
 
 1. Add a **For each** action (under **Loops**). In **Value to iterate**, enter `%fOrdersCSV%`, rename the stored item to `fOrderItem`, and select **Save**.
 
-    ![The For each action iterating over fOrdersCSV with fOrderItem as the stored item](images/02-rpa/image14.png)  
+    ![The For each action iterating over fOrdersCSV with fOrderItem as the stored item](02-rpa/image14.png)  
     Figure: Looping over the order file's rows.
 
 2. Inside the loop, add an **Add a new row to selected environment** action:
@@ -244,7 +244,7 @@ The flow you build next reads the file first, creates the order **without** a st
 
     ⚠️ **Expected failure:** Each line item needs a valid **ProductID**, **Quantity**, and **UnitPrice**. If any is blank or malformed in the CSV — or a ProductID doesn't match a product in Dataverse — the **Add a new row** action fails for that row and stops the run, leaving the order created but missing some or all line items. Check the file's values before running.
 
-    ![The complete Add a new row action for Order Details with the order lookup, product lookup, quantity, and unit price values](images/02-rpa/image15.png)  
+    ![The complete Add a new row action for Order Details with the order lookup, product lookup, quantity, and unit price values](02-rpa/image15.png)  
     Figure: Creating one line item per CSV row.
 
 ## Step 7: Submit the order for approval
@@ -262,22 +262,22 @@ The flow you build next reads the file first, creates the order **without** a st
 
     This single update is the handover: the moment the status becomes **New**, the **Order Automation** flow from Module 1 fires — its trigger sees a *modified* order whose status is New, exactly as when you save an order in the app.
 
-    ![The Upsert a row action setting the imported order's status to New](images/02-rpa/image16.png)  
+    ![The Upsert a row action setting the imported order's status to New](02-rpa/image16.png)  
     Figure: The status update that hands the order to the approval flow.
 
 2. Add a **Display message** action: set **Message box title** to `Info` and **Message to display** to `Legacy order imported and submitted for approval.` Switch on **Close message box automatically** with a **Timeout** of `3`, and select **Save**.
 
-    ![The Display message action with the confirmation text and a three-second auto-close timeout](images/02-rpa/image17.png)  
+    ![The Display message action with the confirmation text and a three-second auto-close timeout](02-rpa/image17.png)  
     Figure: The confirmation message shown after the import.
 
 3. Select **Save draft**, then **Publish** — only the published version of a flow runs from the console. Because desktop flows are stored in Dataverse by default, **Save draft** and **Publish** are available for any desktop flow.
 
-    ![The desktop flow designer toolbar showing the Save draft and Publish buttons](images/02-rpa/image18.png)  
+    ![The desktop flow designer toolbar showing the Save draft and Publish buttons](02-rpa/image18.png)  
     Figure: Publishing the desktop flow from the designer toolbar.
 
 ✅ **Checkpoint:** The canvas shows, in order: **Read from CSV file** > **Get current date and time** > **Add a new row** (Orders) > **Convert JSON to custom object** > **Set variable** > **For each** containing **Add a new row** (Order Details) > **Upsert a row** (Orders) > **Display message**.
 
-![The complete Import Legacy Orders flow on the designer canvas](images/02-rpa/image19.png)  
+![The complete Import Legacy Orders flow on the designer canvas](02-rpa/image19.png)  
 Figure: The end-to-end desktop flow.
 
 ## Step 8: Launch with a keyboard shortcut
@@ -287,14 +287,14 @@ The point of an attended desktop flow is that a person triggers it in the middle
 1. Close the designer and return to the flow list in the Power Automate console.
 2. Right-click the flow and select **Properties**.
 
-    ![The flow's context menu in the console with Properties selected](images/02-rpa/image20.png)  
+    ![The flow's context menu in the console with Properties selected](02-rpa/image20.png)  
     Figure: Opening the flow's properties.
 
 3. In **Run with keyboard shortcut**, press the combination to assign — for this lab, press **Ctrl + Shift + P** — and select **Save**.
 
     ⚠️ **Shortcut conflicts:** **Ctrl + Shift + P** may already be claimed by another running application. If Power Automate reports a conflict — or the shortcut never triggers the flow — choose a different, unused combination and use that for the rest of the lab.
 
-    ![The flow properties dialog with the keyboard shortcut assigned](images/02-rpa/image21.png)  
+    ![The flow properties dialog with the keyboard shortcut assigned](02-rpa/image21.png)  
     Figure: Assigning the launch shortcut.
 
 4. Press the shortcut. Power Automate for desktop runs the flow — return to the **Power Automate console** and watch the flow's **Status** column (for example, *Running*, then *Succeeded*); open the flow's run details from the console to see per-action results.
@@ -307,21 +307,21 @@ The point of an attended desktop flow is that a person triggers it in the middle
 
 1. In <https://make.powerapps.com>, select **Apps** and open the **Admin Management App**. On the **Orders** page, sort by **Order Date** (newest to oldest) and open your newly created order. The header shows the values from Step 4, and the order details beneath it contain the two products from your CSV file, totaling 12,000 USD — an imported order looks exactly like one entered by hand.
 
-    ![The imported order open in the Admin Management App with its two order details beneath the header](images/02-rpa/image22.png)  
+    ![The imported order open in the Admin Management App with its two order details beneath the header](02-rpa/image22.png)  
     Figure: The imported order and its line items in the app.
 
     💡 **Tip:** This lab verifies in the **Admin Management App** because its pages cover orders and invoices in one place. The **Northwind Orders** app from Module 1 works too, but it's more basic — and you can always inspect the individual tables in Dataverse directly.
 
 2. Open the Manager mailbox. The approval email for the imported order arrives with all details populated — respond **Approve**, then approve the executive request too (the order totals 12,000 USD, so both tiers fire).
 
-    ![The manager approval email for the imported order with all details populated](images/02-rpa/image23.png)  
+    ![The manager approval email for the imported order with all details populated](02-rpa/image23.png)  
     Figure: The Module 1 approval, triggered by the desktop flow.
 
     🛠️ **If the approval email doesn't arrive,** check in order: (1) the **desktop-flow run result** in the Power Automate console — did *Import Legacy Orders* succeed? (2) the imported order's **Order Status** is **New** in the Admin Management App, and (3) the **Order Automation** run history at <https://make.powerautomate.com> for a triggered run or an error.
 
 3. In <https://make.powerautomate.com>, open **Order Automation** > run history, and confirm a new successful run that started when the desktop flow updated the status. After approving both requests, return to the **Admin Management App** and confirm the new invoice for 12,000 USD on its **Invoices** page.
 
-    ![The Order Automation run history showing the run triggered by the desktop flow](images/02-rpa/image24.png)  
+    ![The Order Automation run history showing the run triggered by the desktop flow](02-rpa/image24.png)  
     Figure: The cloud flow's own record of the RPA-triggered run.
 
 ✅ **Checkpoint:** one key press moved an order from a local file, through Dataverse, through the Module 1 approval process, to an invoice — with no changes to the cloud flow at all.
@@ -336,7 +336,7 @@ This lab keeps the intake deliberately simple. In production, the trigger and th
 
 ## Recommended next step
 
-Continue to [Module 3: Workflows](03-workflow.md), where an agent answers customers mid-conversation by calling an automation as a tool.
+Continue to [Module 3: Workflows](../automation-03-workflow-foundations/03-workflow.md), where an agent answers customers mid-conversation by calling an automation as a tool.
 
 ## Appendix A: Create a Microsoft Dataverse connection
 
@@ -344,17 +344,17 @@ The first Microsoft Dataverse action you add in Power Automate for desktop may p
 
 1. In the action, select **Sign in** and use the same lab account that you used in Module 1.
 
-    ![The Add a new row action prompting the user to sign in and create a Microsoft Dataverse connection](images/02-rpa/image25.png)
+    ![The Add a new row action prompting the user to sign in and create a Microsoft Dataverse connection](02-rpa/image25.png)
     Figure: Signing in to create the Microsoft Dataverse connection.
 
 2. In the **Create connection** dialog, confirm that **Microsoft Dataverse** is selected, keep **Authentication Type** set to **OAuth**, and select **Create**.
 
-    ![The Microsoft Dataverse Create connection dialog with Authentication Type set to OAuth](images/02-rpa/image26.png)
+    ![The Microsoft Dataverse Create connection dialog with Authentication Type set to OAuth](02-rpa/image26.png)
     Figure: Keeping OAuth selected and creating the connection.
 
 3. Wait while Power Automate creates the connection reference. When the connection is ready, return to the action and continue configuring it.
 
-    ![The Microsoft Dataverse Create connection dialog showing that a new connection reference is being created](images/02-rpa/image27.png)
+    ![The Microsoft Dataverse Create connection dialog showing that a new connection reference is being created](02-rpa/image27.png)
     Figure: Waiting for the new connection reference to be created.
 
 If sign-in fails inside Power Automate for desktop, go to the [Power Automate portal](https://make.powerautomate.com), select **Connections** > **New connection** > **Microsoft Dataverse**, create the connection there, and then reopen the desktop-flow action. For more information, see [Manage connections in Power Automate](https://learn.microsoft.com/power-automate/add-manage-connections).
@@ -369,7 +369,7 @@ Actions can generate variables that store their output. Rename variables descrip
 2. Expand **Variables produced**.
 3. Select the generated variable name, enter the new name, and then select **Save**.
 
-    ![An action dialog with the generated variable name selected under Variables produced](images/02-rpa/image28.png)
+    ![An action dialog with the generated variable name selected under Variables produced](02-rpa/image28.png)
     Figure: Renaming a produced variable inside its action.
 
 ### Method 2: Rename the variable from the Variables pane
@@ -379,7 +379,7 @@ Actions can generate variables that store their output. Rename variables descrip
 3. Select the variable's ellipsis, and then select **Edit**.
 4. Enter the new name and save the change.
 
-    ![The Variables pane showing the Edit option for a flow variable](images/02-rpa/image29.png)
+    ![The Variables pane showing the Edit option for a flow variable](02-rpa/image29.png)
     Figure: Editing a produced variable from the Variables pane.
 
 Renaming a variable from the Variables pane updates its references in all actions across the desktop flow. Use **Find usages** from the same menu to review where the variable is used before making broader changes.

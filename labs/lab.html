@@ -376,13 +376,13 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="./index.html" aria-label="Power Series Labs home">
+    <a class="brand" href="./index.html" data-branch-link aria-label="Power Series Labs home">
       <img class="brand-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
     </a>
     <nav aria-label="Primary navigation">
-      <a href="./index.html">Home</a>
-      <a href="./index.html#needs">Business needs</a>
-      <a href="./index.html#labs">Labs</a>
+      <a href="./index.html" data-branch-link>Home</a>
+      <a href="./index.html#needs" data-branch-link>Business needs</a>
+      <a href="./index.html#labs" data-branch-link>Labs</a>
       <a href="../README.md">Repository</a>
       <div class="theme-switch" role="group" aria-label="Theme">
         <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
@@ -461,6 +461,11 @@
     const branch = params.get("branch");
     if (branch) {
       catalogLink.href = `./index.html?branch=${encodeURIComponent(branch)}#labs`;
+      document.querySelectorAll("[data-branch-link]").forEach(link => {
+        const url = new URL(link.getAttribute("href"), window.location.href);
+        url.searchParams.set("branch", branch);
+        link.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
+      });
     }
 
     function escapeHtml(value) {

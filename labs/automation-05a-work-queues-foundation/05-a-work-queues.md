@@ -19,7 +19,7 @@ description: "Build a complete, runnable cloud work queue: create, enqueue in pr
 
 This lab is delivered in two tracks so it fits both a timed session and self-paced exploration.
 
-![The end-to-end work queue — capture once, prioritize, dequeue in the cloud, execute, and invoice](images/05a-work-queues/image1.png)  
+![The end-to-end work queue — capture once, prioritize, dequeue in the cloud, execute, and invoice](05a-work-queues/image1.png)  
 Figure: The end-to-end work queue — capture once, prioritize, dequeue in the cloud, execute, and invoice.
 
 | **Track** | **Modules** | **Status** | **What you get** |
@@ -155,7 +155,7 @@ They are complementary, not alternatives. In fact module **B7** combines them �
 
 Use the decision guide below to pick the right one for a given problem.
 
-![Choosing between a work queue, parallelism, and concurrency](images/05a-work-queues/image2.png)  
+![Choosing between a work queue, parallelism, and concurrency](05a-work-queues/image2.png)  
 Figure: Choosing between a work queue, parallelism, and concurrency.
 
 ### Work queue patterns in Power Automate
@@ -168,7 +168,7 @@ Because a producer and a processor are just flows, Power Automate supports five 
 - **4 — Cloud + desktop (processor side):** both producer and processor are cloud flows, and the **processor** calls a desktop flow as an action to act on an API-less system while processing.
 - **5 — Cloud + desktop (both sides):** both producer and processor are cloud flows, and **each** calls a desktop flow as an action — RPA on capture and on processing, with the queue decoupling the two robots.
 
-![The five producer/processor combinations — the queue governs the hand-off in every one](images/05a-work-queues/image3.png)  
+![The five producer/processor combinations — the queue governs the hand-off in every one](05a-work-queues/image3.png)  
 Figure: The five producer/processor combinations — the queue governs the hand-off in every one.
 
 💡 **Tip:** Every pattern uses the **same** work queue and the **same** Dataverse actions to enqueue, dequeue, and update items. Adding a desktop flow only changes *how a producer captures* work or *how a processor acts on* a system — never the queue mechanics you learn in this lab. Appendix E maps each cloud action to its desktop-flow equivalent.
@@ -197,7 +197,7 @@ This track is required, and it stands on its own. By the end of **A8** you have 
 
 ## A1: Create and configure the work queue
 
-![A work queue is a governed container — its rules apply to every item](images/05a-work-queues/image4.png)  
+![A work queue is a governed container — its rules apply to every item](05a-work-queues/image4.png)  
 Figure: A work queue is a governed container — its rules apply to every item.
 
 A work queue is a Dataverse record that holds work queue items and the rules that govern them: how long an item lives, when its SLA is at risk, what shape its data must take, and how many times it may be retried or requeued. You create it once, in the portal, before any flow refers to it. You set every option now — the core track uses the essentials, and the Track B modules exercise the rest — so you never have to come back and reconfigure.
@@ -205,9 +205,9 @@ A work queue is a Dataverse record that holds work queue items and the rules tha
 1. Go to <https://make.powerautomate.com>.  
    🔧 **Setup check:** Confirm the environment name in the upper-right corner is the development environment where you imported Northwind Traders. Repeat this check every time you open a maker portal in this lab.  
 2. In the left navigation, select **More**, then select **Discover All**, then select **Work queues**.  
-   ![In the left navigation, select More, then select Discover All, then select Work queues](images/05a-work-queues/image5.png)  
+   ![In the left navigation, select More, then select Discover All, then select Work queues](05a-work-queues/image5.png)  
 3. Select **+ New work queue**.  
-   ![Select + New work queue](images/05a-work-queues/image6.png)  
+   ![Select + New work queue](05a-work-queues/image6.png)  
 4. In the **New work queue** side panel, enter a **Work queue name**:  
    ```
    Northwind Order Processing
@@ -221,7 +221,7 @@ A work queue is a Dataverse record that holds work queue items and the rules tha
    NWIND-ORDERS
    ```
    The work queue key is a stable, human-readable identifier for the queue. Providing your own means later flows, exports, and downstream systems can refer to the queue by a name you chose rather than a GUID. Leave it empty and the system generates one for you.  
-   ![The work queue key is a stable, human-readable identifier for the queue](images/05a-work-queues/image7.png)  
+   ![The work queue key is a stable, human-readable identifier for the queue](05a-work-queues/image7.png)  
 7. Turn on the **SLA strategy** and configure it. **Used by Track B module B6.**  
    - **Default time-to-live (TTL)**: `4 hours`  
    - **SLA violated after**: `4 hours`  
@@ -243,23 +243,23 @@ A work queue is a Dataverse record that holds work queue items and the rules tha
    }
    ```
    This is the queue's contract. From now on, the platform validates every item's **Input** against this schema **at enqueue time** — a producer that forgets `OrderValue`, or sends it as text, is rejected at the door rather than three steps into the processor.  
-   ![This is the queue's contract](images/05a-work-queues/image8.png)  
+   ![This is the queue's contract](05a-work-queues/image8.png)  
    ⚠️ **Important:** Once a schema is added to a work queue it **can't be changed** — this protects against data inconsistencies and processing failures — so paste it exactly as shown; if it's wrong, you must create a new queue. Mark each mandatory field with `"required": true` **inside that field**:  
    ```
    "OrderValue": { "type": "number", "required": true }
    ```
    Don't list required fields in a separate `"required": [ ... ]` array — it won't be enforced.  
-   ![Don't list required fields in a separate array — it won't be enforced](images/05a-work-queues/image9.png)  
+   ![Don't list required fields in a separate array — it won't be enforced](05a-work-queues/image9.png)  
    Finally it would look like below,  
-   ![Finally it would look like below](images/05a-work-queues/image10.png)  
+   ![Finally it would look like below](05a-work-queues/image10.png)  
 9. Leave **Auto-retry on IT exception off**.  
    ⚠️ **Important: Auto-retry on IT exception** drives the auto-retry pattern for *desktop-flow* processing, where a machine holds the item and retries it in place. This lab has no machine, so the setting does nothing here — module **B4** implements the cloud equivalent explicitly, with a requeue and a delay you control.  
 10. Turn **Allow update item input while in processing on**. **Used by Track B module B5.**  
-   ![Turn Allow update item input while in processing](images/05a-work-queues/image11.png)  
+   ![Turn Allow update item input while in processing](05a-work-queues/image11.png)  
 11. Select **Create**.  
 12. Open the new queue from the list, select **Advanced details** on the work queue details card, and use the copy icon to copy the **Work queue ID**. Keep it on your clipboard or in a scratch file — every flow in this lab needs it.
 
-![Open the new queue from the list, select Advanced details on the work queue details card](images/05a-work-queues/image12.png)  
+![Open the new queue from the list, select Advanced details on the work queue details card](05a-work-queues/image12.png)  
 
 💡 **Tip:** The work queue ID is also visible in the browser address bar on the work queue details page. Wherever this lab shows `<WORK-QUEUE-ID>`, paste that GUID.
 
@@ -271,19 +271,19 @@ a) For the complete list of other writable columns/attributes for a work queue c
 
 b) To understand the default values. Select the Tables menu item in the left navigation pane
 
-![B) To understand the default values](images/05a-work-queues/image13.png)  
+![B) To understand the default values](05a-work-queues/image13.png)  
 
 Which would open the powerapps portal, in which select the all option to see all tables.
 
-![Which would open the powerapps portal, in which select the all option to see all tables](images/05a-work-queues/image14.png)  
+![Which would open the powerapps portal, in which select the all option to see all tables](05a-work-queues/image14.png)  
 
 Scroll to the bottom and find the **workqueue** table. Select the table to open in a new tab.
 
-![Scroll to the bottom and find the workqueue table](images/05a-work-queues/image15.png)  
+![Scroll to the bottom and find the workqueue table](05a-work-queues/image15.png)  
 
 Below view would be visible,
 
-![Below view would be visible](images/05a-work-queues/image16.png)  
+![Below view would be visible](05a-work-queues/image16.png)  
 
 In which click on the 35 more to get the popup window. In the popup window search for item, select the below items to understand the default values.
 
@@ -291,20 +291,20 @@ In which click on the 35 more to get the popup window. In the popup window searc
 
 -	Item maximum requeue count
 
-![Item maximum requeue count](images/05a-work-queues/image17.png)  
+![Item maximum requeue count](05a-work-queues/image17.png)  
 
 ## A2: Build the producer flow
 
-![The producer captures the order and measures its urgency — nothing more](images/05a-work-queues/image18.png)  
+![The producer captures the order and measures its urgency — nothing more](05a-work-queues/image18.png)  
 Figure: The producer captures the order and measures its urgency — nothing more.
 
 The producer's only job is to capture work. It does not approve, invoice, or decide anything about the order beyond how urgent it is — it turns an order into a queue item and stops. That separation is the whole point: intake stays fast and cheap no matter how slow processing becomes. You build it on the same trigger Module 1 used, so an order entered in the Northwind Orders app flows into the queue exactly as it previously flowed into the approval.
 
 1. Navigate to the Northwind Solutions Select **+ New** > **Automation** > **Cloud Flow** > **Automated cloud flow**.  
-   ![Navigate to the Northwind Solutions Select + New > Automation > Cloud Flow > Automated cloud](images/05a-work-queues/image19.png)  
+   ![Navigate to the Northwind Solutions Select + New > Automation > Cloud Flow > Automated cloud](05a-work-queues/image19.png)  
 2. In **Flow name**, enter `Queue Orders`.  
 3. In the trigger search box, enter `When a row is added, modified or deleted`, select the **Microsoft Dataverse** trigger with that name, and select **Create**.  
-   ![In the trigger search box, enter , select the Microsoft Dataverse trigger with that name](images/05a-work-queues/image20.png)  
+   ![In the trigger search box, enter , select the Microsoft Dataverse trigger with that name](05a-work-queues/image20.png)  
 4. Configure the trigger parameters:  
    - **Change type**: **Modified**  
    - **Table name**: **Orders**  
@@ -314,57 +314,57 @@ The producer's only job is to capture work. It does not approve, invoice, or dec
    nwind_orderstatusid eq 0
    ```
    `0` is the numeric value of the **New** choice, so the producer captures an order the moment it is submitted — the same event Module 1's approval flow listened for.  
-   ![Is the numeric value of the New choice, so the producer captures an order the moment](images/05a-work-queues/image21.png)  
+   ![Is the numeric value of the New choice, so the producer captures an order the moment](05a-work-queues/image21.png)  
    ⚠️ **Important:** If your flow never triggers, check who owns the Order row. With **User** scope, orders created by anyone else are silently ignored — switch to **Organization** if other people will create orders.  
 6. Add a **List rows** action, rename (select the 3 dot context menu to find rename option) it to `List Order Details`, set **Table name** to **Order Details**, and in **Filter rows**, enter:  
    ```
    nwind_OrderID/nwind_ordersid eq @{triggerOutputs()?['body/nwind_ordersid']}
    ```
-   ![Add a List rows action, rename (select the 3 dot context menu to find rename option)](images/05a-work-queues/image22.png)  
+   ![Add a List rows action, rename (select the 3 dot context menu to find rename option)](05a-work-queues/image22.png)  
 7. Add an **Initialize variable** action, rename it to `Init Order Value`, and configure it:  
    - **Name**: `Order Value`  
    - **Type**: **Float**  
    - **Value**: `0`  
-   ![Screenshot for A2: Build the producer flow](images/05a-work-queues/image23.png)  
+   ![Screenshot for A2: Build the producer flow](05a-work-queues/image23.png)  
 8. Add an **Apply to each** loop, rename it to `Calculate Order Value`, and set its input to **List of items** from **List Order Details**.  
-   ![Add an Apply to each loop, rename it to , and set its input to List](images/05a-work-queues/image24.png)  
+   ![Add an Apply to each loop, rename it to , and set its input to List](05a-work-queues/image24.png)  
 9. Inside the loop, add an **Increment variable** action, rename it to `Increment Order Value`, set **Name** to **Order Value**, and in **Value** enter the expression:
 
 ```
 mul(item()?['nwind_quantity'], item()?['nwind_unitprice'])
 ```
 
-![Inside the loop, add an Increment variable action, rename it to , set Name to Order](images/05a-work-queues/image25.png)  
+![Inside the loop, add an Increment variable action, rename it to , set Name to Order](05a-work-queues/image25.png)  
 
 10. Click on Save to save the progress
 
 ✅ **Checkpoint:** The producer reads the triggering order's line items and tallies the order's total value into **Order Value** — the same calculation as Module 1, now used to decide *urgency* rather than to decide an approval.
 
-![The producer reads the triggering order's line items and tallies the order's total value into Order](images/05a-work-queues/image26.png)  
+![The producer reads the triggering order's line items and tallies the order's total value into Order](05a-work-queues/image26.png)  
 
 ## A3: Enqueue the order as a work queue item
 
-![An item carries what the work is, how urgent it is, when it is due](images/05a-work-queues/image27.png)  
+![An item carries what the work is, how urgent it is, when it is due](05a-work-queues/image27.png)  
 Figure: An item carries what the work is, how urgent it is, when it is due, and whether it is ready.
 
 A work queue item carries four things that matter: **what** the work is (its input), **how urgent** it is (its priority), **when it must be done by** (its expiry), and **whether it is ready** (its status). This module sets all four from the order that triggered the flow.
 
 1. Below the **Calculate Order Value** loop, add a **Microsoft Dataverse Add a new row** action and rename it to `Enqueue Order Item`.  
 2. In **Table name**, select **Work Queue Items**.  
-   ![In Table name, select Work Queue Items](images/05a-work-queues/image28.png)  
+   ![In Table name, select Work Queue Items](05a-work-queues/image28.png)  
 3. Open **Advanced parameters** and select these fields: **Work Queue**, **Input**, **Priority**, **Unique Id or reference**, **Expiry Date**, **Processing Notes**, **Status**, **Status Reason**.  
-   ![Open Advanced parameters and select these fields: Work Queue, Input, Priority, Unique Id or reference, Expiry](images/05a-work-queues/image29.png)  
+   ![Open Advanced parameters and select these fields: Work Queue, Input, Priority, Unique Id or reference, Expiry](05a-work-queues/image29.png)  
 4. In **Name**, enter:  
    ```
    NW-@{triggerOutputs()?['body/nwind_ordernumber']}
    ```
    Naming the item after the order number is what makes the work queue page readable — without a name, the item list shows the internal work queue item ID instead.  
-   ![Naming the item after the order number is what makes the work queue page readable —](images/05a-work-queues/image30.png)  
+   ![Naming the item after the order number is what makes the work queue page readable —](05a-work-queues/image30.png)  
 5. In **Work Queue Id**, enter the lookup in `/SetNameOfTheTable(identifier)` format — the same syntax Module 1 used to link an invoice to its order:  
    ```
    /workqueues(<WORK-QUEUE-ID>)
    ```
-   ![In Work Queue Id, enter the lookup in format — the same syntax Module 1 used](images/05a-work-queues/image31.png)  
+   ![In Work Queue Id, enter the lookup in format — the same syntax Module 1 used](05a-work-queues/image31.png)  
    📝 **Note:** when referencing other tables, that we need to use the "set name" of that table, and not the logical name. The set name of the orders table for example is "nwind_orderses".  
 6. In **Input**, build the item's payload:  
    ```
@@ -378,66 +378,66 @@ A work queue item carries four things that matter: **what** the work is (its inp
      "Source": "Northwind Orders app"
    }
    ```
-   ![In Input, build the item's payload](images/05a-work-queues/image32.png)  
+   ![In Input, build the item's payload](05a-work-queues/image32.png)  
    ⚠️ **Important:** `OrderValue` is deliberately **not** wrapped in quotation marks — the schema you added in A1 declares it as a number, and a quoted value is a string. Quote it by accident and the enqueue fails schema validation. That is the contract doing its job.  
 7. In **Priority**, open the expression editor (**fx**) and enter:  
    ```
    if(greater(variables('Order Value'), 10000), 1, if(greater(variables('Order Value'), 1000), 2, 3))
    ```
-   ![In Priority, open the expression editor (fx) and enter](images/05a-work-queues/image33.png)  
+   ![In Priority, open the expression editor (fx) and enter](05a-work-queues/image33.png)  
    Priority determines the pick order: **a lower value is a higher priority, with 1 being the highest**. The expression maps Module 1's approval thresholds onto three tiers — orders above 10,000 USD are picked first, orders above 1,000 USD next, everything else last. At month end, that single expression is the difference between invoicing the 40,000 USD order first and invoicing it four hundred orders later.  
 8. In **Unique Id or reference**, enter:  
    ```
    @{triggerOutputs()?['body/nwind_ordernumber']}
    ```
    This value must be unique within the queue, which turns it into an idempotency key. Module 1's trigger fires again every time you save an order that is still **New** — with a unique reference, the second save's enqueue is rejected by the platform instead of quietly creating a duplicate order item that would be approved and invoiced twice.  
-   ![This value must be unique within the queue, which turns it into an idempotency key](images/05a-work-queues/image34.png)  
+   ![This value must be unique within the queue, which turns it into an idempotency key](05a-work-queues/image34.png)  
    💡 **Tip:** Leave **Unique Id or reference** empty and the system generates a value in the format `system-<GUID>`. Unique, but meaningless — and no protection against duplicates.  
 9. In **Expiry Date**, open the expression editor and enter:  
    ```
    addHours(utcNow(), 4)
    ```
-   ![In Expiry Date, open the expression editor and enter](images/05a-work-queues/image35.png)  
+   ![In Expiry Date, open the expression editor and enter](05a-work-queues/image35.png)  
    This sets the deadline explicitly on the item. Leave it empty and the item inherits the queue's **SLA violated after** value from A1 — four hours, the same answer. Setting it here shows the override, and Track B modules **B2** and **B6** rely on it.  
 10. Set **Status** to **Queued** and **Status Reason** to **Queued**.  
    **Queued** is the only state from which an item can be dequeued. The alternative at creation time is **On hold** — used when an item needs review or preprocessing before it is allowed to be picked up. Track B module **B5** puts items into that state deliberately and brings them back.  
-   ![Queued is the only state from which an item can be dequeued](images/05a-work-queues/image36.png)  
+   ![Queued is the only state from which an item can be dequeued](05a-work-queues/image36.png)  
 11. Select **Save**, then **Publish**.
 
 ✅ **Checkpoint: Queue Orders** ends with **Enqueue Order Item**, which writes a work queue item carrying the order's payload, a value-derived priority, an order-number unique reference, a four-hour expiry, and the **Queued** status.
 
-![Queue Orders ends with Enqueue Order Item, which writes a work queue item carrying the order's](images/05a-work-queues/image37.png)  
+![Queue Orders ends with Enqueue Order Item, which writes a work queue item carrying the order's](05a-work-queues/image37.png)  
 
-![Queue Orders ends with Enqueue Order Item, which writes a work queue item carrying the order's](images/05a-work-queues/image38.png)  
+![Queue Orders ends with Enqueue Order Item, which writes a work queue item carrying the order's](05a-work-queues/image38.png)  
 
 ## A4: Test the producer
 
-![Three orders become three queued items, ordered by priority](images/05a-work-queues/image39.png)  
+![Three orders become three queued items, ordered by priority](05a-work-queues/image39.png)  
 Figure: Three orders become three queued items, ordered by priority.
 
 Before building anything that consumes the queue, prove that the queue fills correctly and that priorities come out right.
 
 1. Go to <https://make.powerapps.com>, select **Apps**, and play **Northwind Orders (Model-driven)**.  
 2. Select **Orders** > **New**, and select **Save** immediately to assign the order number and enable the **Order Details** subgrid.  
-   ![Select Orders > New, and select Save immediately to assign the order number and enable](images/05a-work-queues/image40.png)  
+   ![Select Orders > New, and select Save immediately to assign the order number and enable](05a-work-queues/image40.png)  
 3. Add at least two line items totaling **more than 10,000 USD**.  
    📝 **Note:** A single order contains multiple order items, so you add the items after you create the order.  
 4. Fill in **Order Date**, **Payment Type**, **Ship City**, **Ship Country/Region**, and **Notes**, set **Order Status** to **New**, and select **Save**.  
    If these values are not shown by default:  
    4.1. Publish the app and check whether the fields are visible.  
    4.2. To show them, modify the model-driven app in the solution. Select the app, then select **Edit in new tab**.  
-   ![To show them, modify the model-driven app in the solution](images/05a-work-queues/image41.png)  
+   ![To show them, modify the model-driven app in the solution](05a-work-queues/image41.png)  
    Select the form, then select the pencil (edit) icon.  
-   ![Select the form, then select the pencil (edit) icon](images/05a-work-queues/image42.png)  
+   ![Select the form, then select the pencil (edit) icon](05a-work-queues/image42.png)  
    When the form opens, select the necessary fields, then select **Save and publish**.  
-   ![When the form opens, select the necessary fields, then select Save and publish](images/05a-work-queues/image43.png)  
+   ![When the form opens, select the necessary fields, then select Save and publish](05a-work-queues/image43.png)  
 5. Repeat for two more orders: one totaling **between 1,000 and 10,000 USD**, and one totaling **less than 1,000 USD**.  
-   ![Repeat for two more orders: one totaling between 1,000 and 10,000 USD, and one totaling less](images/05a-work-queues/image44.png)  
-   ![This custom view shows all the fields](images/05a-work-queues/image45.png)  
+   ![Repeat for two more orders: one totaling between 1,000 and 10,000 USD, and one totaling less](05a-work-queues/image44.png)  
+   ![This custom view shows all the fields](05a-work-queues/image45.png)  
    This custom view shows all the fields. Three orders now exist, each in a different value range. If you navigate to the cloud flow, the producer flow runs and enqueues all three items.
 6. Go to <https://make.powerautomate.com> > **Monitor** > **Work queues**, open **Northwind Order Processing**, and select **See all** in the work queue items section.
 
-![Go to https://make.powerautomate.com > Monitor > Work queues, open Northwind Order Processing, and select See all](images/05a-work-queues/image46.png)  
+![Go to https://make.powerautomate.com > Monitor > Work queues, open Northwind Order Processing, and select See all](05a-work-queues/image46.png)  
 
 ✅ **Checkpoint:** Three items are listed, each named `NW-` followed by its order number, each with status **Queued**, and with priorities **1**, **2**, and **3** matching the three order values. Open one and confirm its **Input** holds the JSON payload and its **Expiry Date** is four hours ahead.
 
@@ -456,7 +456,7 @@ Keep the work-queue items page open in a browser tab as you continue. An item ad
 
 ## A5: Build the processor flow and dequeue an item
 
-![Each run pulls one item — the most urgent — and its status flips to Processing](images/05a-work-queues/image47.png)  
+![Each run pulls one item — the most urgent — and its status flips to Processing](05a-work-queues/image47.png)  
 Figure: Each run pulls one item — the most urgent — and its status flips to Processing.
 
 The processor is the consumer side of the queue. It runs on its own schedule, at its own rate, and knows nothing about how the work arrived — only that there is work. That is what lets you throttle, prioritize, retry, and monitor processing without touching intake at all.
@@ -464,7 +464,7 @@ The processor is the consumer side of the queue. It runs on its own schedule, at
 1. Navigate to the Northwind Solutions Select **+ New** > **Automation** > **Cloud Flow** > **Scheduled cloud flow**.  
 2. In **Flow name**, enter `Process Order Queue`, set it to repeat every **5 Minute**, and select **Create**.  
    A schedule is only one option. Work queue processing can be started by any Power Automate trigger — **manual** for on-demand runs, **automated** for an event such as an item being created, **scheduled** for a fixed cadence, or **instant** from an app or a button. This lab schedules it because a cadence is what decouples processing rate from arrival rate.  
-   ![A schedule is only one option](images/05a-work-queues/image48.png)  
+   ![A schedule is only one option](05a-work-queues/image48.png)  
 3. Add a **Microsoft Dataverse Perform a bound action** action and rename it to `Dequeue Order Item`.  
 4. Configure the action:  
 
@@ -490,7 +490,7 @@ The processor is the consumer side of the queue. It runs on its own schedule, at
    </fetch>"}
    ```
    Read the query as a sentence: *from this queue, take one item that is still* **Queued** *, choosing the highest priority first and, among equal priorities, the one expiring soonest.* The `count="1"` attribute is what makes each run take exactly one item; `priority` ascending honours the tiers you set in A3, because a lower priority value is a higher priority; and `expirydate` ascending breaks ties in favour of whatever is closest to its deadline — a first-expiry-first-out order.  
-   ![Read the query as a sentence: from this queue, take one item that is still Queued](images/05a-work-queues/image49.png)  
+   ![Read the query as a sentence: from this queue, take one item that is still Queued](05a-work-queues/image49.png)  
    ⚠️ **Important:** Supplying a FetchXML expression **bypasses the orchestrator's default FIFO logic**. That is what you want here — but it also means the orchestrator no longer applies item expiration and other queue settings automatically for you. Because you took control of the dequeue order, **you** become responsible for honouring the deadline — which is exactly what Track B module **B2** adds. See Appendix G to acquire or generate this query.  
    🔧 **Setup check:** The `workqueueid` condition is **mandatory** in the query. Without it the request is rejected.  
    A dequeued item's status changes to **Processing** automatically. **Queued** is the only state an item can be dequeued from, so an item that is already processing, on hold, processed, or in exception is never handed out twice.  
@@ -499,10 +499,10 @@ The processor is the consumer side of the queue. It runs on its own schedule, at
    empty(outputs('Dequeue_Order_Item')?['body/workqueueitemid'])
    ```
 7. Set the operator to **is equal to** and the right value to `true`.  
-   ![Set the operator to is equal to and the right value](images/05a-work-queues/image50.png)  
+   ![Set the operator to is equal to and the right value](05a-work-queues/image50.png)  
 8. In the **True** container, add a **Terminate** action, rename it to `End Flow - Queue Empty`, and set **Status** to **Succeeded**. Everything you build from here goes in the **False** container.  
    An empty queue is not a failure — it is the normal state of a healthy queue most of the time. Terminating with **Succeeded** keeps the run history meaningful: red runs then mean something genuinely went wrong.  
-   ![An empty queue is not a failure — it is the normal state of a healthy](images/05a-work-queues/image51.png)  
+   ![An empty queue is not a failure — it is the normal state of a healthy](05a-work-queues/image51.png)  
 9. Select **Save**, then **Test** > **Manually** > **Test**, and let one run complete.  
 10. Copy the entire JSON content of the **body** output from **Dequeue Order Item** — you need it as a sample in the next module.
 
@@ -510,7 +510,7 @@ The processor is the consumer side of the queue. It runs on its own schedule, at
 
 ## A6: Read the item
 
-![The payload becomes named, typed values the rest of the flow can use](images/05a-work-queues/image52.png)  
+![The payload becomes named, typed values the rest of the flow can use](05a-work-queues/image52.png)  
 Figure: The payload becomes named, typed values the rest of the flow can use.
 
 The item's **Input** is the payload the producer wrote. Parsing it gives the rest of the flow named, typed values instead of raw text — and gives the designer a dynamic content group to pick from.
@@ -536,17 +536,17 @@ The item's **Input** is the payload the producer wrote. Parsing it gives the res
 
 💡 **Tip:** You can also generate the schema from the real payload you copied at the end of A5 — using an actual dequeued item as the sample guarantees the schema matches what your own producer writes.
 
-![You can also generate the schema from the real payload you copied at the end](images/05a-work-queues/image53.png)  
+![You can also generate the schema from the real payload you copied at the end](05a-work-queues/image53.png)  
 
 Everything the processor does next reads from these parsed values. Track B modules **B2** (deadline) and **B3** (validation) insert their checks between this parse and the approval you build in **A7**.
 
 ✅ **Checkpoint:** The processor parses the dequeued item's payload into named, typed values ready for the rest of the flow to use.
 
-![The processor parses the dequeued item's payload into named, typed values ready for the rest](images/05a-work-queues/image54.png)  
+![The processor parses the dequeued item's payload into named, typed values ready for the rest](05a-work-queues/image54.png)  
 
 ## A7: Approve, invoice, and mark the item processed
 
-![The execution half — a queued order becomes an approved invoice, and the item closes as](images/05a-work-queues/image55.png)  
+![The execution half — a queued order becomes an approved invoice, and the item closes as](05a-work-queues/image55.png)  
 Figure: The execution half — a queued order becomes an approved invoice, and the item closes as Processed.
 
 This is Module 1's approval logic, moved behind the queue. The rules are identical — above 1,000 USD needs a manager, above 10,000 USD also needs an executive — but the values now come from the item's payload rather than from a trigger, and the outcome is written back onto the item.
@@ -557,13 +557,13 @@ This module is the **execution** half of the lab: it is where a queued order bec
 
 1. Below **Parse Order Item** (still in the **False** container of **Item Dequeued**), add a **Condition** and rename it to `Manager Approval Required`.  
 2. Configure it: **OrderValue** from **Parse Order Item is greater than** `1000`.  
-   ![Configure it: OrderValue from Parse Order Item is greater than](images/05a-work-queues/image56.png)  
+   ![Configure it: OrderValue from Parse Order Item is greater than](05a-work-queues/image56.png)  
 3. In its **True** container, add **Start and wait for an approval**, rename it to `Manager Approval`, and configure it:  
    - **Approval type**: **Approve/Reject - Everyone must approve**  
    - **Title**: `New Order above 1000 USD: Manager approval required`  
    - **Assigned to**: the email address of the account acting as Manager  
    False Container stays empty  
-   ![False Container stays empty](images/05a-work-queues/image57.png)  
+   ![False Container stays empty](05a-work-queues/image57.png)  
 4. In **Details**, build this template from the parsed item's values:  
    ```
    Order Number: @{body('Parse_Order_Item')?['OrderNumber']}
@@ -572,26 +572,26 @@ This module is the **execution** half of the lab: it is where a queued order bec
    Total value: @{body('Parse_Order_Item')?['OrderValue']} USD
    Queue item: @{outputs('Dequeue_Order_Item')?['body/name']}
    ```
-   ![In Details, build this template from the parsed item's values](images/05a-work-queues/image58.png)  
+   ![In Details, build this template from the parsed item's values](05a-work-queues/image58.png)  
 5. Below the approval, add a **Condition** named `Check Manager Outcome`: **Outcome** from **Manager Approval is equal to** `Approve`.  
-   ![Below the approval, add a Condition named : Outcome from Manager Approval is equal](images/05a-work-queues/image59.png)  
+   ![Below the approval, add a Condition named : Outcome from Manager Approval is equal](05a-work-queues/image59.png)  
 6. In its **False** container, add a **Terminate** action named `End Flow - Manager Rejected` with **Status** set to **Cancelled**. Leave the **True** container for the executive tier.  
    💡 **Tip:** For now a rejection simply stops the run. Track B module **B3** upgrades this to record a **Business Exception** on the item, so a rejected order is searchable and remediable rather than just a cancelled run.  
 7. Inside **Check Manager Outcome** > **True**, add a **Condition** named `Executive Approval Required` (**OrderValue is greater than** `10000`).  
-   ![Inside Check Manager Outcome > True, add a Condition named (OrderValue is greater than )](images/05a-work-queues/image60.png)  
+   ![Inside Check Manager Outcome > True, add a Condition named (OrderValue is greater than )](05a-work-queues/image60.png)  
 8. Inside its **True** container, add a second **Start and wait for an approval** named `Executive Approval`, configured like the manager approval but with the Executive's email and the title `New Order above 10000 USD: Executive approval required`  
-   ![Inside its True container, add a second Start and wait for an approval named , configured](images/05a-work-queues/image61.png)  
+   ![Inside its True container, add a second Start and wait for an approval named , configured](05a-work-queues/image61.png)  
 9. Then a `Check Executive Outcome` condition (**Outcome is equal to** `Approve`) whose **False** container holds a **Terminate** named `End Flow - Executive Rejected` with **Status Cancelled**.  
-   ![Then a condition (Outcome is equal to ) whose False container holds a Terminate named](images/05a-work-queues/image62.png)  
+   ![Then a condition (Outcome is equal to ) whose False container holds a Terminate named](05a-work-queues/image62.png)  
 10. Back at the top level of the **False** container of **Item Dequeued** — below **Manager Approval Required**, outside every approval condition  
-   ![Back at the top level of the False container of Item Dequeued — below Manager Approval](images/05a-work-queues/image63.png)  
+   ![Back at the top level of the False container of Item Dequeued — below Manager Approval](05a-work-queues/image63.png)  
 11. Add a **Microsoft Dataverse Add a new row** action and rename it to `Create Invoice`. Set **Table name** to **Invoices**, open **Advanced parameters**, and select **Amount Due**, **Due Date**, **Invoice Date**, and **Order**:  
    - **Amount Due**: `@{body('Parse_Order_Item')?['OrderValue']}`  
    - **Due Date**: `addDays(utcNow(), 10)`  
    - **Invoice Date**: `utcNow()`  
    - **Order**: `/nwind_orderses(@{body('Parse_Order_Item')?['OrderId']})`  
    The order's identifier travelled inside the item's payload, which is why the invoice can be linked without re-reading the order. Orders of 1,000 USD or less skip both approval branches and arrive here directly — small orders are invoiced without approval, by design.  
-   ![The order's identifier travelled inside the item's payload, which is why the invoice can be linked](images/05a-work-queues/image64.png)  
+   ![The order's identifier travelled inside the item's payload, which is why the invoice can be linked](05a-work-queues/image64.png)  
 12. Below **Create Invoice**, add a **Microsoft Dataverse Update a row** action and rename it to `Mark Item Processed`. Configure it:  
    - **Table name**: **Work Queue Items**  
    - **Row ID**: `@{outputs('Dequeue_Order_Item')?['body/workqueueitemid']}`  
@@ -599,7 +599,7 @@ This module is the **execution** half of the lab: it is where a queued order bec
    - **Status Reason**: **Processed**  
    - **Completed On**: `utcNow()`  
    - **Processing Result**: `Approved and invoiced. Invoice created for @{body('Parse_Order_Item')?['OrderValue']} USD.`  
-   ![Screenshot for A7: Approve, invoice, and mark the item processed](images/05a-work-queues/image65.png)  
+   ![Screenshot for A7: Approve, invoice, and mark the item processed](05a-work-queues/image65.png)  
 13. Select **Save**, then **Publish**.
 
 ⚠️ **Important:** Every path through the processor **must** end by writing a terminal status onto the item. An item left in **Processing** because a path forgot to update it is invisible to the queue — it is never dequeued again and never appears in an exception view.
@@ -608,14 +608,14 @@ This module is the **execution** half of the lab: it is where a queued order bec
 
 ## A8: Monitor the queue and wrap into a solution
 
-![One page shows the whole day's work; the flows are packaged for deployment](images/05a-work-queues/image66.png)  
+![One page shows the whole day's work; the flows are packaged for deployment](05a-work-queues/image66.png)  
 Figure: One page shows the whole day's work; the flows are packaged for deployment.
 
 Centralized monitoring is the reason a fusion team can run this process together, and a solution is what makes it deployable. This module closes the core loop: you confirm your items processed, then package the two flows for lifecycle management.
 
 1. Go to <https://make.powerautomate.com> > **Monitor** > **Work queues** and open **Northwind Order Processing**.  
 2. In the work queue items section, select **See all**, then filter the **Status** column to show **Processing** and **Processed** to confirm your dequeue and update actions worked as expected.  
-   ![In the work queue items section, select See all, then filter the Status column to show](images/05a-work-queues/image67.png)  
+   ![In the work queue items section, select See all, then filter the Status column to show](05a-work-queues/image67.png)  
 3. Open a **Processed** item and read the fields the processor wrote:  
 
 | **Field** | **What it tells you** |
@@ -637,7 +637,7 @@ Centralized monitoring is the reason a fusion team can run this process together
 
 You now have a complete, cloud-only work queue for Northwind orders. The diagram below shows how the pieces fit together: intake is captured once, prioritized, processed on a schedule, and closed as an invoice — all monitored from one page.
 
-![Track A end-to-end — the producer, the queue, the scheduled processor, and central monitoring](images/05a-work-queues/image68.png)  
+![Track A end-to-end — the producer, the queue, the scheduled processor, and central monitoring](05a-work-queues/image68.png)  
 Figure: Track A end-to-end — the producer, the queue, the scheduled processor, and central monitoring.
 
 | **Module** | **What it added** |
@@ -679,7 +679,7 @@ The platform enforces these paths, so a status that isn't a legal next step simp
 | Exception | An exception was raised — generic, IT, or business. | Queued, On hold |
 | On hold | A business or IT user has picked the item to review and potentially remediate. | Queued |
 
-![The work queue item lifecycle — states and the transitions the platform allows](images/05a-work-queues/image69.png)  
+![The work queue item lifecycle — states and the transitions the platform allows](05a-work-queues/image69.png)  
 Figure: The work queue item lifecycle — states and the transitions the platform allows.
 
 ### Appendix C: Key work queue and item columns
