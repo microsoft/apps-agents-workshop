@@ -116,6 +116,25 @@
       text-decoration: none;
     }
     nav a:hover { color: var(--ps-text); }
+    .menu-toggle { display: none; }
+    .menu-button {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 12px;
+      border: 1px solid var(--ps-border);
+      border-radius: 0.625rem;
+      background: var(--ps-surface);
+      color: var(--ps-text);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .menu-button:hover {
+      border-color: var(--ps-accent);
+      color: var(--ps-accent);
+    }
     .theme-switch {
       display: inline-flex;
       align-items: center;
@@ -126,18 +145,35 @@
       background: var(--ps-surface);
     }
     .theme-choice {
+      width: 32px;
       min-height: 28px;
-      padding: 0 10px;
+      padding: 0;
       border: 0;
       border-radius: 0.5rem;
       background: transparent;
       color: var(--ps-text-muted);
-      font-size: 12px;
-      font-weight: 650;
+      font-size: 0;
     }
     .theme-choice[aria-pressed="true"] {
       background: var(--ps-accent);
       color: var(--ps-accent-fg);
+    }
+    .theme-choice svg {
+      display: block;
+      width: 16px;
+      height: 16px;
+      margin: auto;
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
     .power-cat-lockup {
       justify-self: end;
@@ -416,6 +452,47 @@
       gap: 48px;
       margin-bottom: 24px;
     }
+    .catalog-tools {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .catalog-search {
+      width: min(280px, 100%);
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--ps-border);
+      border-radius: 0.625rem;
+      background: var(--ps-surface);
+      color: var(--ps-text);
+      box-shadow: 0 8px 24px rgba(42, 68, 111, 0.05);
+    }
+    .catalog-search::placeholder { color: var(--ps-text-soft); }
+    .catalog-search:focus {
+      outline: 2px solid var(--ps-accent);
+      outline-offset: 2px;
+    }
+    .mobile-catalog-controls {
+      display: none;
+    }
+    .catalog-filter {
+      width: 100%;
+      min-height: 44px;
+      padding: 0 14px;
+      border: 1px solid var(--ps-border);
+      border-left: 4px solid var(--ps-accent);
+      border-radius: 0.625rem;
+      background: var(--ps-surface);
+      color: var(--ps-text);
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(42, 68, 111, 0.05);
+    }
+    .catalog-filter:focus {
+      outline: 2px solid var(--ps-accent);
+      outline-offset: 2px;
+    }
     .catalog-browser {
       display: grid;
       grid-template-columns: minmax(240px, 0.34fr) minmax(0, 1fr);
@@ -567,14 +644,59 @@
     .microsoft-mark i:nth-child(2) { background: #7fba00; }
     .microsoft-mark i:nth-child(3) { background: #00a4ef; }
     .microsoft-mark i:nth-child(4) { background: #ffb900; }
+    @media (max-width: 900px) {
+      .site-header {
+        grid-template-columns: auto 1fr auto;
+        gap: 12px 18px;
+        padding: 12px 5vw;
+      }
+      .brand { grid-column: 1; }
+      .brand-logo { width: min(150px, 42vw); }
+      .menu-button {
+        grid-column: 3;
+        display: inline-flex;
+      }
+      nav {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 14px;
+        padding: 14px;
+        background: var(--ps-surface);
+        border: 1px solid var(--ps-border);
+        border-radius: 0.625rem;
+        box-shadow: 0 8px 24px rgba(42, 68, 111, 0.08);
+      }
+      .menu-toggle:checked ~ nav { display: flex; }
+      nav a { font-size: 15px; }
+      .theme-switch { align-self: flex-start; }
+      .power-cat-lockup {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        width: 76px;
+        height: 30px;
+      }
+    }
     @media (max-width: 760px) {
-      .site-header,
       .section-heading,
       .catalog-heading {
         display: block;
       }
-      nav { justify-content: start; margin-top: 12px; flex-wrap: wrap; }
-      .power-cat-lockup { margin-top: 12px; }
+      .catalog-tools {
+        justify-content: flex-start;
+        margin-top: 16px;
+      }
+      .catalog-tools .catalog-search { display: none; }
+      .mobile-catalog-controls {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .mobile-catalog-controls .catalog-search { width: 100%; }
       .hero h1 { align-items: flex-start; font-size: 42px; }
       .catalog-browser { grid-template-columns: 1fr; }
       .toolbox-panel { min-height: 760px; }
@@ -596,12 +718,8 @@
         padding: 0;
       }
       .market-tabs {
-        position: static;
-        display: flex;
-        overflow-x: auto;
-        padding-bottom: 4px;
+        display: none;
       }
-      .market-tab { flex: 0 0 min(280px, 78vw); }
       .site-footer { align-items: flex-start; flex-direction: column; }
     }
   </style>
@@ -611,14 +729,27 @@
     <a class="brand" href="./index.html" aria-label="Power Series Labs home">
       <img class="brand-logo" src="assets/ms-power-platform-logo-stacked-gray-rgb.png" alt="Microsoft Power Platform">
     </a>
-    <nav aria-label="Primary navigation">
+    <input class="menu-toggle" type="checkbox" id="site-menu-toggle" aria-hidden="true">
+    <label class="menu-button" for="site-menu-toggle" role="button" tabindex="0" aria-controls="primary-navigation" aria-expanded="false">Menu</label>
+    <nav id="primary-navigation" aria-label="Primary navigation">
       <a href="./index.html">Home</a>
       <a href="#needs">Business needs</a>
       <a href="#labs">Labs</a>
       <a href="../README.md">Repository</a>
       <div class="theme-switch" role="group" aria-label="Theme">
-        <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
-        <button class="theme-choice" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+        <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false" aria-label="Use light theme" title="Light theme">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M4.93 4.93 6.34 6.34M17.66 17.66l1.41 1.41M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41"></path>
+          </svg>
+          <span class="visually-hidden">Light</span>
+        </button>
+        <button class="theme-choice" type="button" data-theme-choice="dark" aria-pressed="false" aria-label="Use dark theme" title="Dark theme">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 14.6A8.5 8.5 0 0 1 9.4 3 8.5 8.5 0 1 0 21 14.6Z"></path>
+          </svg>
+          <span class="visually-hidden">Dark</span>
+        </button>
       </div>
     </nav>
     <div class="power-cat-lockup">
@@ -666,9 +797,19 @@
           <p class="eyebrow">Power Series catalog</p>
           <h1 id="labs-title">Available labs</h1>
         </div>
-        <p class="result-count" id="result-count"></p>
+        <div class="catalog-tools">
+          <label class="visually-hidden" for="catalog-search">Search labs</label>
+          <input class="catalog-search" id="catalog-search" data-catalog-search type="search" placeholder="Search labs" autocomplete="off">
+          <p class="result-count" id="result-count"></p>
+        </div>
       </div>
       <div class="catalog-browser">
+        <div class="mobile-catalog-controls">
+          <label class="visually-hidden" for="catalog-filter-select">Filter labs by business need</label>
+          <select class="catalog-filter" id="catalog-filter-select" aria-label="Filter labs by business need"></select>
+          <label class="visually-hidden" for="mobile-catalog-search">Search labs</label>
+          <input class="catalog-search" id="mobile-catalog-search" data-catalog-search type="search" placeholder="Search labs" autocomplete="off">
+        </div>
         <div class="market-tabs" id="market-tabs" aria-label="Filter labs by business need"></div>
         <div class="skill-results">
           <div class="skill-results-title">
@@ -698,26 +839,26 @@
     ];
 
     const fallbackLabSources = [
-      { path: "automation-01-cloud-flow/01-cloud-flow.md", deck: "automation-01-cloud-flow/01-Power Series - Automation Foundation_Cloud Flows.pptx" },
-      { path: "automation-02-rpa-foundations/02-rpa.md", deck: "automation-02-rpa-foundations/02-Power Series - Automation Foundation_RPA.pptx" },
-      { path: "automation-03-workflow-foundations/03-workflow.md", deck: "automation-03-workflow-foundations/03-Power Series - Automation Foundation_Workflows.pptx" },
-      { path: "automation-04-cua-foundations/04-cua.md", deck: "automation-04-cua-foundations/04-Power Series - Automation Foundation_CUA.pptx" },
-      { path: "automation-05a-work-queues-foundation/05-a-work-queues.md" },
-      { path: "automation-05b-work-queues-advanced/05-b-work-queues.md" },
-      { path: "automation-06-rpa-advanced/06-rpa.md" },
-      { path: "automation-07-workflow-advanced/07-workflow.md" },
-      { path: "automation-08-cua-advanced/08-cua.md" },
-      { path: "byoc-powerapps/byoc-powerapps.md", deck: "byoc-powerapps/Power Series - Code apps.pptx" },
-      { path: "byoc-powerpages/byoc-powerpages.md", deck: "byoc-powerpages/Power Series - BYOC Power Pages.pptx" },
-      { path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md", deck: "canvas-apps-dataverse-mcp/Power Series - Canvas Apps & Dataverse MCP.pptx" },
-      { path: "dataverse-business-skills/dataverse-business-skills.md" },
-      { path: "generative-pages/generative-pages-github-copilot.md", deck: "generative-pages/Power Series - Generative Pages.pptx" },
-      { path: "in-app-agents/in-app-agents.md", deck: "in-app-agents/Power Series - In-app agents.pptx" },
-      { path: "managed-platform-governance/README.md" },
-      { path: "managed-platform-operations/README.md" },
-      { path: "managed-platform-security/README.md" },
-      { path: "mcp-apps/mcp-apps.md", deck: "mcp-apps/Power Series - MCP Apps in Power Apps.pptx" },
-      { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", deck: "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx" }
+      { path: "automation-01-cloud-flow/01-cloud-flow.md", title: "Automation: Cloud Flow (Foundation)", level: 200, duration: "45 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Build an automated approval process using a Power Automate cloud flow.", deck: "automation-01-cloud-flow/01-Power Series - Automation Foundation_Cloud Flows.pptx" },
+      { path: "automation-02-rpa-foundations/02-rpa.md", title: "Automation: Desktop Flow (Foundation)", level: 200, duration: "60 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Build a desktop flow with Power Automate for desktop that reads local order files and creates Dataverse records.", deck: "automation-02-rpa-foundations/02-Power Series - Automation Foundation_RPA.pptx" },
+      { path: "automation-03-workflow-foundations/03-workflow.md", title: "Automation: Workflows (Foundation)", level: 200, duration: "45 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Build a workflow that runs from a trigger through completion using Power Automate.", deck: "automation-03-workflow-foundations/03-Power Series - Automation Foundation_Workflows.pptx" },
+      { path: "automation-04-cua-foundations/04-cua.md", title: "Automation: Computer Use Agent (Foundations)", level: 200, duration: "60 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Build an agent in Microsoft Copilot Studio with a computer use tool that operates a portal the way a person would.", deck: "automation-04-cua-foundations/04-Power Series - Automation Foundation_CUA.pptx" },
+      { path: "automation-05a-work-queues-foundation/05-a-work-queues.md", title: "Automation: Work Queues (Foundations)", level: 300, duration: "150 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Build a complete, runnable cloud work queue: create, enqueue in priority order, dequeue, approve, invoice, and mark it processed." },
+      { path: "automation-05b-work-queues-advanced/05-b-work-queues.md", title: "Automation: Work Queues (Advanced)", level: 300, duration: "150 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Explore additional work queue capabilities: schema validation, timeouts, exception handling, retries, human remediation, SLA, concurrency, and ALM depth." },
+      { path: "automation-06-rpa-advanced/06-rpa.md", title: "Automation: Desktop Flow (Advanced)", level: 300, duration: "60 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Build a desktop flow with Power Automate for desktop that operates the portal the way a person would." },
+      { path: "automation-07-workflow-advanced/07-workflow.md", title: "Automation: Workflows (Advanced)", level: 300, duration: "60 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Build a workflow that starts on its own from a trigger and hands judgment work to an agent instead of a fixed action." },
+      { path: "automation-08-cua-advanced/08-cua.md", title: "Automation: Computer Use Agent (Advanced)", level: 300, duration: "90 minutes", persona: "Maker", tags: ["automate-workflows-and-processes"], description: "Build an AI agent in Microsoft Copilot Studio that uses Computer Use to operate a desktop application as a person would." },
+      { path: "byoc-powerapps/byoc-powerapps.md", title: "Building code first apps (code apps) in Power Platform", level: 200, duration: "40 minutes (115 minutes with all optional extensions)", persona: "pro code developers, Power Apps makers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Build a code-first Power Platform app with GitHub Copilot and Dataverse.", deck: "byoc-powerapps/Power Series - Code apps.pptx" },
+      { path: "byoc-powerpages/byoc-powerpages.md", title: "Building code first website with Power Pages", level: 200, duration: "40 minutes", persona: "pro code developers, Power Apps makers", tags: ["improve-customer-interactions"], description: "Generate a custom website with GitHub Copilot and connect it to Dataverse.", deck: "byoc-powerpages/Power Series - BYOC Power Pages.pptx" },
+      { path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md", title: "Authoring Canvas Apps and Dataverse Tables with MCP", level: 200, duration: "40 minutes", persona: "pro code developers, Power Apps makers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Use GitHub Copilot and MCP to create a Dataverse data model and polished canvas app from natural-language prompts.", deck: "canvas-apps-dataverse-mcp/Power Series - Canvas Apps & Dataverse MCP.pptx" },
+      { path: "dataverse-business-skills/dataverse-business-skills.md", title: "Centralize Business Rules & Policies in Dataverse Skills", level: 300, duration: "75 minutes", persona: "pro code developers, Power Apps makers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Turn business rules and policies into reusable Dataverse skills that agents and makers can use." },
+      { path: "generative-pages/generative-pages-github-copilot.md", title: "AI-Powered Modern UX for Model-Driven Apps", level: 200, duration: "75 minutes", persona: "pro code developers, Power Apps makers", tags: ["modernize-existing-applications"], description: "Use GitHub Copilot to generate modern, AI-powered pages for model-driven apps.", deck: "generative-pages/Power Series - Generative Pages.pptx" },
+      { path: "in-app-agents/in-app-agents.md", title: "Bring AI Inside Your App: Natural Language Queries, Auto Charts & Smart Form Fill", level: 100, duration: "30 mins", persona: "information workers, Power Apps makers", tags: ["modernize-existing-applications"], description: "Add AI-powered natural language queries, charting, and smart form fill inside an app.", deck: "in-app-agents/Power Series - In-app agents.pptx" },
+      { path: "managed-platform-governance/README.md", title: "Managed Governance: Environment Strategy & Governance", level: 200, duration: "120 minutes", persona: "Power Apps makers, admins", tags: ["strengthen-governance-and-security"], description: "Design an environment strategy and governance model for managed Power Platform adoption." },
+      { path: "managed-platform-operations/README.md", title: "Managed Operations: Inventory & Monitoring", level: 200, duration: "120 minutes", persona: "Power Apps makers, admins", tags: ["strengthen-governance-and-security"], description: "Build inventory and monitoring practices for a managed Power Platform environment." },
+      { path: "managed-platform-security/README.md", title: "Managed Security", level: 300, duration: "120 minutes", persona: "Power Apps makers, admins", tags: ["strengthen-governance-and-security"], description: "Apply security controls and patterns for a managed Power Platform environment." },
+      { path: "mcp-apps/mcp-apps.md", title: "Enable Power Apps (MDA) and custom tools in Microsoft 365 Copilot", level: 200, duration: "40 mins", persona: "information workers, Power Apps makers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Build an interactive MCP app that lets users browse, update, and visualize Dataverse records in conversation.", deck: "mcp-apps/Power Series - MCP Apps in Power Apps.pptx" },
+      { path: "powerapps-mcp/power-apps-mcp-server-agents-and-agent-feed.md", title: "Automate Work in Power Apps with Supervised Agents", level: 100, duration: "1 hour", persona: "Information Workers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Use supervised agents and the Power Apps MCP server to automate work in Power Apps.", deck: "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx" }
     ];
     const repo = "microsoft/apps-agents-workshop";
     const branch = new URLSearchParams(window.location.search).get("branch") || "main";
@@ -731,8 +872,13 @@
     const marketTabs = document.querySelector("#market-tabs");
     const skillResultsLabel = document.querySelector("#skill-results-label");
     const skillResultsCount = document.querySelector("#skill-results-count");
+    const catalogFilterSelect = document.querySelector("#catalog-filter-select");
+    const catalogSearchInputs = document.querySelectorAll("[data-catalog-search]");
+    const menuToggle = document.querySelector("#site-menu-toggle");
+    const menuButton = document.querySelector(".menu-button");
     const themeChoices = document.querySelectorAll("[data-theme-choice]");
     let activeNeed = "all";
+    let searchQuery = "";
 
     function labelFromTag(tag) {
       return tag.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
@@ -772,6 +918,20 @@
 
     function isPublishedLab(metadata) {
       return String(metadata?.lab).toLowerCase() === "true";
+    }
+
+    function sourceToLab(source) {
+      if (!source.title) return null;
+      return {
+        title: source.title,
+        path: source.path,
+        level: String(source.level),
+        duration: source.estimated_duration || source.duration,
+        persona: source.persona,
+        tags: Array.isArray(source.tags) ? source.tags : [],
+        description: source.description,
+        deck: source.deck
+      };
     }
 
     function deriveFallbackDescription(content) {
@@ -860,6 +1020,14 @@
       needs.push(...knownNeeds.filter(need => need.url));
     }
 
+    function updateCatalog(entries) {
+      labs = entries.filter(Boolean);
+      buildNeedsFromLabs();
+      renderCatalogTabs();
+      renderNeeds();
+      renderLabs();
+    }
+
     async function loadCatalogMetadata() {
       const sources = await discoverLabSources();
       const entries = await Promise.all(sources.map(async source => {
@@ -894,8 +1062,7 @@
           return null;
         }
       }));
-      labs = entries.filter(Boolean);
-      buildNeedsFromLabs();
+      return entries.filter(Boolean);
     }
 
     function catalogFilters() {
@@ -906,14 +1073,19 @@
     }
 
     function renderCatalogTabs() {
+      const filters = catalogFilters();
       const previousFocus = document.activeElement instanceof HTMLElement && document.activeElement.matches("[data-need]")
         ? document.activeElement.dataset.need
         : null;
-      marketTabs.innerHTML = catalogFilters().map(filter => `
+      marketTabs.innerHTML = filters.map(filter => `
         <button class="market-tab" type="button" data-need="${escapeHtml(String(filter.id))}" aria-pressed="${activeNeed === filter.id}">
           ${escapeHtml(String(filter.title))}
         </button>
       `).join("");
+      catalogFilterSelect.innerHTML = filters.map(filter => `
+        <option value="${escapeHtml(String(filter.id))}">${escapeHtml(String(filter.title))}</option>
+      `).join("");
+      catalogFilterSelect.value = activeNeed;
       const activeButton = [...marketTabs.querySelectorAll("[data-need]")].find(button => button.dataset.need === activeNeed);
       if (activeButton && previousFocus === activeNeed) {
         activeButton.focus();
@@ -928,6 +1100,13 @@
             .find(tab => tab.dataset.need === activeNeed)?.focus();
         });
       });
+    }
+
+    function setActiveNeed(need) {
+      activeNeed = need;
+      renderNeeds();
+      renderCatalogTabs();
+      renderLabs();
     }
 
     function renderNeeds() {
@@ -947,22 +1126,37 @@
       needGrid.querySelectorAll("[data-need]").forEach(button => {
         button.addEventListener("click", () => {
           const selected = button.dataset.need;
-          activeNeed = activeNeed === selected ? "all" : selected;
-          renderNeeds();
-          renderCatalogTabs();
-          renderLabs();
+          setActiveNeed(activeNeed === selected ? "all" : selected);
           document.querySelector("#labs").scrollIntoView({ behavior: "smooth", block: "start" });
         });
       });
     }
 
-    function labMatches(lab) {
+    function labMatchesNeed(lab) {
       return activeNeed === "all" || lab.tags.includes(activeNeed);
     }
 
+    function labMatchesSearch(lab) {
+      if (!searchQuery) return true;
+      const haystack = [
+        lab.title,
+        lab.description,
+        lab.persona,
+        lab.level,
+        lab.duration,
+        ...(lab.tags || []).map(labelFromTag)
+      ].join(" ").toLowerCase();
+      return haystack.includes(searchQuery);
+    }
+
+    function labMatches(lab) {
+      return labMatchesNeed(lab) && labMatchesSearch(lab);
+    }
+
     function renderLabs() {
-      const visible = labs.filter(labMatches);
-      resultCount.textContent = `${visible.length} of ${labs.length} labs`;
+      const filteredByNeed = labs.filter(labMatchesNeed);
+      const visible = filteredByNeed.filter(labMatchesSearch);
+      resultCount.textContent = `${visible.length} of ${filteredByNeed.length} labs`;
       const selectedFilter = catalogFilters().find(filter => filter.id === activeNeed);
       skillResultsLabel.textContent = activeNeed === "all"
         ? "All Power Series labs"
@@ -979,7 +1173,7 @@
       if (visible.length === 0) {
         labGrid.innerHTML = `
           <div class="empty-catalog-message">
-            <p>No labs match the selected filter.</p>
+            <p>No labs match the selected filter or search.</p>
           </div>
         `;
         return;
@@ -1013,12 +1207,40 @@
 
     setTheme(document.documentElement.getAttribute("data-theme") || "light");
     themeChoices.forEach(button => button.addEventListener("click", () => setTheme(button.dataset.themeChoice)));
+    menuToggle.addEventListener("change", () => {
+      menuButton.setAttribute("aria-expanded", String(menuToggle.checked));
+    });
+    menuButton.addEventListener("keydown", event => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      menuToggle.checked = !menuToggle.checked;
+      menuToggle.dispatchEvent(new Event("change"));
+    });
+    document.querySelectorAll("#primary-navigation a").forEach(link => {
+      link.addEventListener("click", () => {
+        menuToggle.checked = false;
+        menuToggle.dispatchEvent(new Event("change"));
+      });
+    });
+    catalogFilterSelect.addEventListener("change", () => {
+      setActiveNeed(catalogFilterSelect.value);
+    });
+    catalogSearchInputs.forEach(input => {
+      input.addEventListener("input", () => {
+        searchQuery = input.value.trim().toLowerCase();
+        catalogSearchInputs.forEach(otherInput => {
+          if (otherInput !== input) otherInput.value = input.value;
+        });
+        renderLabs();
+      });
+    });
 
-    loadCatalogMetadata().then(() => {
-      renderCatalogTabs();
-      renderNeeds();
-      renderLabs();
-    }).catch(error => {
+    updateCatalog(fallbackLabSources.map(sourceToLab));
+    loadCatalogMetadata().then(updateCatalog).catch(error => {
+      if (labs.length) {
+        console.warn("Using embedded lab catalog because dynamic metadata refresh failed.", error);
+        return;
+      }
       resultCount.textContent = "0 labs";
       labGrid.innerHTML = `
         <div class="empty-catalog-message" role="alert">
