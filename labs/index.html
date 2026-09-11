@@ -1250,7 +1250,13 @@
     });
 
     updateCatalog(fallbackLabSources.map(sourceToLab));
-    loadCatalogMetadata().then(updateCatalog).catch(error => {
+    loadCatalogMetadata().then(entries => {
+      if (!entries.length) {
+        console.warn("Using embedded lab catalog because dynamic metadata refresh returned no labs.");
+        return;
+      }
+      updateCatalog(entries);
+    }).catch(error => {
       if (labs.length) {
         console.warn("Using embedded lab catalog because dynamic metadata refresh failed.", error);
         return;
