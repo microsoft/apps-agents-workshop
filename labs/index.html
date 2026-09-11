@@ -544,11 +544,6 @@
       font-size: 14px;
       font-weight: 700;
     }
-    .result-count {
-      color: var(--ps-text-muted);
-      font-size: 14px;
-      font-weight: 700;
-    }
     .lab-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -808,7 +803,6 @@
         <div class="catalog-tools">
           <label class="visually-hidden" for="catalog-search">Search labs</label>
           <input class="catalog-search" id="catalog-search" data-catalog-search type="search" placeholder="Search labs" autocomplete="off">
-          <p class="result-count" id="result-count"></p>
         </div>
       </div>
       <div class="catalog-browser">
@@ -876,7 +870,6 @@
 
     const needGrid = document.querySelector("#need-grid");
     const labGrid = document.querySelector("#lab-grid");
-    const resultCount = document.querySelector("#result-count");
     const marketTabs = document.querySelector("#market-tabs");
     const skillResultsLabel = document.querySelector("#skill-results-label");
     const skillResultsCount = document.querySelector("#skill-results-count");
@@ -1171,7 +1164,6 @@
     function renderLabs() {
       const filteredByNeed = labs.filter(labMatchesNeed);
       const visible = filteredByNeed.filter(labMatchesSearch);
-      resultCount.textContent = `${visible.length} of ${filteredByNeed.length} labs`;
       const selectedFilter = catalogFilters().find(filter => filter.id === activeNeed);
       skillResultsLabel.textContent = activeNeed === "all"
         ? "All Power Series labs"
@@ -1256,7 +1248,7 @@
         console.warn("Using embedded lab catalog because dynamic metadata refresh failed.", error);
         return;
       }
-      resultCount.textContent = "0 labs";
+      skillResultsCount.textContent = "0 labs";
       labGrid.innerHTML = `
         <div class="empty-catalog-message" role="alert">
           <p>Failed to load catalog: ${escapeHtml((error && error.message) ? String(error.message) : "Unable to fetch lab catalog metadata.")}</p>
