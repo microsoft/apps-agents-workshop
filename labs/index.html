@@ -865,7 +865,7 @@
       { path: "byoc-powerapps/byoc-powerapps.md", title: "Building code first apps (code apps) in Power Platform", level: 200, duration: "40 minutes (115 minutes with all optional extensions)", persona: "pro code developers, Power Apps makers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Generate a custom code app, connect it to Dataverse and extend with GitHub Copilot.", deck: "byoc-powerapps/Power Series - Code apps.pptx" },
       { path: "byoc-powerpages/byoc-powerpages.md", title: "Building code first website with Power Pages", level: 200, duration: "40 minutes", persona: "pro code developers, Power Apps makers", tags: ["improve-customer-interactions"], description: "Generate a custom website with GitHub Copilot and connect it to Dataverse.", deck: "byoc-powerpages/Power Series - BYOC Power Pages.pptx" },
       { path: "canvas-apps-dataverse-mcp/canvas-apps-and-dataverse-mcp.md", title: "Authoring Canvas Apps and Dataverse Tables with MCP", level: 200, duration: "40 minutes", persona: "pro code developers, Power Apps makers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Use GitHub Copilot and MCP to create a Dataverse data model and polished canvas app from natural-language prompts.", deck: "canvas-apps-dataverse-mcp/Power Series - Canvas Apps & Dataverse MCP.pptx" },
-      { path: "dataverse-business-skills/dataverse-business-skills.md", title: "Centralize Business Rules & Policies in Dataverse Skills", level: 300, duration: "75 minutes", persona: "pro code developers, Power Apps makers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Create reusable business skills over Dataverse data so agents and apps can execute consistent business operations." },
+      { path: "dataverse-business-skills/dataverse-business-skills.md", title: "Centralize Business Rules & Policies in Dataverse Skills", level: 300, duration: "75 minutes", persona: "pro code developers, Power Apps makers", tags: ["digitize-internal-operations", "modernize-existing-applications"], description: "Create reusable business skills over Dataverse data so agents and apps can execute consistent business operations.", deck: "dataverse-business-skills/Power Series - Dataverse Business Skills.pptx" },
       { path: "generative-pages/generative-pages-github-copilot.md", title: "AI-Powered Modern UX for Model-Driven Apps", level: 200, duration: "75 minutes", persona: "pro code developers, Power Apps makers", tags: ["modernize-existing-applications"], description: "Generate and refine model-driven app pages from prompts to augment your applications with custom user experiences.", deck: "generative-pages/Power Series - Generative Pages.pptx" },
       { path: "in-app-agents/in-app-agents.md", title: "Bring AI Inside Your App: Natural Language Queries, Auto Charts & Smart Form Fill", level: 100, duration: "30 mins", persona: "information workers, Power Apps makers", tags: ["modernize-existing-applications"], description: "Add focused agents inside Power Apps to support users with contextual data, guidance, and task completion.", deck: "in-app-agents/Power Series - In-app agents.pptx" },
       { path: "managed-platform-governance/README.md", title: "Managed Governance: Environment Strategy & Governance", level: 200, duration: "120 minutes", persona: "Power Apps makers, admins", tags: ["strengthen-governance-and-security"], description: "Build guardrails for your environment group, turning ungoverned sprawl into a place where makers can move fast while risk stays contained." },
@@ -985,6 +985,16 @@
       const encodedBranch = encodeURIComponent(branch);
       const encodedPath = path.split("/").map(encodeURIComponent).join("/");
       return `https://raw.githubusercontent.com/${repo}/${encodedBranch}/labs/${encodedPath}`;
+    }
+
+    function presentationUrl(path) {
+      const url = contentUrl(path);
+      const officeDecks = [
+        "dataverse-business-skills/Power Series - Dataverse Business Skills.pptx",
+        "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx"
+      ];
+      if (!officeDecks.includes(path) || !url.startsWith("https://")) return url;
+      return `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`;
     }
 
     function bestDeckForLab(path, decks) {
@@ -1212,7 +1222,7 @@
             <p>${escapeHtml(String(lab.description))}</p>
             <div class="lab-actions">
               <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${deck ? `&deck=${encodeURIComponent(deck)}` : ""}" aria-label="Open lab details for ${escapeHtml(String(lab.title))}">Lab</a>
-              ${deck ? `<a class="deck-link" href="${escapeHtml(contentUrl(deck))}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))} (opens in a new tab)">Presentation</a>` : ""}
+              ${deck ? `<a class="deck-link" href="${escapeHtml(presentationUrl(deck))}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))} (opens in a new tab)">Presentation</a>` : ""}
             </div>
           </article>
         `;

@@ -501,6 +501,16 @@
       return `https://raw.githubusercontent.com/microsoft/apps-agents-workshop/${encodedBranch}/labs/${encodedPath}`;
     }
 
+    function presentationUrl(path) {
+      const url = contentUrl(path);
+      const officeDecks = [
+        "dataverse-business-skills/Power Series - Dataverse Business Skills.pptx",
+        "powerapps-mcp/Power Series - Power Apps MCP Server & Agent Feed.pptx"
+      ];
+      if (!officeDecks.includes(path) || !url.startsWith("https://")) return url;
+      return `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`;
+    }
+
     function resolveMarkdownUrl(url, basePath, isLink = false) {
       const trimmed = String(url ?? "").trim();
       if (!trimmed || trimmed.startsWith("//")) return "#";
@@ -869,7 +879,7 @@
       repoLink.href = repoUrl(path);
       if (deck) {
         deckLink.hidden = false;
-        deckLink.href = contentUrl(deck);
+        deckLink.href = presentationUrl(deck);
       }
 
       try {
