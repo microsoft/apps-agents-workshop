@@ -536,6 +536,7 @@
     .skill-results { min-width: 0; }
     .skill-results-title {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       gap: 16px;
       align-items: center;
@@ -544,6 +545,13 @@
       font-size: 14px;
       font-weight: 700;
     }
+    .skill-results-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 16px;
+    }
+    #skill-results-count { white-space: nowrap; }
     .lab-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -815,7 +823,10 @@
         <div class="market-tabs" id="market-tabs" aria-label="Filter labs by business need"></div>
         <div class="skill-results">
           <div class="skill-results-title">
-            <span id="skill-results-label">All Power Series labs</span>
+            <div class="skill-results-heading">
+              <span id="skill-results-label">All Power Series labs</span>
+              <a class="lab-link" id="skill-results-presentation" href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/assets/Power%20Series%20-%20Automation%20Foundation.pptx" target="_blank" rel="noopener" aria-label="Open Automation Foundation presentation (opens in a new tab)" hidden>Presentation</a>
+            </div>
             <span id="skill-results-count"></span>
           </div>
           <div class="lab-grid" id="lab-grid" aria-live="polite"></div>
@@ -872,6 +883,7 @@
     const labGrid = document.querySelector("#lab-grid");
     const marketTabs = document.querySelector("#market-tabs");
     const skillResultsLabel = document.querySelector("#skill-results-label");
+    const skillResultsPresentation = document.querySelector("#skill-results-presentation");
     const skillResultsCount = document.querySelector("#skill-results-count");
     const catalogFilterSelect = document.querySelector("#catalog-filter-select");
     const catalogSearchInputs = document.querySelectorAll("[data-catalog-search]");
@@ -1168,6 +1180,7 @@
       skillResultsLabel.textContent = activeNeed === "all"
         ? "All Power Series labs"
         : (selectedFilter?.title ?? labelFromTag(activeNeed));
+      skillResultsPresentation.hidden = activeNeed !== "automate-workflows-and-processes";
       skillResultsCount.textContent = `${visible.length} ${visible.length === 1 ? "lab" : "labs"}`;
       if (labs.length === 0) {
         labGrid.innerHTML = `
