@@ -825,7 +825,7 @@
           <div class="skill-results-title">
             <div class="skill-results-heading">
               <span id="skill-results-label">All Power Series labs</span>
-              <a class="lab-link" id="skill-results-presentation" href="https://github.com/microsoft/apps-agents-workshop/blob/main/labs/assets/Power%20Series%20-%20Automation%20Foundation.pptx" target="_blank" rel="noopener" aria-label="Open Automation Foundation presentation (opens in a new tab)" hidden>Presentation</a>
+              <a class="lab-link" id="skill-results-presentation" href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fmicrosoft.github.io%2Fapps-agents-workshop%2Flabs%2Fassets%2FPower%2520Series%2520-%2520Automation%2520Foundation.pptx" target="_blank" rel="noopener" aria-label="Open Automation Foundation presentation (opens in a new tab)" hidden>Presentation</a>
             </div>
             <span id="skill-results-count"></span>
           </div>
@@ -1198,21 +1198,24 @@
         `;
         return;
       }
-      labGrid.innerHTML = visible.map(lab => `
-        <article class="lab-card">
-          <div class="lab-meta">
-            <span class="pill pill-accent">${escapeHtml(String(lab.persona))}</span>
-            <span class="pill">Level ${escapeHtml(String(lab.level))}</span>
-            <span class="pill">${escapeHtml(String(lab.duration))}</span>
-          </div>
-          <h3>${escapeHtml(String(lab.title))}</h3>
-          <p>${escapeHtml(String(lab.description))}</p>
-          <div class="lab-actions">
-            <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${lab.deck ? `&deck=${encodeURIComponent(lab.deck)}` : ""}" aria-label="Open lab details for ${escapeHtml(String(lab.title))}">Lab</a>
-            ${lab.deck ? `<a class="deck-link" href="${escapeHtml(contentUrl(lab.deck))}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))} (opens in a new tab)">Presentation</a>` : ""}
-          </div>
-        </article>
-      `).join("");
+      labGrid.innerHTML = visible.map(lab => {
+        const deck = lab.tags.includes("automate-workflows-and-processes") ? null : lab.deck;
+        return `
+          <article class="lab-card">
+            <div class="lab-meta">
+              <span class="pill pill-accent">${escapeHtml(String(lab.persona))}</span>
+              <span class="pill">Level ${escapeHtml(String(lab.level))}</span>
+              <span class="pill">${escapeHtml(String(lab.duration))}</span>
+            </div>
+            <h3>${escapeHtml(String(lab.title))}</h3>
+            <p>${escapeHtml(String(lab.description))}</p>
+            <div class="lab-actions">
+              <a class="lab-link" href="lab.html?path=${encodeURIComponent(lab.path)}&branch=${encodeURIComponent(branch)}${deck ? `&deck=${encodeURIComponent(deck)}` : ""}" aria-label="Open lab details for ${escapeHtml(String(lab.title))}">Lab</a>
+              ${deck ? `<a class="deck-link" href="${escapeHtml(contentUrl(deck))}" target="_blank" rel="noopener" aria-label="Open presentation for ${escapeHtml(String(lab.title))} (opens in a new tab)">Presentation</a>` : ""}
+            </div>
+          </article>
+        `;
+      }).join("");
     }
 
     function escapeHtml(value) {
