@@ -3,12 +3,12 @@ title: "Managed Operations: Inventory & Monitoring"
 lab: true
 level: 200
 persona: "Power Apps makers, admins"
-estimated_duration: "120 minutes"
+estimated_duration: "150 minutes"
 tags: [strengthen-governance-and-security]
 author: "Power CAT"
-last_updated: "2026-08-10"
-version: "1.0"
-description: "Build a unified view of all agents, apps, and flows built on Power Platform across your organization."
+last_updated: "2026-10-22"
+version: "1.1"
+description: "Build a unified view of all agents, apps, and flows built on Power Platform across your organization, then ask it questions in plain language with Power Platform Admin in Cowork."
 ---
 
 
@@ -16,7 +16,7 @@ description: "Build a unified view of all agents, apps, and flows built on Power
 
 Built by: Power CAT
 
-In this module you continue in the role of your organization's **Power Platform Lead**. Governance gave makers a safe place to build — but it also gave you a new obligation: leadership now expects you to know what exists across the tenant, what actually matters, and whether it's healthy. Across eleven labs you build that visibility in two arcs: first an **inventory** you can search, query, and report on; then a **monitoring and alerting system** that watches your resources and tells you when something needs attention.
+In this module you continue in the role of your organization's **Power Platform Lead**. Governance gave makers a safe place to build — but it also gave you a new obligation: leadership now expects you to know what exists across the tenant, what actually matters, and whether it's healthy. Across twelve labs you build that visibility in three arcs: first an **inventory** you can search, query, and report on; then a **monitoring and alerting system** that watches your resources and tells you when something needs attention; and finally **Power Platform Admin in Cowork**, where you ask your tenant new questions in plain language and turn the answers into briefings, reports, and emails.
 
 ## Labs in this module
 
@@ -33,14 +33,19 @@ In this module you continue in the role of your organization's **Power Platform 
 | [View and export logs](inventory-and-monitoring-modules/09-view-logs.md) | Drill from a metric into the runtime events behind it and export them |
 | [Create a custom alert rule](inventory-and-monitoring-modules/10-create-alert-rule.md) | Set up a threshold-based alert on a Managed Environment with email notifications |
 | [Review triggered and predefined alerts](inventory-and-monitoring-modules/11-review-alerts.md) | See where triggered alerts land and meet the predefined alerts Microsoft runs for you |
+| [Ask your tenant with Power Platform Admin in Cowork](inventory-and-monitoring-modules/12-power-platform-admin-cowork.md) | Install and connect the Power Platform Admin plugin, turn one question into an emailed briefing, and try a library of governance prompts |
 
 ## Prerequisites
 
-1. You have a supported admin role in Microsoft Entra ID — **Power Platform administrator** or **Dynamics 365 administrator** covers all labs in this module.
+1. You have a supported admin role in Microsoft Entra ID — **Power Platform administrator** or **Dynamics 365 administrator** covers labs 1–11 in this module.
 2. You have at least one environment that contains apps, flows, or agents with recent activity.
 3. For the Azure Resource Graph lab, your admin account can sign in to the [Azure portal](https://portal.azure.com). No Azure subscription is required — inventory is queried at the Directory (tenant) scope.
 4. For the alert labs, at least one of your environments must be a **Managed Environment** — alerts can only be placed on Managed Environments.
 5. Tenant-level analytics must be turned on in the Power Platform admin center for the monitoring labs.
+6. For the Power Platform Admin in Cowork lab:
+   - To install the plugin, you can sign in to the [Microsoft 365 admin center](https://admin.microsoft.com/) as a tenant administrator or with the **Copilot administrator** role.
+   - Your account has access to **Microsoft Copilot Cowork**. Installing the plugin doesn't grant Cowork access, so confirm this before you start.
+   - Your tenant has [Copilot credits](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits) available — each question consumes credits.
 
 > 💡 If the inventory page fails to load, this may be caused by conditional access policies for Azure Resource Manager. See [Power Platform inventory — Known limitations](https://learn.microsoft.com/power-platform/admin/power-platform-inventory#known-limitations) for resolution steps.
 
@@ -48,12 +53,13 @@ In this module you continue in the role of your organization's **Power Platform 
 
 **Scenario:** Adoption is healthy and growing — makers are shipping apps, flows, and agents across dozens of environments. What's missing is your side of the picture. When a connector deprecation notice arrives, nobody can quickly say which resources are affected. When a maker resigns, nobody has a list of what they own. And when the most-used app in the tenant starts failing on a Monday morning, you find out from user complaints — hours after the platform itself knew. None of these are made-up problems; they're the routine events that separate organizations with visibility from organizations with a mess.
 
-This module builds the answer in two halves:
+This module builds the answer step by step:
 
 - **Inventorying** every app, flow, and agent across the tenant — searchable in the admin center, queryable with KQL through Azure Resource Graph, and exportable on a schedule through the inventory API, with connector usage included.
 - **Understanding impact** through the Usage page: which resources people actually use, tenant-wide and per environment, so governance effort follows the usage rather than the count.
 - **Monitoring** performance and reliability in the Monitor area: health metrics, recommendations, and the runtime event logs behind them.
 - **Alerting** on what matters: custom threshold rules that email you when a metric crosses the line, backed by Microsoft's predefined alerts for high-use resources.
+- **Asking** new governance questions in plain language with Power Platform Admin in Cowork — and turning the answers into briefings, reports, and owner outreach without building a new report each time.
 
 ### The importance of inventory and monitoring
 
@@ -72,5 +78,6 @@ By the end of this module, you can:
 - Build a cloud flow that uses the inventory API to generate a structured export in Excel.
 - Read health metrics and recommendations in Monitor, and drill into the event logs behind them.
 - Create custom alert rules with email notifications, and work with the predefined alerts Microsoft provides.
+- Install and connect the Power Platform Admin plugin in Cowork, and turn a governance question into an HTML briefing delivered by email.
 
-> 🥳 Ready to get started? Go through the labs table above in order because the labs partially build on each other.
+> 🥳 Ready to get started? Go through the labs table above in order because the labs partially build on each other. The Power Platform Admin in Cowork lab can also be completed on its own.
