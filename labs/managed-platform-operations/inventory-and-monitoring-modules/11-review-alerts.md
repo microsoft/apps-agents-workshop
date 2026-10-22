@@ -1,6 +1,6 @@
 # Review triggered and predefined alerts
 
-Your custom rule evaluates daily, and Microsoft's predefined rules watch your high-use resources tenant-wide. In this final lab you review where their output appears: the Triggered alerts tab, the notification email, and the cards on the Monitor overview page.
+Your custom rule evaluates daily, and Microsoft's predefined rules watch your high-use resources tenant-wide. In this lab you review where their output appears: the Triggered alerts tab, the notification email, and the cards on the Monitor overview page.
 
 ## Step 1: Check triggered alerts
 
@@ -47,8 +47,10 @@ Your custom rule evaluates daily, and Microsoft's predefined rules watch your hi
 
 > ✅ Your metric is evaluated daily, a triggered alert appears in the Triggered alerts tab and in your inbox, and Microsoft's predefined rules cover high-use resources you haven't written rules for.
 
-> 🥳 Congratulations! You completed the Inventory and Monitoring module. You now have a searchable inventory, repeatable queries, automated reporting, usage insight, and a monitoring system that notifies you when something needs attention.
-
 ## Additional resources
 
 - [Alerts in Monitor (Microsoft Learn)](https://learn.microsoft.com/en-us/power-platform/admin/monitoring/alerts) — Custom and predefined alert rules, how they're evaluated, and where triggered alerts appear.
+
+## Next lab
+
+You now have a searchable inventory, repeatable queries, automated reporting, usage insight, and a monitoring system that notifies you when something needs attention. Each of these answers the questions it was built for. To ask your tenant new questions in plain language — and turn the answers into a briefing in your inbox — continue with [Ask your tenant with Power Platform Admin in Cowork](12-power-platform-admin-cowork.md).
